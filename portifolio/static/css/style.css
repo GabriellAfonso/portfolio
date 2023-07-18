@@ -1,3 +1,192 @@
-h1 {
-    color: blue;
+@font-face {
+    font-family: 'Berlin Sans FB Demi';
+    src: url('Berlin_Sans_FB_Demi_Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #dadada;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #343434;
+    height: 8vh;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.7;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+}
+
+.nav-list li {
+    letter-spacing: 3px;
+    margin-right: 32px;
+}
+
+.home {
+    background-color: #343434;
+    width: 100%;
+    height: 100vh;
+}
+
+.home-container {
+    margin-top: 35vh;
+    max-width: 100%;
+    padding: 20px;
+
+}
+
+.ola {
+    font-size: 2.5vw;
+    font-family: Berlin Sans FB Demi;
+    color: #ECECEC;
+}
+
+.home-text {
+    font-size: 9vw;
+    font-family: Berlin Sans FB Demi;
+    color: #ECECEC;
+    width: 100%;
+}
+
+.frase {
+    margin-left: 4.5vw;
+}
+
+.dev {
+    word-wrap: break-word;
+    margin-left: 4vw;
+}
+
+.backend {
+    margin-left: 21vw;
+}
+
+/* section Sobre mim */
+.sobre {
+    background-color: #cccccc;
+    display: flex;
+}
+
+.sobre-mim {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sobre-mim p {
+    font-family: system-ui,
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+        Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 10px 0;
+}
+
+.sobre-mim a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #272727;
+}
+
+.sobre-mim h1 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 40px;
+    margin-bottom: 8vh;
+    color: #272727;
+}
+
+/* Section Projetos */
+.projetos {
+    background-color: #272727;
+    height: 100vh;
+}
+
+.projetos h1 {
+    text-align: center;
+    padding-top: 4vh;
+    padding-bottom: 3vh;
+    font-family: sans-serif;
+}
+
+.projetos h1[id="title"] {
+    color: #acacac;
+    text-decoration: underline;
+    text-decoration-color: #acacac;
+    text-underline-position: under;
+    text-underline-offset: 8px;
+    text-decoration-thickness: 3px;
+}
+
+.projetos h2 {
+    text-align: center;
+    padding-top: 5vh;
+    font-family: sans-serif;
+}
+
+.projetos a {
+    text-decoration: none;
+    color: #acacac;
+}
+
+.projetos-container {
+    display: flex;
+    justify-content: center;
+    background-color: #272727;
+}
+
+.proje {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 150px;
+    height: 200px;
+    background-color: #ffffff;
+    margin: 20px;
+    overflow: hidden;
+}
+
+.proje h1 {
+    color: #acacac;
+    margin-bottom: 4vh;
+}
+
+.proje a {
+    display: inline-block;
+}
+
+.proje[id="p2"] img {
+    border-radius: 10px;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

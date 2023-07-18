@@ -1,12 +1,98 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel Afonso</title>
-    <link rel="stylesheet" href="static/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabriel Afonso</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
-    <h1>Olá, Mundo!</h1>
+
+  <section class="home">
+    <header class="navigation-bar">
+      <nav>
+        <ul class="nav-list">
+          <li><a href="#sobre">Sobre mim</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="">Habilidades</a></li>
+          <li><a href="">Contato</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="home-container">
+      <div class="frase">
+        <div>
+          <p class="ola">Olá, meu nome é Gabriel Afonso</p>
+        </div>
+      </div>
+      <div class="dev">
+        <div>
+          <h1 class="home-text">Desenvolvedor</h1>
+        </div>
+      </div>
+      <div class="backend">
+        <div>
+          <h1 class="home-text">Backend</h1>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="sobre" id="sobre">
+    <div class="sobre-mim">
+      <h1>Sobre mim</h1>
+      <p>Olá, meu nome é Gabriel, sou um programador focado em desenvolvimento web na area de backend,
+        que é a area que mais me interessa, já que gosto de resolver problemas e criar soluções para situações
+        complexas.
+      </p>
+      <p>Tenho experiencia em programação com python, e estou me especializando em desenvolvimento backend com
+        o framework Django. Ao longo dos meu projetos, pude aplicar meu conhecimento em python para criar sistemas
+        robustos e de alto desempenho.
+      </p>
+      <p>Além disso, possuo conhecimentos sólidos em HTML, CSS e JavaScript, o que me permite
+        ter uma visão completa da pilha de desenvolvimento web. Essas habilidades me permitem colaborar de forma eficaz
+        com equipes front-end, garantindo uma integração perfeita entre o backend e o frontend.
+      </p>
+      <p>Você pode conferir alguns dos meus projetos e contribuições no meu perfil do <a
+          href="https://github.com/GabriellAfonso" target="_blank">GitHub</a>
+        e na aba <a href="#projetos">projetos</a> do meu portifólio onde você podera acessar os detalhes de cada projeto
+        onde eu descrevo a estrutura os desafios e as tecnologias usadas em cada projeto.</p>
+    </div>
+  </section>
+
+  <section class="projetos" id="projetos">
+    <h1 id="title">Projetos</h1>
+    <div class="projetos-container">
+      <div class="proje">
+        <h1>Em Breve</h1>
+      </div>
+      <div class="proje" id="p2">
+        <a href=""><img src="{% static 'images/project_dum.jpg' %}" alt="Projeto Dum"></a>
+      </div>
+      <div class="proje">
+        <h1>Em Breve</h1>
+      </div>
+    </div>
+
+    <div class="projetos-container">
+      <div class="proje">
+        <h1>Em Breve</h1>
+      </div>
+      <div class="proje" id="p2">
+        <h1>Em Breve</h1>
+      </div>
+      <div class="proje">
+        <h1>Em Breve</h1>
+      </div>
+    </div>
+
+    <h2><a href="">Todos os Projetos</a></h2>
+
+  </section>
 </body>
+
 </html>

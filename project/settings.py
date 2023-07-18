@@ -19,7 +19,7 @@ SECRET_KEY = 'django-insecure-ufeshinhw3=4&-^bh08^e(sn&4t=vy6=7d8b-d%o+3)#7a@jpc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.105',]
+ALLOWED_HOSTS = ['localhost', '192.168.1.105', '127.0.0.1']
 
 
 # Application definition
@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'portifolio',
-    'dumcrown',
 ]
 
 MIDDLEWARE = [
@@ -50,9 +49,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'portifolio'
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
