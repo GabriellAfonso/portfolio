@@ -19,7 +19,7 @@ SECRET_KEY = 'django-insecure-ufeshinhw3=4&-^bh08^e(sn&4t=vy6=7d8b-d%o+3)#7a@jpc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.105', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '192.168.1.106', '127.0.0.1']
 
 
 # Application definition
@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'America/Sao_paulo'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -118,7 +118,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-try:
-    from project.local_settings import *
-except ImportError:
-    ...
+# try:
+#     from project.local_settings import *
+# except ImportError:
+#     ...
