@@ -7,90 +7,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gabriel Afonso</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" type="image/x-icon">
+  <script src="{% static "js/mobile.js" %}" defer=""></script>
 </head>
 
 <body>
 
-  <section class="home">
-    <header class="navigation-bar">
-      <nav>
-        <ul class="nav-list">
-          <li><a href="#sobre">Sobre mim</a></li>
-          <li><a href="#projetos">Projetos</a></li>
-          <li><a href="">Habilidades</a></li>
-          <li><a href="">Contato</a></li>
-        </ul>
-      </nav>
-    </header>
+  <header class="navigation-bar">
+    <nav>
+      <ul class="nav-list">
+        <div class="mobile-menu" id="menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+        </div>
+        <li id="bar"><a href="#home">Inicio</a>
+        <a href="#sobre">Sobre mim</a>
+        <a href="#projetos">Projetos</a>
+        <a href="">Habilidades</a>
+        <a href="">Contato</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-    <section class="home-container">
-      <div class="frase">
-        <div>
+  <section class="home" id="home">
+
+      <div class="home-container">
           <p class="ola">Olá, meu nome é Gabriel Afonso</p>
+
+          <h1 class="home-text" id="dev">Desenvolvedor</h1>
+      
+          <p class="home-text" id="backend">Backend</p>
+        <div class="social-icons-div">
+          <a href="https://github.com/GabriellAfonso" target="_blank">
+            <img src="{% static "images/github-icon.png" %}" alt="GitHub-Icon" class="social-icons">
+          </a>
+           
+          <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank">
+            <img src="{% static "images/linkedin-icon.png" %}" alt="Linkedin-Icon" class="social-icons">
+          </a> 
         </div>
       </div>
-      <div class="dev">
-        <div>
-          <h1 class="home-text">Desenvolvedor</h1>
-        </div>
-      </div>
-      <div class="backend">
-        <div>
-          <h1 class="home-text">Backend</h1>
-        </div>
-      </div>
-    </section>
+   
   </section>
 
-  <section class="sobre" id="sobre">
-    <div class="sobre-mim">
-      <h1>Sobre mim</h1>
-      <p>Olá, meu nome é Gabriel, sou um programador focado em desenvolvimento web na area de backend,
-        que é a area que mais me interessa, já que gosto de resolver problemas e criar soluções para situações
-        complexas.
-      </p>
-      <p>Tenho experiencia em programação com python, e estou me especializando em desenvolvimento backend com
-        o framework Django. Ao longo dos meu projetos, pude aplicar meu conhecimento em python para criar sistemas
-        robustos e de alto desempenho.
-      </p>
-      <p>Além disso, possuo conhecimentos sólidos em HTML, CSS e JavaScript, o que me permite
-        ter uma visão completa da pilha de desenvolvimento web. Essas habilidades me permitem colaborar de forma eficaz
-        com equipes front-end, garantindo uma integração perfeita entre o backend e o frontend.
-      </p>
-      <p>Você pode conferir alguns dos meus projetos e contribuições no meu perfil do <a
-          href="https://github.com/GabriellAfonso" target="_blank">GitHub</a>
-        e na aba <a href="#projetos">projetos</a> do meu portifólio onde você podera acessar os detalhes de cada projeto
-        onde eu descrevo a estrutura os desafios e as tecnologias usadas em cada projeto.</p>
-    </div>
+  <section id="sobre">
+    <div class="about">
+      <div class="sobre-mim">
+        <h1>Sobre mim</h1>
+        <p>Me chamo Gabriel Afonso, programador focado em desenvolvimento web backend com o framework Django,
+          além de possuir conhecimentos sólidos em Python, JavaScript, HTML, CSS e SQL, estou sempre em busca
+          de aprender e me atualizar sobre as novas tecnologias da industria e pronto para enfrentar
+          desafios complexos, resolver problemas e criar soluçoes engenhosas é sem duvida minha atividade
+          favorita.
+        </p>
+      </div>
+      <img src="{% static "images/python-icon.png" %}" alt="" id="pyimg">
+      </div>
   </section>
 
-  <section class="projetos" id="projetos">
+  <section class="projects" id="projetos">
     <h1 id="title">Projetos</h1>
-    <div class="projetos-container">
-      <div class="proje">
-        <h1>Em Breve</h1>
+    <div class="projects-container">
+      <div class="card">
+        <h3>Dumcrown</h3>
+        
       </div>
-      <div class="proje" id="p2">
-        <a href="https://dumcrown.com.br/" target="_blank"><img src="{% static 'images/project_dum.jpg' %}" alt="Projeto Dum"></a>
+      <div class="card">  
       </div>
-      <div class="proje">
-        <h1>Em Breve</h1>
+      <div class="card">
       </div>
-    </div>
-
-    <div class="projetos-container">
-      <div class="proje">
-        <h1>Em Breve</h1>
+      <div class="card">
       </div>
-      <div class="proje" id="p2">
-        <h1>Em Breve</h1>
+      <div class="card">  
       </div>
-      <div class="proje">
-        <h1>Em Breve</h1>
+      <div class="card">
       </div>
     </div>
 
-    <h2><a href="">Todos os Projetos</a></h2>
+    
 
   </section>
 </body>
