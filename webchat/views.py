@@ -1,12 +1,37 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from webchat.forms import RegisterForm
 from django.contrib import auth, messages
+from django.contrib.auth import logout
+from .models import Profile
 
 @login_required(login_url='webchat:login')
 def webchat(request):
+   
+    if request.user.is_authenticated:
+        user = request.user
+        
+        # Verifica se o usuario ja existe
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            profile = None
 
-    context = {}
+        if not profile:
+            profile = Profile(user=user)
+            profile.save()
+
+
+
+
+    profile = Profile.objects.get(user=user)
+
+
+
+    context = {
+        
+    }
 
     return render(
         request,
@@ -27,7 +52,6 @@ def login(request):
 
         else:
             messages.error(request, 'Usuário ou senha inválidos.')
-            print('Usuário ou senha inválidos.')
             return redirect('webchat:login')
 
     else:
@@ -44,11 +68,41 @@ def login(request):
     )
 
 def register(request):
+    form = RegisterForm()
+    created_account = False
 
-    context = {}
+    if request.method == 'POST':
+        print(RegisterForm())
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            created_account = True
+            context = {'created_account': created_account,}
+            
+            return render(
+                request,
+                'webchat/register.html',
+                context,
+            )
+
+        else:
+            pass
+
+
+    context = {
+        'form': form,
+        'created_account': created_account,
+    }
 
     return render(
         request,
         'webchat/register.html',
         context,
     )
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+    
+    return redirect('webchat:login')

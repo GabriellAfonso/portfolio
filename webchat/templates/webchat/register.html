@@ -1,13 +1,76 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'webchat/css/style.css' %}">
-    <title>WebChat - Registro</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'webchat/css/style.css' %}">
+	<title>WebChat - Registro</title>
 </head>
-<body>
-    register template
+
+<body class="form">
+	<section id="register" class="form-section">
+		{% if created_account %}
+			<h1>Registrado com Sucesso!</h1>
+			<p><a href="{% url 'webchat:login' %}">Ir para a tela de login</a></p>
+		{% else %}
+		<div class="form-title">
+			<h1>Cadastre-se</h1>
+		</div>
+		<form method="POST" action="{% url 'webchat:register' %}" class="form-div">
+			<div class="form-div">
+			{% csrf_token %}
+			
+
+			<input type="text" id="username" class="form-input" placeholder="Nome de usuário"
+			name={{ form.username.html_name }} 
+			value="{{ form.username.value|default_if_none:'' }}">
+
+
+			{% for error in form.username.errors %}
+			<p class="error-messages">{{ error }}</p>
+			{% endfor %}
+
+
+			<input type="password" id="password" class="form-input" placeholder="Senha"
+			name={{ form.password1.html_name }}>
+
+
+			{% for error in form.password1.errors %}
+			<p class="error-messages">{{ error }}</p>
+			{% endfor %}
+
+
+			<input type="password" id="confirm_password" class="form-input" placeholder="Confirme a senha"
+			name={{ form.password2.html_name }}>
+
+
+			{% for error in form.password2.errors %}
+			<p class="error-messages">{{ error }}</p>
+			{% endfor %}
+
+			<input type="email" id="email" class="form-input" placeholder="E-mail(opcional)"
+			name={{ form.email.html_name }} 
+			value={{ form.email.value|default_if_none:'' }}>
+
+
+			{% for error in form.email.errors %}
+			<p class="error-messages">{{ error }}</p>
+			{% endfor %}
+
+
+			<button type="submit" class="login_button" id="RegisterButton">Criar conta</button>
+
+				<div class="need-account">
+					Já possui uma conta? <a href="{% url "webchat:login" %}">Conecte-se</a>
+				</div>
+
+			{% endif %}
+
+		</form>
+		</div>
+	</section>
 </body>
+
 </html>

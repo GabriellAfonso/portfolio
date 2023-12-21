@@ -9,23 +9,61 @@
 	<title>WebChat - login</title>
 </head>
 
-<body>
-	<section id="login">
-		<form method="POST" action="{% url 'webchat:login' %}" id="django-form">
-			{% csrf_token %}
-			<div class="form-box">
-				<label class="form-label">
-					<span>nome de usuario</span>
-					<input type="text" class="form-input" name={{ form.username.html_name }}>
-				</label>
-				<label class="form-label">
-					<span>senha</span>
-					<input type="text" class="form-input" name={{ form.password.html_name }}>
-				</label>
-				<button type="submit" class="login_button" id="django-form">Login</button>
+<body class="form">
+	<main>
+		<section id="login" class="form-section">
+			<div class="form-title">
+				<img src="{% static 'webchat/images/icons/webchat-icon.png' %}" alt="">
 			</div>
-		</form>
-	</section>
+			<form method="POST" action="{% url 'webchat:login' %}" id="django-form" class="form-div">
+				{% csrf_token %}
+
+			
+				<div class="form-div">
+				
+					<input type="text" id="username" class="form-input" placeholder="Nome de usuário"
+					name={{ form.username.html_name }}>
+				
+
+					<input type="password" id="password" class="form-input" placeholder="Senha"
+					name={{ form.password.html_name }}>
+					
+				
+					{% if messages %}
+						{% for message in messages %}
+							{% if message.tags == 'error' %}
+								<li class="error-messages">{{ message }}</li>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				
+					{% comment %} <li class="error-messages">Usuário ou senha inválidos.</li> {% endcomment %}
+				
+					
+					<button type="submit" class="login_button" id="django-form">Entrar</button>
+					<a href="#" id="ForgotPasswordLink">Esqueceu sua senha?</a>
+
+			</form>
+			<div id="or">
+			<hr>
+			</div>
+			<div class="login_icons">
+				<a href="#" class="link_button" id="google-link">
+					<img src="{% static 'webchat/images/icons/google-icon.png' %}" alt="google">
+				</a>
+			</div>
+
+			<div class="login_icons">
+				<a href="#" class="link_button" id="guest-link">
+					Entrar como convidado
+				</a>
+			</div>
+
+			<div class="need-account">
+				Não possui uma conta? <a href="{% url "webchat:register" %}">cadastre-se</a>
+			</div>
+		</section>
+	</main>
 </body>
 
 </html>
