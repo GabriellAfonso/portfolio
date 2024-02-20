@@ -100,8 +100,7 @@ h1 {
 }
 
 .login_button:hover {
-    background-color: rgb(3, 109, 112);
-
+    background-color: wheat;
 }
 
 .login_icons {
@@ -179,6 +178,16 @@ h1 {
 
 }
 
+#successful {
+    display: grid;
+    margin-top: 50%;
+    text-align: center;
+}
+
+#successful a {
+    margin-top: 10px;
+    font-size: 18px;
+}
 
 /* chat */
 

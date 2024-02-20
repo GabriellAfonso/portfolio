@@ -1,0 +1,205 @@
+* {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+
+
+main {
+    display: flex;
+    background-color: rgb(70, 70, 70);
+    width: 100vw;
+    height: 100vh;
+
+}
+
+#perfil-controller {
+    position: absolute;
+    top: 0;
+    left: -400px;
+    min-width: 400px;
+    max-width: 400px;
+    height: 100%;
+    transition: left 0.3s ease;
+    background-color: rgb(228, 228, 228);
+}
+
+.perfil-header {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    background-color: rgb(112, 112, 112);
+}
+
+.perfil-header h1 {
+    color: antiquewhite;
+}
+
+.perfil-header img {
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 30px;
+    width: 30px;
+
+}
+
+.perfil-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.perfil-picture img {
+    border-radius: 100%;
+}
+
+.perfil-text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin-left: 50px;
+}
+
+.perfil-span {
+    margin-bottom: 20px;
+}
+
+.perfil-name {
+    display: flex;
+    width: 80%;
+
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+
+}
+
+.perfil-name span {
+    width: 255px;
+    height: 25px;
+    font-size: 1.3rem;
+    font-family: 'Segoe UI';
+}
+
+.perfil-name img {
+    margin-top: 6px;
+    min-width: 15px;
+    height: 15px;
+    cursor: pointer;
+
+}
+
+#input-username {
+    outline: none;
+    border-style: none;
+    width: 210px;
+    height: 30px;
+    font-family: 'Segoe UI';
+    font-size: 1.3rem;
+    background-color: rgb(228, 228, 228);
+}
+
+#confirm-button {
+    margin-top: 10px;
+    margin-left: 45px;
+    width: 15px;
+    height: 15px;
+}
+
+
+.perfil-about {
+    max-width: 250px;
+}
+
+#user-controller {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+
+}
+
+header {
+    background-color: rgb(21, 59, 60);
+    height: 10vh;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+}
+
+
+#header-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#profile-picture {
+    margin-left: 10px;
+    margin-right: 220px;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 100%;
+
+}
+
+.header-buttons {
+    width: 20px;
+    margin-left: 40px;
+    cursor: pointer;
+
+}
+
+
+
+#Search {
+    background-color: rgb(2, 99, 103);
+    height: 11vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#label-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 70%;
+    background-color: rgb(27, 119, 122);
+    border-radius: 10px 0px 0px 10px;
+}
+
+#Search img {
+    width: 15px;
+    cursor: pointer;
+
+}
+
+#Search input {
+    background-color: rgb(27, 119, 122);
+    border-style: none;
+    outline: none;
+    width: 70%;
+    height: 70%;
+    border-radius: 0px 10px 10px 0px;
+}
+
+#ContactsList {
+    background-color: rgb(2, 99, 103);
+    height: 100%;
+
+}
+
+#chat {
+    background-color: rgb(3, 132, 137);
+    width: 100%;
+
+}

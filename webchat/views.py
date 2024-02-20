@@ -30,7 +30,7 @@ def webchat(request):
 
 
     context = {
-        
+        'profile': profile,  # Passa o objeto Profile para o contexto
     }
 
     return render(
@@ -67,7 +67,7 @@ def login(request):
         context,
     )
 
-def register(request):
+def singup(request):
     form = RegisterForm()
     created_account = False
 
@@ -82,7 +82,7 @@ def register(request):
             
             return render(
                 request,
-                'webchat/register.html',
+                'webchat/singup.html',
                 context,
             )
 
@@ -97,7 +97,7 @@ def register(request):
 
     return render(
         request,
-        'webchat/register.html',
+        'webchat/singup.html',
         context,
     )
 

@@ -12,13 +12,15 @@
 <body class="form">
 	<section id="register" class="form-section">
 		{% if created_account %}
+		<div id="successful">
 			<h1>Registrado com Sucesso!</h1>
-			<p><a href="{% url 'webchat:login' %}">Ir para a tela de login</a></p>
+			<a href="{% url 'webchat:login' %}">Ir para a tela de login</a>
+		</div>
 		{% else %}
 		<div class="form-title">
 			<h1>Cadastre-se</h1>
 		</div>
-		<form method="POST" action="{% url 'webchat:register' %}" class="form-div">
+		<form method="POST" action="{% url 'webchat:singup' %}" class="form-div">
 			<div class="form-div">
 			{% csrf_token %}
 			
