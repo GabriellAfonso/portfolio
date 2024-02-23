@@ -1,6 +1,6 @@
 from django.urls import path, include
-from webchat import views
-
+from webchat.views import views
+from webchat.views import rest
 
 
 app_name = 'webchat'
@@ -10,5 +10,6 @@ urlpatterns = [
     path('singup/', views.singup, name='singup'),
     path('logout/', views.logout_view, name='logout'),
     path('', views.webchat, name='chat'),
-]
 
+    path('api/profile/<int:pk>', rest.user_profile, name='user_profile')
+]

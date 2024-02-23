@@ -1,0 +1,7 @@
+PATCH http://127.0.0.1:8000/webchat/api/profile/11
+Content-Type: application/json
+Authorization: Token e9c2c4e1ccd186026f9a918f18d5ee12ca621f74
+
+{
+    "user_name": "teste2"
+}

@@ -4,14 +4,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from webchat.forms import RegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
-from .models import Profile
+from ..models import Profile
+
 
 @login_required(login_url='webchat:login')
 def webchat(request):
-   
+
     if request.user.is_authenticated:
         user = request.user
-        
+
         # Verifica se o usuario ja existe
         try:
             profile = Profile.objects.get(user=user)
@@ -22,12 +23,7 @@ def webchat(request):
             profile = Profile(user=user)
             profile.save()
 
-
-
-
     profile = Profile.objects.get(user=user)
-
-
 
     context = {
         'profile': profile,  # Passa o objeto Profile para o contexto
@@ -39,15 +35,17 @@ def webchat(request):
         context,
     )
 
+
 def login(request):
+
     form = AuthenticationForm(request)
     if request.method == 'POST':
-       
+
         form = AuthenticationForm(request, data=request.POST)
 
         if form.is_valid():
             user = form.get_user()
-            auth.login(request,user)
+            auth.login(request, user)
             return redirect('webchat:chat')
 
         else:
@@ -67,7 +65,9 @@ def login(request):
         context,
     )
 
+
 def singup(request):
+
     form = RegisterForm()
     created_account = False
 
@@ -78,8 +78,8 @@ def singup(request):
         if form.is_valid():
             form.save()
             created_account = True
-            context = {'created_account': created_account,}
-            
+            context = {'created_account': created_account, }
+
             return render(
                 request,
                 'webchat/singup.html',
@@ -88,7 +88,6 @@ def singup(request):
 
         else:
             pass
-
 
     context = {
         'form': form,
@@ -101,8 +100,9 @@ def singup(request):
         context,
     )
 
+
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
-    
+
     return redirect('webchat:login')
