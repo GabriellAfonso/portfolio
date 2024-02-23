@@ -12,6 +12,7 @@ def webchat(request):
 
     if request.user.is_authenticated:
         user = request.user
+        token = request.user.auth_token.key
 
         # Verifica se o usuario ja existe
         try:
@@ -26,7 +27,8 @@ def webchat(request):
     profile = Profile.objects.get(user=user)
 
     context = {
-        'profile': profile,  # Passa o objeto Profile para o contexto
+        'profile': profile,
+        'token': token
     }
 
     return render(

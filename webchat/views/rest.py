@@ -16,7 +16,8 @@ from ..serializers import ProfileSerializer
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def user_profile(request, pk):
-
+    print(request)
+    print(pk)
     profile = get_object_or_404(Profile, pk=pk)
     serializer = ProfileSerializer(profile)
     if request.method == 'PATCH':
