@@ -52,6 +52,25 @@ main {
     align-items: center;
     margin-top: 40px;
     margin-bottom: 40px;
+
+}
+
+#photoChanger {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.37);
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+}
+
+#photoChanger span {
+    color: rgb(203, 204, 206);
+    font-size: 1.5rem;
 }
 
 .perfil-picture img {
@@ -62,7 +81,6 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
     margin-left: 50px;
 }
 
@@ -70,7 +88,9 @@ main {
     margin-bottom: 20px;
 }
 
-.perfil-name {
+
+
+.perfil-fields {
     display: flex;
     width: 80%;
 
@@ -80,20 +100,29 @@ main {
 
 }
 
-.perfil-name span {
+.perfil-fields span {
     width: 255px;
     height: 25px;
     font-size: 1.3rem;
     font-family: 'Segoe UI';
 }
 
-.perfil-name img {
+.perfil-fields img {
     margin-top: 6px;
     min-width: 15px;
     height: 15px;
     cursor: pointer;
 
 }
+
+
+
+.perfil-span-about {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
 
 #input-username {
     outline: none;
@@ -105,7 +134,7 @@ main {
     background-color: rgb(228, 228, 228);
 }
 
-#confirm-button {
+#username-confirm {
     margin-top: 10px;
     margin-left: 45px;
     width: 15px;
@@ -113,9 +142,6 @@ main {
 }
 
 
-.perfil-about {
-    max-width: 250px;
-}
 
 #user-controller {
     display: flex;

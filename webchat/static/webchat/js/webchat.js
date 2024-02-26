@@ -1,100 +1,93 @@
+const SpanUsername = document.getElementById('username');
+const inputUsername = document.getElementById('input-username')
+const usernamePencil = document.getElementById('edit-pencil-username');
+const confirmUsername = document.getElementById('username-confirm');
 
-function getCSRFToken() {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === 'csrftoken') {
-            return value;
-        }
+const photoChanger = document.getElementById("photoChanger");
+
+const DivPerfilController = document.getElementById('perfil-controller');
+
+
+
+const token = $.ajax({
+    url: window.location.href + 'get-token/',
+    method: 'GET',
+    success: function (data) {
+        return data
     }
-    return null;
-}
-
-
-const csrf = getCSRFToken()
-
-const url = window.location.href + 'api/profile/11';
-
-const data = {
-    user_name: "Gabriel Afonso"
-};
-
-const requestOptions = {
-    method: 'PATCH',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': "Token e9c2c4e1ccd186026f9a918f18d5ee12ca621f74",
-        'X-CSRFToken': csrf
-    },
-    body: JSON.stringify(data)
-};
-
+});
 
 function toggleTab() {
 
-    var tabContent = document.getElementById("perfil-controller");
-    if (tabContent.style.left === "0px") {
-        tabContent.style.left = "-400px";
-
+    if (DivPerfilController.style.left === "0px") {
+        DivPerfilController.style.left = "-400px";
 
     } else {
-        tabContent.style.left = "0px";
-        var username = document.getElementById('username');
-        var inputUsername = document.getElementById('input-username');
-        var editPencil = document.getElementById('edit-pencil');
-        var confirmButton = document.getElementById('confirm-button');
+        DivPerfilController.style.left = "0px";
 
-        username.style.display = 'inline'
+        SpanUsername.style.display = 'inline'
         inputUsername.style.display = 'none'
-        confirmButton.style.display = 'none'
-        editPencil.style.display = 'inline'
+        confirmUsername.style.display = 'none'
+        usernamePencil.style.display = 'inline'
     }
 }
 
-function usernameChange() {
+function usernameEditor() {
 
-    var username = document.getElementById('username');
-    var inputUsername = document.getElementById('input-username');
-    var editPencil = document.getElementById('edit-pencil');
-    var confirmButton = document.getElementById('confirm-button');
+    confirmUsername.style.display = 'inline'
+    usernamePencil.style.display = 'none'
 
+    inputUsername.value = SpanUsername.textContent;
 
-    confirmButton.style.display = 'inline'
-    editPencil.style.display = 'none'
-
-
-    inputUsername.value = username.textContent;
-
-    username.style.display = 'none'
+    SpanUsername.style.display = 'none'
     inputUsername.style.display = 'inline'
 
-
     inputUsername.focus()
+    inputUsername.addEventListener("keyup", function (event) {
 
+        if (event.key === "Enter") {
+            usernameUpdate()
+        }
+    })
 }
 
-function changeUsername() {
-    var editPencil = document.getElementById('edit-pencil');
-    var confirmButton = document.getElementById('confirm-button');
-    confirmButton.style.display = 'none'
-    editPencil.style.display = 'inline'
+function usernameUpdate() {
 
-    fetch(url, requestOptions)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao fazer a solicitação à API');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Resposta da API:', data);
-            // Faça o que quiser com os dados da resposta da API
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
+    SpanUsername.style.display = 'inline'
+    inputUsername.style.display = 'none'
+    confirmUsername.style.display = 'none'
+    usernamePencil.style.display = 'inline'
+
+    var url = window.location.href + `api/profile/${profileID}/`;
+    var data = { user_name: inputUsername.value }
+    if (SpanUsername.textContent != inputUsername.value) {
+        profileApiEdit('PATCH', url, data, token)
+        SpanUsername.textContent = inputUsername.value
+    }
 }
 
 function logoutAjax() {
 
+}
+
+function showPhotoChager() {
+
+    photoChanger.style.display = "flex";
+}
+
+function hidePhotoChager(element) {
+
+    element.style.display = "none";
+}
+
+function changePhoto() {
+    document.getElementById("input-photo").click()
+}
+
+function updatePhotoProfile(input) {
+    var arquivo = input.files[0];
+
+
+    var url = window.location.href + `api/profile/${profileID}/`;
+    profileApiEdit('PATCH', url, arquivo, token, 'PHOTO')
 }

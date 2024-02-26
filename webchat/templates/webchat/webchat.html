@@ -9,8 +9,8 @@
   <script>
     const Token = "{{ token }}";
   </script>
-  <script src={% static "webchat/js/webchat.js" %}></script>
-  <script src={% static "webchat/js/api_requests.js" %}></script>
+  
+
   <title>WebChat</title>
 </head>
 
@@ -24,38 +24,38 @@
           <h1>Perfil</h1>
         </div>
         <div class="perfil-picture">
-          <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+          <img id="perfil_photo" src="{{ profile.profile_picture.url }}" alt="Profile Picture" 
+          onmouseover="showPhotoChager()" title="Profile Picture">
+          <input id="input-photo" type="file" accept="image/*" onchange="updatePhotoProfile(this)"style="display: none;">
+          <div id="photoChanger"  onmouseout="hidePhotoChager(this)" onclick="changePhoto()" >
+           
+            <span>Trocar Foto</span>
+          </div>
         </div>
         <div class="perfil-text-content">
 
           <div class="perfil-span">
             <span>Seu nome</span>
           </div>
-          <div id="perfil-name" class="perfil-name">
+
+          <div id="perfil-name" class="perfil-fields">
             <span id="username">{{ profile.user_name }}</span>
 
             <input type="text" id='input-username' maxlength="20" style="display: none;">
-            <img src={% static "webchat/images/buttons/pencil_icon.png" %} alt="" onclick="usernameChange()"
-              id="edit-pencil">
-            <img src={% static "webchat/images/buttons/confirm_icon.png" %} alt="" onclick="changeUsername()"
-              id="confirm-button" style="display: none;">
+            <img src={% static "webchat/images/buttons/pencil_icon.png" %} alt="" onclick="usernameEditor()"
+              id="edit-pencil-username">
+            <img src={% static "webchat/images/buttons/confirm_icon.png" %} alt="" onclick="usernameUpdate()"
+              id="username-confirm" style="display: none;">
           </div>
 
-          <div class="perfil-span">
-            <span>Sobre</span>
-          </div>
-          <div class="perfil-about">
-            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nam repudiandae, saepe
-              nemo eius nihil eveniet! Fuga rerum porro perspiciatis tempore, eaque repudiandae ab unde
-              architecto culpa eius, quos pariatur?</span>
-          </div>
         </div>
+
       </div>
       <header>
         <div id="header-items">
-          <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" id="profile-picture" onclick="toggleTab()">
-          <img src={% static "webchat/images/buttons/add_friend.png" %} class="header-buttons">
-          <img src={% static "webchat/images/buttons/menu.png" %} class="header-buttons">
+          <img id="profile-picture" src="{{ profile.profile_picture.url }}" alt="Profile Picture"  onclick="toggleTab()">
+          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons">
+          <img src={% static "webchat/images/buttons/exit-icon.png" %} class="header-buttons">
         </div>
 
       </header>
@@ -77,5 +77,10 @@
 
   </main>
 </body>
-
+<script>
+  const profileID = {{ profile.id }}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src={% static "webchat/js/api_requests.js" %}></script>
+<script src={% static "webchat/js/webchat.js" %}></script>
 </html>

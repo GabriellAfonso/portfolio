@@ -15,7 +15,7 @@ def get_profile_picture_path(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=25, unique=True)
+    user_name = models.CharField(max_length=25,)
     status = models.CharField(max_length=225, blank=True)
     profile_picture = models.ImageField(upload_to=get_profile_picture_path, blank=True,
                                         null=True, default=DEFAULT_PROFILE_PICTURE)

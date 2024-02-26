@@ -5,6 +5,8 @@ from webchat.forms import RegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
 from ..models import Profile
+from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 
 
 @login_required(login_url='webchat:login')
@@ -12,7 +14,6 @@ def webchat(request):
 
     if request.user.is_authenticated:
         user = request.user
-        token = request.user.auth_token.key
 
         # Verifica se o usuario ja existe
         try:
@@ -28,7 +29,6 @@ def webchat(request):
 
     context = {
         'profile': profile,
-        'token': token
     }
 
     return render(
@@ -101,6 +101,15 @@ def singup(request):
         'webchat/singup.html',
         context,
     )
+
+
+@login_required(login_url='webchat:login')
+def get_token(request):
+    user = request.user
+    token, created = Token.objects.get_or_create(user=user)
+    data = {'token': str(token)}
+
+    return JsonResponse(data)
 
 
 def logout_view(request):

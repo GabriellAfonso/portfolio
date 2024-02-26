@@ -8,10 +8,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['user_name', 'status']
+        fields = ['user_name', 'status', 'profile_picture']
 
-    def validate_user_name(self, value):
-        if Profile.objects.filter(user_name=value).exists():
-            raise serializers.ValidationError(
-                "Este nome de usuário já está em uso. Por favor, escolha outro.")
-        return value
+    # def validate_user_name(self, value):
+    #     if Profile.objects.filter(user_name=value).exists():
+    #         raise serializers.ValidationError(
+    #             "Este nome de usuário já está em uso. Por favor, escolha outro.")
+    #     return value
