@@ -10,27 +10,37 @@ function getCSRFToken() {
 }
 
 
-function profileApiEdit(method, url, data, token, type) {
+function profileApiEdit(method, url, data, token, type = 'JSON') {
     const csrf = getCSRFToken()
     var send
     var contentType
     if (type == 'JSON') {
-        send = JSON.stringify(data)
+        var requestOptions = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`,
+                'X-CSRFToken': csrf
+            },
+            body: JSON.stringify(data)
+        };
+
     } else if (type == 'PHOTO') {
-        send = new FormData();
-        send.append("profile_picture", data);
+        photo = new FormData();
+        photo.append("profile_picture", data);
+        var requestOptions = {
+            method: method,
+            headers: {
+                'Authorization': `Token ${token}`,
+                'X-CSRFToken': csrf
+            },
+            body: photo
+        };
 
     }
 
 
-    const requestOptions = {
-        method: method,
-        headers: {
-            'Authorization': `Token ${token}`,
-            'X-CSRFToken': csrf
-        },
-        body: send
-    };
+
 
     fetch(url, requestOptions)
         .then(response => {
@@ -42,8 +52,9 @@ function profileApiEdit(method, url, data, token, type) {
         .then(data => {
             console.log('Resposta da API:', data);
             // Faça o que quiser com os dados da resposta da API
-
-            location.reload();
+            if (type == 'PHOTO') {
+                location.reload();
+            }
         })
         .catch(error => {
             console.error('Erro:', error);

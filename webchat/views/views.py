@@ -5,6 +5,7 @@ from webchat.forms import RegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
 from ..models import Profile
+from django.db.models.functions import Lower
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 
@@ -14,21 +15,24 @@ def webchat(request):
 
     if request.user.is_authenticated:
         user = request.user
-
-        # Verifica se o usuario ja existe
+        profiles = Profile.objects.all().annotate(lower_user_name=Lower(
+            'user_name')).order_by('lower_user_name')    # Verifica se o usuario ja existe
         try:
-            profile = Profile.objects.get(user=user)
+            user_profile = Profile.objects.get(user=user)
+            user_profile = Profile.objects.get(user=user)
         except Profile.DoesNotExist:
-            profile = None
+            user_profile = None
 
-        if not profile:
-            profile = Profile(user=user)
-            profile.save()
+        if not user_profile:
+            user_profile = Profile(user=user)
+            user_profile.user_name = str(user)
+            user_profile.save()
 
-    profile = Profile.objects.get(user=user)
+    user_profile = Profile.objects.get(user=user)
 
     context = {
-        'profile': profile,
+        'profiles': profiles,
+        'user_profile': user_profile,
     }
 
     return render(

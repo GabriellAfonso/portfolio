@@ -9,7 +9,7 @@
   <script>
     const Token = "{{ token }}";
   </script>
-  
+
 
   <title>WebChat</title>
 </head>
@@ -18,17 +18,20 @@
 
   <main>
     <div id="user-controller">
+
+      <!-- Perfil-controler -->
       <div id="perfil-controller">
-        <div class="perfil-header">
-          <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab()"></span>
+        <div class="tab-header">
+          <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('profile')"></span>
           <h1>Perfil</h1>
         </div>
         <div class="perfil-picture">
-          <img id="perfil_photo" src="{{ profile.profile_picture.url }}" alt="Profile Picture" 
-          onmouseover="showPhotoChager()" title="Profile Picture">
-          <input id="input-photo" type="file" accept="image/*" onchange="updatePhotoProfile(this)"style="display: none;">
-          <div id="photoChanger"  onmouseout="hidePhotoChager(this)" onclick="changePhoto()" >
-           
+          <img id="perfil_photo" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
+            onmouseover="showPhotoChager()" title="Profile Picture">
+          <input id="input-photo" type="file" accept="image/*" onchange="updatePhotoProfile(this)"
+            style="display: none;">
+          <div id="photoChanger" onmouseout="hidePhotoChager(this)" onclick="changePhoto()">
+
             <span>Trocar Foto</span>
           </div>
         </div>
@@ -39,7 +42,7 @@
           </div>
 
           <div id="perfil-name" class="perfil-fields">
-            <span id="username">{{ profile.user_name }}</span>
+            <span id="username">{{ user_profile.user_name }}</span>
 
             <input type="text" id='input-username' maxlength="20" style="display: none;">
             <img src={% static "webchat/images/buttons/pencil_icon.png" %} alt="" onclick="usernameEditor()"
@@ -47,17 +50,50 @@
             <img src={% static "webchat/images/buttons/confirm_icon.png" %} alt="" onclick="usernameUpdate()"
               id="username-confirm" style="display: none;">
           </div>
+        </div>
+      </div>
+      <!-- /Perfil-controler -->
 
+
+      <div id="new-chat-tab">
+        <div class="tab-header">
+          <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('new-chat')"></span>
+          <h1>Start a chat</h1>
         </div>
 
+        <div id="Search">
+          <label for="search-input" id="label-search">
+            <img src={% static "webchat/images/buttons/search_icon.png" %}>
+          </label>
+          <input type="text" id="search-input">
+        </div>
+
+
+        <div id="profiles">
+          {% for profile in profiles %}
+          {% if profile.user != request.user %}
+          <div class="profiles-div">
+            <div class="picture">
+              <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+            </div>
+            <div class="user-name">
+              <p>{{ profile.user_name|title }}</p>
+            </div>
+          </div>
+          {% endif %}
+      {% endfor %}
+        </div>
+
+      
       </div>
+
+
       <header>
         <div id="header-items">
-          <img id="profile-picture" src="{{ profile.profile_picture.url }}" alt="Profile Picture"  onclick="toggleTab()">
-          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons">
-          <img src={% static "webchat/images/buttons/exit-icon.png" %} class="header-buttons">
+          <img id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" onclick="toggleTab('profile')">
+          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons" onclick="toggleTab('new-chat')">
+          <a href=" {% url 'webchat:logout' %}"> <img src={% static "webchat/images/buttons/exit-icon.png" %} class="header-buttons"> </a>
         </div>
-
       </header>
 
       <div id="Search">
@@ -66,10 +102,12 @@
         </label>
         <input type="text" id="search-input">
       </div>
+
       <div id="ContactsList">
 
       </div>
     </div>
+
     <div id="chat">
 
     </div>
@@ -78,9 +116,10 @@
   </main>
 </body>
 <script>
-  const profileID = {{ profile.id }}
+  const profileID = {{ user_profile.id }}
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src={% static "webchat/js/api_requests.js" %}></script>
 <script src={% static "webchat/js/webchat.js" %}></script>
+
 </html>

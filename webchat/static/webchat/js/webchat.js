@@ -5,7 +5,8 @@ const confirmUsername = document.getElementById('username-confirm');
 
 const photoChanger = document.getElementById("photoChanger");
 
-const DivPerfilController = document.getElementById('perfil-controller');
+const DivPerfilTab = document.getElementById('perfil-controller');
+const DivNewChatTab = document.getElementById('new-chat-tab');
 
 
 
@@ -17,19 +18,32 @@ const token = $.ajax({
     }
 });
 
-function toggleTab() {
+function toggleTab(tab) {
 
-    if (DivPerfilController.style.left === "0px") {
-        DivPerfilController.style.left = "-400px";
+    if (tab == 'profile') {
+        if (DivPerfilTab.style.left === "0px") {
+            DivPerfilTab.style.left = "-400px";
 
-    } else {
-        DivPerfilController.style.left = "0px";
+        } else {
+            DivPerfilTab.style.left = "0px";
 
-        SpanUsername.style.display = 'inline'
-        inputUsername.style.display = 'none'
-        confirmUsername.style.display = 'none'
-        usernamePencil.style.display = 'inline'
+            SpanUsername.style.display = 'inline'
+            inputUsername.style.display = 'none'
+            confirmUsername.style.display = 'none'
+            usernamePencil.style.display = 'inline'
+        }
     }
+
+    if (tab == 'new-chat') {
+        if (DivNewChatTab.style.left === "0px") {
+            DivNewChatTab.style.left = "-400px";
+
+        } else {
+            DivNewChatTab.style.left = "0px";
+
+        }
+    }
+
 }
 
 function usernameEditor() {

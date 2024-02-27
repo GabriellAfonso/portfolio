@@ -1,14 +1,14 @@
+import os
 from rest_framework import serializers
 from .models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(max_length=25, required=False)
-    status = serializers.CharField(max_length=225, required=False)
 
     class Meta:
         model = Profile
-        fields = ['user_name', 'status', 'profile_picture']
+        fields = ['user_name', 'profile_picture']
 
     # def validate_user_name(self, value):
     #     if Profile.objects.filter(user_name=value).exists():
