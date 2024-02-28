@@ -8,10 +8,33 @@ const photoChanger = document.getElementById("photoChanger");
 const DivPerfilTab = document.getElementById('perfil-controller');
 const DivNewChatTab = document.getElementById('new-chat-tab');
 
+document.getElementById('search-profiles').addEventListener('input', filterProfiles);
+
+
+
+function filterProfiles() {
+    var input = document.getElementById('search-profiles');
+    var filter = input.value.toUpperCase().trim();
+    var profiles = document.getElementsByClassName('profiles-div');
+
+    for (var i = 0; i < profiles.length; i++) {
+        var username = profiles[i].getElementsByClassName('user-name')[0];
+        var usernameText = username.textContent.toUpperCase().trim();
+        if (usernameText.startsWith(filter)) {
+            profiles[i].style.display = "";
+        } else {
+            profiles[i].style.display = "none";
+        }
+    }
+}
+
+
+
+
 
 
 const token = $.ajax({
-    url: window.location.href + 'get-token/',
+    url: window.location.href + 'getToken/',
     method: 'GET',
     success: function (data) {
         return data
@@ -75,7 +98,7 @@ function usernameUpdate() {
     var url = window.location.href + `api/profile/${profileID}/`;
     var data = { user_name: inputUsername.value }
     if (SpanUsername.textContent != inputUsername.value) {
-        profileApiEdit('PATCH', url, data, token)
+        requestAPI('PATCH', url, data, token)
         SpanUsername.textContent = inputUsername.value
     }
 }
@@ -103,5 +126,31 @@ function updatePhotoProfile(input) {
 
 
     var url = window.location.href + `api/profile/${profileID}/`;
-    profileApiEdit('PATCH', url, arquivo, token, 'PHOTO')
+    requestAPI('PATCH', url, arquivo, token, 'PHOTO')
+}
+
+
+function startChat(p1, p2) {
+    console.log(p1, ' ', p2)
+    var url = window.location.href + 'api/newChatRoom/';
+    var data = { profile1_id: p1, profile2_id: p2 }
+    requestAPI('POST', url, data, token)
+
+    setTimeout(function () {
+        $.ajax({
+            url: window.location.href,
+            type: 'GET',
+            success: function (data) {
+                var contentToUpdate = $(data).find('#rooms').html();
+                console.log(contentToUpdate)
+                // Atualiza o conteúdo do elemento <div> com o novo conteúdo recebido
+                $('#rooms').html(contentToUpdate);
+            },
+            error: function () {
+                // Trata erros, se houver
+                alert('Erro ao carregar novo conteúdo');
+            }
+        });
+    }, 500)
+
 }

@@ -62,10 +62,10 @@
         </div>
 
         <div id="Search">
-          <label for="search-input" id="label-search">
+          <label for="search-profiles" id="label-search">
             <img src={% static "webchat/images/buttons/search_icon.png" %}>
           </label>
-          <input type="text" id="search-input">
+          <input type="text" id="search-profiles">
         </div>
 
 
@@ -79,33 +79,55 @@
             <div class="user-name">
               <p>{{ profile.user_name|title }}</p>
             </div>
+            <div class="new-chat-icon">
+              <img src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
+                onclick="startChat(profileID,{{profile.id}})">
+            </div>
           </div>
           {% endif %}
-      {% endfor %}
+          {% endfor %}
         </div>
 
-      
+
       </div>
 
 
       <header>
         <div id="header-items">
-          <img id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" onclick="toggleTab('profile')">
-          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons" onclick="toggleTab('new-chat')">
-          <a href=" {% url 'webchat:logout' %}"> <img src={% static "webchat/images/buttons/exit-icon.png" %} class="header-buttons"> </a>
+          <img id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
+            onclick="toggleTab('profile')">
+          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons"
+            onclick="toggleTab('new-chat')">
+          <a href=" {% url 'webchat:logout' %}"> <img src={% static "webchat/images/buttons/exit-icon.png" %}
+              class="header-buttons"> </a>
         </div>
       </header>
 
       <div id="Search">
-        <label for="search-input" id="label-search">
+        <label for="search-rooms" id="label-search">
           <img src={% static "webchat/images/buttons/search_icon.png" %}>
         </label>
-        <input type="text" id="search-input">
+        <input type="text" id="search-rooms">
       </div>
 
-      <div id="ContactsList">
+      <div id="rooms">
+        {% for chatroom in user_rooms %}
+        {% for member in chatroom.members %}
+        <div class="chatroom">
+          <div class="chatroom-picture">
+            <img src="{{ member.profile_picture }}" alt="{{ member.user_name }}">
+          </div>
+          <div class="chatroom-username">
+            <p>{{ member.user_name }}</p>
+          </div>
+          
+        </div>
 
+        {% endfor %}
+        {% endfor %}
       </div>
+
+    </div>
     </div>
 
     <div id="chat">

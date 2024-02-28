@@ -10,7 +10,7 @@ function getCSRFToken() {
 }
 
 
-function profileApiEdit(method, url, data, token, type = 'JSON') {
+function requestAPI(method, url, data, token, type = 'JSON') {
     const csrf = getCSRFToken()
     var send
     var contentType

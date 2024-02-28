@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from webchat.forms import RegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
-from ..models import Profile
+from ..models import Profile, ChatRoom
 from django.db.models.functions import Lower
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
@@ -29,10 +29,38 @@ def webchat(request):
             user_profile.save()
 
     user_profile = Profile.objects.get(user=user)
+    user_rooms = ChatRoom.objects.filter(members=user_profile)
+
+    # Lista para armazenar as informações dos membros de cada chatroom
+    chatroom_members_info = []
+
+    # Itera sobre os chatrooms do usuário
+    for chatroom in user_rooms:
+        # Obtém todos os perfis dos membros do chatroom, excluindo o próprio usuário
+        members_except_user = chatroom.members.exclude(user=user)
+
+        # Lista para armazenar as informações de cada membro do chatroom
+        members_info = []
+
+        # Itera sobre os membros do chatroom
+        for member in members_except_user:
+            # Obtém a imagem de perfil e o nome de usuário de cada membro
+            member_info = {
+                'profile_picture': member.profile_picture.url,
+                'user_name': member.user_name,
+            }
+            members_info.append(member_info)
+
+        # Adiciona as informações dos membros do chatroom à lista principal
+        chatroom_members_info.append({
+            'chatroom_id': chatroom.id,
+            'members': members_info,
+        })
 
     context = {
         'profiles': profiles,
         'user_profile': user_profile,
+        'user_rooms': chatroom_members_info,
     }
 
     return render(

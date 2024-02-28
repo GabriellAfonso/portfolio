@@ -146,7 +146,7 @@ main {
     margin-top: 3px;
     width: 100%;
     min-height: 10vh;
-    background-color: aqua;
+    background-color: rgb(202, 202, 202);
 }
 
 .profiles-div .picture {
@@ -159,10 +159,25 @@ main {
     border-radius: 100%;
 }
 
-.profiles-div .user-name p {
-    font-size: 1.5rem;
+.profiles-div .user-name {
+    width: 60%;
+
 }
 
+.profiles-div .user-name p {
+    font-size: 1.5rem;
+
+}
+
+.profiles-div .new-chat-icon {
+    padding-inline: 10px;
+}
+
+.profiles-div .new-chat-icon img {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
 
 
 #input-username {
@@ -261,10 +276,37 @@ header {
     border-radius: 0px 10px 10px 0px;
 }
 
-#ContactsList {
+#rooms {
     background-color: hsl(0, 0%, 95%);
     height: 100%;
 
+}
+
+.chatroom {
+    display: flex;
+    align-items: center;
+    margin-top: 3px;
+    width: 100%;
+    min-height: 10vh;
+    background-color: aquamarine;
+}
+
+.chatroom .chatroom-picture {
+    padding-inline: 20px;
+}
+
+.chatroom .chatroom-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.chatroom .chatroom-username {
+    width: 100%;
+}
+
+.chatroom .chatroom-username p {
+    font-size: 1.5rem;
 }
 
 #chat {
