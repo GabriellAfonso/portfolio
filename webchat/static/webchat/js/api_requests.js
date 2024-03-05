@@ -10,20 +10,32 @@ function getCSRFToken() {
 }
 
 
-function requestAPI(method, url, data, token, type = 'JSON') {
+async function requestAPI(method, url, data = "", token = "", type = 'JSON') {
     const csrf = getCSRFToken()
     var send
     var contentType
     if (type == 'JSON') {
-        var requestOptions = {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`,
-                'X-CSRFToken': csrf
-            },
-            body: JSON.stringify(data)
-        };
+        if (data) {
+            var requestOptions = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`,
+                    'X-CSRFToken': csrf
+                },
+
+                body: JSON.stringify(data)
+            };
+        } else {
+            var requestOptions = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${token}`,
+                    'X-CSRFToken': csrf
+                },
+            };
+        }
 
     } else if (type == 'PHOTO') {
         photo = new FormData();
@@ -42,7 +54,7 @@ function requestAPI(method, url, data, token, type = 'JSON') {
 
 
 
-    fetch(url, requestOptions)
+    return fetch(url, requestOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro ao fazer a solicitação à API');
@@ -55,6 +67,7 @@ function requestAPI(method, url, data, token, type = 'JSON') {
             if (type == 'PHOTO') {
                 location.reload();
             }
+            return data
         })
         .catch(error => {
             console.error('Erro:', error);

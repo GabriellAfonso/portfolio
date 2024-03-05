@@ -127,6 +127,7 @@ function updatePhotoProfile(input) {
 
     var url = window.location.href + `api/profile/${profileID}/`;
     requestAPI('PATCH', url, arquivo, token, 'PHOTO')
+
 }
 
 
@@ -153,4 +154,30 @@ function startChat(p1, p2) {
         });
     }, 500)
 
+}
+
+async function openRoom(id) {
+    try {
+        // Vai dar get na room
+        var url = window.location.href + `api/chatrooms/${id}/view_messages/`;
+
+        // Faz a requisição e espera pelos dados
+        var roomData = await requestAPI('GET', url);
+
+        // Lógica para lidar com os dados recebidos da API
+        console.log('------------');
+        console.log(roomData);
+
+        // Separar o que são meus dados e o que são dados de quem eu estou conversando
+        var chatContent = document.getElementById("chat-content");
+        chatContent.style.display = 'inline';
+    } catch (error) {
+        // Lidar com erros
+        console.error(error);
+    }
+}
+
+
+function sendMessage(id) {
+    //vai mandar menssagem pra room
 }

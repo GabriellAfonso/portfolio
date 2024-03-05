@@ -209,7 +209,7 @@ main {
 
 header {
     background-color: hsl(0, 0%, 72%);
-    height: 12vh;
+    min-height: 10vh;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -218,7 +218,7 @@ header {
 }
 
 
-#header-items {
+.header-items {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -313,4 +313,41 @@ header {
     background-color: hsl(0, 0%, 72%);
     width: 100%;
 
+}
+
+#chat-content {
+    display: none;
+}
+
+.chat-picture {
+    padding-inline: 20px;
+}
+
+.chat-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.chat-body {
+    height: 80vh;
+    width: 100%;
+}
+
+.chat-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+    background-color: blue;
+}
+
+.chat-input input {
+    border-style: none;
+    outline: none;
+    font-size: 1.3rem;
+
+    border-radius: 5px;
+    width: 70%;
+    height: 7vh;
 }

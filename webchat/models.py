@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from PIL import Image
 
 DEFAULT_PROFILE_PICTURE = 'webchat/empty_picture.jpg'
@@ -59,6 +60,14 @@ class Message(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField(max_length=10000)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Verifica se o remetente está entre os membros da sala de chat
+        if self.sender not in self.room.members.all():
+            raise PermissionDenied(
+                "Você não tem permissão para enviar mensagens para esta sala de chat.")
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'id:{self.id} {self.room}'

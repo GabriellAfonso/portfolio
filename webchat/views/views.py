@@ -46,6 +46,7 @@ def webchat(request):
         for member in members_except_user:
             # Obtém a imagem de perfil e o nome de usuário de cada membro
             member_info = {
+                'id': member.id,
                 'profile_picture': member.profile_picture.url,
                 'user_name': member.user_name,
             }

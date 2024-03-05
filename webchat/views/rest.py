@@ -9,8 +9,8 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from ..models import Profile, ChatRoom
-from ..serializers import ProfileSerializer, ChatRoomSerializer
+from ..models import Profile, ChatRoom, Message
+from ..serializers import ProfileSerializer, ChatRoomSerializer, MessageSerializer
 
 
 # @api_view(['POST'])
@@ -87,3 +87,38 @@ def create_chatroom(request):
     serializer = ChatRoomSerializer(chatroom)
 
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def view_messages(request, chatroom_id):
+    chatroom = ChatRoom.objects.get(pk=chatroom_id)
+
+    # Verifica se o usuário atual está entre os membros da sala de chat
+    if request.user.profile not in chatroom.members.all():
+        return Response({"error": "Você não tem permissão para visualizar mensagens nesta sala de chat."}, status=status.HTTP_403_FORBIDDEN)
+
+    chatroom_serializer = ChatRoomSerializer(chatroom)
+    messages = Message.objects.filter(room=chatroom)
+    message_serializer = MessageSerializer(messages, many=True)
+
+    response_data = {
+        'chatroom': chatroom_serializer.data,
+        'messages': message_serializer.data
+    }
+
+    return Response(response_data)
+
+
+@api_view(['GET', 'POST'])
+def send_message(request, chatroom_id):
+    chatroom = ChatRoom.objects.get(pk=chatroom_id)
+
+    # Verifica se o usuário atual está entre os membros da sala de chat
+    if request.user.profile not in chatroom.members.all():
+        return Response({"error": "Você não tem permissão para enviar mensagens para esta sala de chat."}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = MessageSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(room=chatroom, sender=request.user.profile)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -25,7 +25,7 @@
           <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('profile')"></span>
           <h1>Perfil</h1>
         </div>
-        <div class="perfil-picture">
+        <div id="perfil-picture" class="perfil-picture">
           <img id="perfil_photo" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
             onmouseover="showPhotoChager()" title="Profile Picture">
           <input id="input-photo" type="file" accept="image/*" onchange="updatePhotoProfile(this)"
@@ -74,13 +74,13 @@
           {% if profile.user != request.user %}
           <div class="profiles-div">
             <div class="picture">
-              <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+              <img id="mini-picture" src="{{ profile.profile_picture.url }}" alt="Profile Picture">
             </div>
             <div class="user-name">
               <p>{{ profile.user_name|title }}</p>
             </div>
             <div class="new-chat-icon">
-              <img src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
+              <img src="{% static " webchat/images/buttons/new_chat_icon.png" %}" alt=""
                 onclick="startChat(profileID,{{profile.id}})">
             </div>
           </div>
@@ -93,7 +93,7 @@
 
 
       <header>
-        <div id="header-items">
+        <div class="header-items">
           <img id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
             onclick="toggleTab('profile')">
           <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons"
@@ -113,14 +113,14 @@
       <div id="rooms">
         {% for chatroom in user_rooms %}
         {% for member in chatroom.members %}
-        <div class="chatroom">
+        <div class="chatroom" onclick="openRoom('{{ chatroom.chatroom_id }}')">
           <div class="chatroom-picture">
             <img src="{{ member.profile_picture }}" alt="{{ member.user_name }}">
           </div>
           <div class="chatroom-username">
             <p>{{ member.user_name }}</p>
           </div>
-          
+
         </div>
 
         {% endfor %}
@@ -131,7 +131,25 @@
     </div>
 
     <div id="chat">
+      <div id="chat-content" >
+      <header>
+        <div class="header-items">
+          <div class="chat-picture">
+            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+          </div>
+          <div class="chat-name">
+            <span>Nome da sala</span>
+          </div>
+        </div>
+      </header>
+      <div class="chat-body">
 
+      </div>
+      <div class="chat-input">
+        <input type="text" name="" id="">
+     
+      </div>
+    </div>
     </div>
 
 

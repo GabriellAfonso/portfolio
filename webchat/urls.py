@@ -14,4 +14,8 @@ urlpatterns = [
 
     path('api/profile/<int:pk>/', rest.user_profile, name='user_profile'),
     path('api/newChatRoom/', rest.create_chatroom, name='new_chat_room'),
+    path('api/chatrooms/<int:chatroom_id>/send_message/',
+         rest.send_message, name='send_message'),
+    path('api/chatrooms/<int:chatroom_id>/view_messages/',
+         rest.view_messages, name='view_messages'),
 ]
