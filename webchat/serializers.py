@@ -4,11 +4,11 @@ from .models import Profile, ChatRoom, Message
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user_name = serializers.CharField(max_length=25, required=False)
+    username = serializers.CharField(max_length=25, required=False)
 
     class Meta:
         model = Profile
-        fields = ['id', 'user_name', 'profile_picture']
+        fields = ['id', 'username', 'profile_picture']
 
     # def validate_user_name(self, value):
     #     if Profile.objects.filter(user_name=value).exists():

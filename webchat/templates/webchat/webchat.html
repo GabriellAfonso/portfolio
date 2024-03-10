@@ -42,7 +42,7 @@
           </div>
 
           <div id="perfil-name" class="perfil-fields">
-            <span id="username">{{ user_profile.user_name }}</span>
+            <span id="username">{{ user_profile.username }}</span>
 
             <input type="text" id='input-username' maxlength="20" style="display: none;">
             <img src={% static "webchat/images/buttons/pencil_icon.png" %} alt="" onclick="usernameEditor()"
@@ -77,7 +77,7 @@
               <img id="mini-picture" src="{{ profile.profile_picture.url }}" alt="Profile Picture">
             </div>
             <div class="user-name">
-              <p>{{ profile.user_name|title }}</p>
+              <p>{{ profile.username|title }}</p>
             </div>
             <div class="new-chat-icon">
               <img src="{% static " webchat/images/buttons/new_chat_icon.png" %}" alt=""
@@ -115,10 +115,10 @@
         {% for member in chatroom.members %}
         <div class="chatroom" onclick="openRoom('{{ chatroom.chatroom_id }}')">
           <div class="chatroom-picture">
-            <img src="{{ member.profile_picture }}" alt="{{ member.user_name }}">
+            <img src="{{ member.profile_picture }}" alt="{{ member.username }}">
           </div>
           <div class="chatroom-username">
-            <p>{{ member.user_name }}</p>
+            <p>{{ member.username }}</p>
           </div>
 
         </div>

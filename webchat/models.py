@@ -16,7 +16,7 @@ def get_profile_picture_path(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_name = models.CharField(max_length=25)
+    username = models.CharField(max_length=25)
     profile_picture = models.ImageField(upload_to=get_profile_picture_path, blank=True,
                                         null=True, default=DEFAULT_PROFILE_PICTURE)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)

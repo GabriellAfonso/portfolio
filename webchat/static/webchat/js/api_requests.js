@@ -9,9 +9,10 @@ function getCSRFToken() {
     return null;
 }
 
+const csrf = getCSRFToken()
 
 async function requestAPI(method, url, data = "", token = "", type = 'JSON') {
-    const csrf = getCSRFToken()
+
     var send
     var contentType
     if (type == 'JSON') {
@@ -76,4 +77,106 @@ async function requestAPI(method, url, data = "", token = "", type = 'JSON') {
 }
 
 
+
+class ApiCommunicator {
+    constructor(url) {
+        this.baseURL = url
+    }
+
+
+    #getOptions() {
+        return {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.#getApiToken(),
+                'X-CSRFToken': this.#getCSRFToken(),
+            },
+        };
+    }
+
+    #options(method, data) {
+        return {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.#getApiToken(),
+                'X-CSRFToken': this.#getCSRFToken(),
+            },
+            body: JSON.stringify(data)
+        };
+    }
+
+
+
+    async getChatData(endpoint) {
+        const url = `${this.baseURL}${endpoint}`;
+        const options = this.#getOptions()
+
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error('Erro ao fazer a solicitação à API');
+            }
+            const data = await response.json();
+            console.log('Resposta da API:', data);
+            return data;
+        } catch (error) {
+            console.error('Erro:', error.message);
+            throw error;
+        }
+
+    }
+
+    async usernameUpdate(endpoint, data) {
+        const url = `${this.baseURL}${endpoint}`;
+        const options = this.#options('PATCH', data)
+
+        try {
+            await fetch(url, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao fazer a solicitação à API');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Resposta da API:', data);
+                    return data
+                })
+        } catch (error) {
+            console.error('Erro:', error.message);
+            throw error;
+        }
+
+    }
+
+
+    #getCSRFToken() {
+        const cookies = document.cookie.split(';');
+        for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    async #getApiToken() {
+        try {
+            const response = await fetch(this.baseURL + 'getToken/', { method: 'GET' });
+            if (!response.ok) {
+                throw new Error('Erro ao obter token da API');
+            }
+            const data = await response.json();
+            return data.token;
+
+        } catch (error) {
+            console.error('Erro ao obter token:', error);
+            throw error;
+        }
+    };
+
+}
 

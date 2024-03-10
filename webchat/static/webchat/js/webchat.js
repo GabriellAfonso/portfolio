@@ -10,7 +10,7 @@ const DivNewChatTab = document.getElementById('new-chat-tab');
 
 document.getElementById('search-profiles').addEventListener('input', filterProfiles);
 
-
+const Api = new ApiCommunicator(window.location.href)
 
 function filterProfiles() {
     var input = document.getElementById('search-profiles');
@@ -95,10 +95,11 @@ function usernameUpdate() {
     confirmUsername.style.display = 'none'
     usernamePencil.style.display = 'inline'
 
-    var url = window.location.href + `api/profile/${profileID}/`;
-    var data = { user_name: inputUsername.value }
+    var endpoint = `api/profile/${profileID}/`;
+    var data = { username: inputUsername.value }
     if (SpanUsername.textContent != inputUsername.value) {
-        requestAPI('PATCH', url, data, token)
+        // requestAPI('PATCH', url, data, token)
+        Api.usernameUpdate(endpoint, data)
         SpanUsername.textContent = inputUsername.value
     }
 }
@@ -157,24 +158,28 @@ function startChat(p1, p2) {
 }
 
 async function openRoom(id) {
-    try {
-        // Vai dar get na room
-        var url = window.location.href + `api/chatrooms/${id}/view_messages/`;
+    // try {
+    //     // Vai dar get na room
+    //     var url = window.location.href + `api/chatrooms/${id}/view_messages/`;
 
-        // Faz a requisição e espera pelos dados
-        var roomData = await requestAPI('GET', url);
+    //     // Faz a requisição e espera pelos dados
+    //     var roomData = await requestAPI('GET', url);
 
-        // Lógica para lidar com os dados recebidos da API
-        console.log('------------');
-        console.log(roomData);
+    //     // Lógica para lidar com os dados recebidos da API
+    //     console.log('------------');
+    //     console.log(roomData);
 
-        // Separar o que são meus dados e o que são dados de quem eu estou conversando
-        var chatContent = document.getElementById("chat-content");
-        chatContent.style.display = 'inline';
-    } catch (error) {
-        // Lidar com erros
-        console.error(error);
-    }
+    //     // Separar o que são meus dados e o que são dados de quem eu estou conversando
+    //     var chatContent = document.getElementById("chat-content");
+    //     chatContent.style.display = 'inline';
+    // } catch (error) {
+    //     // Lidar com erros
+    //     console.error(error);
+    // }
+    console.log('abrindo room')
+    var endpoint = `api/chatrooms/${id}/view_messages/`
+    var data = await Api.getChatData(endpoint)
+    console.log('é a data man ', data)
 }
 
 

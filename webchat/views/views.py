@@ -15,8 +15,8 @@ def webchat(request):
 
     if request.user.is_authenticated:
         user = request.user
-        profiles = Profile.objects.all().annotate(lower_user_name=Lower(
-            'user_name')).order_by('lower_user_name')    # Verifica se o usuario ja existe
+        profiles = Profile.objects.all().annotate(lower_username=Lower(
+            'username')).order_by('lower_username')    # Verifica se o usuario ja existe
         try:
             user_profile = Profile.objects.get(user=user)
             user_profile = Profile.objects.get(user=user)
@@ -25,7 +25,7 @@ def webchat(request):
 
         if not user_profile:
             user_profile = Profile(user=user)
-            user_profile.user_name = str(user)
+            user_profile.username = str(user)
             user_profile.save()
 
     user_profile = Profile.objects.get(user=user)
@@ -48,7 +48,7 @@ def webchat(request):
             member_info = {
                 'id': member.id,
                 'profile_picture': member.profile_picture.url,
-                'user_name': member.user_name,
+                'username': member.username,
             }
             members_info.append(member_info)
 
