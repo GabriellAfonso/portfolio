@@ -246,6 +246,7 @@ header {
 #Search {
     background-color: hsl(0, 0%, 95%);
     height: 11vh;
+    min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;

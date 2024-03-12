@@ -1,16 +1,24 @@
-const SpanUsername = document.getElementById('username');
-const inputUsername = document.getElementById('input-username')
-const usernamePencil = document.getElementById('edit-pencil-username');
-const confirmUsername = document.getElementById('username-confirm');
-
-const photoChanger = document.getElementById("photoChanger");
-
-const DivPerfilTab = document.getElementById('perfil-controller');
-const DivNewChatTab = document.getElementById('new-chat-tab');
-
-document.getElementById('search-profiles').addEventListener('input', filterProfiles);
+let SpanUsername = document.getElementById('username');
+let inputUsername = document.getElementById('input-username')
+let usernamePencil = document.getElementById('edit-pencil-username');
+let confirmUsername = document.getElementById('username-confirm');
+let photoChanger = document.getElementById('photoChanger');
+let DivPerfilTab = document.getElementById('perfil-controller');
+let DivNewChatTab = document.getElementById('new-chat-tab');
 
 const Api = new ApiCommunicator(window.location.href)
+
+function updateElements() {
+    SpanUsername = document.getElementById('username');
+    inputUsername = document.getElementById('input-username')
+    usernamePencil = document.getElementById('edit-pencil-username');
+    confirmUsername = document.getElementById('username-confirm');
+    photoChanger = document.getElementById('photoChanger');
+    DivPerfilTab = document.getElementById('perfil-controller');
+    DivNewChatTab = document.getElementById('new-chat-tab');
+}
+
+document.getElementById('search-profiles').addEventListener('input', filterProfiles);
 
 function filterProfiles() {
     var input = document.getElementById('search-profiles');
@@ -28,18 +36,6 @@ function filterProfiles() {
     }
 }
 
-
-
-
-
-
-const token = $.ajax({
-    url: window.location.href + 'getToken/',
-    method: 'GET',
-    success: function (data) {
-        return data
-    }
-});
 
 function toggleTab(tab) {
 
@@ -98,18 +94,14 @@ function usernameUpdate() {
     var endpoint = `api/profile/${profileID}/`;
     var data = { username: inputUsername.value }
     if (SpanUsername.textContent != inputUsername.value) {
-        // requestAPI('PATCH', url, data, token)
-        Api.usernameUpdate(endpoint, data)
+        Api.patchData(endpoint, data)
         SpanUsername.textContent = inputUsername.value
     }
 }
 
-function logoutAjax() {
 
-}
 
 function showPhotoChager() {
-
     photoChanger.style.display = "flex";
 }
 
@@ -122,67 +114,82 @@ function changePhoto() {
     document.getElementById("input-photo").click()
 }
 
-function updatePhotoProfile(input) {
+async function updatePhotoProfile(input) {
     var arquivo = input.files[0];
 
 
-    var url = window.location.href + `api/profile/${profileID}/`;
-    requestAPI('PATCH', url, arquivo, token, 'PHOTO')
+    var url = `api/profile/${profileID}/`;
+    await Api.profilePictureUpdate(url, arquivo)
+
+    await updateHtmlContent('#perfil-picture')
+    await updateHtmlContent('#main-header')
+    // photoChanger = document.getElementById('photoChanger');
 
 }
 
 
-function startChat(p1, p2) {
-    console.log(p1, ' ', p2)
-    var url = window.location.href + 'api/newChatRoom/';
-    var data = { profile1_id: p1, profile2_id: p2 }
-    requestAPI('POST', url, data, token)
+async function startChat(profile1ID, profile2ID) {
+    var endpoint = 'api/newChatRoom/';
+    var data = { profile1_id: profile1ID, profile2_id: profile2ID }
+    await Api.postData(endpoint, data)
 
-    setTimeout(function () {
-        $.ajax({
-            url: window.location.href,
-            type: 'GET',
-            success: function (data) {
-                var contentToUpdate = $(data).find('#rooms').html();
-                console.log(contentToUpdate)
-                // Atualiza o conteúdo do elemento <div> com o novo conteúdo recebido
-                $('#rooms').html(contentToUpdate);
-            },
-            error: function () {
-                // Trata erros, se houver
-                alert('Erro ao carregar novo conteúdo');
-            }
-        });
-    }, 500)
-
+    await updateHtmlContent('#perfil-controller')
 }
 
 async function openRoom(id) {
-    // try {
-    //     // Vai dar get na room
-    //     var url = window.location.href + `api/chatrooms/${id}/view_messages/`;
-
-    //     // Faz a requisição e espera pelos dados
-    //     var roomData = await requestAPI('GET', url);
-
-    //     // Lógica para lidar com os dados recebidos da API
-    //     console.log('------------');
-    //     console.log(roomData);
-
-    //     // Separar o que são meus dados e o que são dados de quem eu estou conversando
-    //     var chatContent = document.getElementById("chat-content");
-    //     chatContent.style.display = 'inline';
-    // } catch (error) {
-    //     // Lidar com erros
-    //     console.error(error);
-    // }
     console.log('abrindo room')
     var endpoint = `api/chatrooms/${id}/view_messages/`
-    var data = await Api.getChatData(endpoint)
-    console.log('é a data man ', data)
+    var chatData = await Api.getData(endpoint)
+
+
+
+    // Adicionando um campo de carimbo de data/hora às mensagens
+    chatData.messages.forEach(message => {
+        message.timestamp = new Date(message.timestamp);
+    });
+
+    // Ordenando as mensagens por data/hora
+    chatData.messages.sort((a, b) => a.timestamp - b.timestamp);
+
+    // Separando mensagens por remetente
+    const myMessages = [];
+    const otherPersonMessages = [];
+
+    chatData.messages.forEach(message => {
+        if (message.sender === chatData.chatroom.members[0].id) {
+            myMessages.push(message);
+        } else {
+            otherPersonMessages.push(message);
+        }
+    });
+
+    // Exibindo mensagens separadas
+    console.log("Minhas mensagens:", myMessages);
+    console.log("Mensagens da outra pessoa:", otherPersonMessages);
+
+    // Separar o que são meus dados e o que são dados de quem eu estou conversando
 }
 
 
 function sendMessage(id) {
     //vai mandar menssagem pra room
+}
+
+
+async function updateHtmlContent(selector) {
+    try {
+        const response = await fetch(window.location.href);
+        if (!response.ok) {
+            throw new Error('Erro ao carregar novo conteúdo');
+        }
+
+        const htmlData = await response.text();
+        const contentToUpdate = $(htmlData).find(selector).html();
+        await $(selector).html(contentToUpdate);
+
+        updateElements()
+    } catch (error) {
+        console.error('Erro ao atualizar conteúdo HTML:', error);
+        alert('Erro ao atualizar conteúdo HTML');
+    }
 }

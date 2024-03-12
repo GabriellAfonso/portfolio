@@ -10,7 +10,7 @@ DEFAULT_PROFILE_PICTURE = 'webchat/empty_picture.jpg'
 
 def get_profile_picture_path(instance, filename):
     ext = filename.split('.')[-1]
-    filename = f"profile_picture_{instance.user_name}.{ext}"
+    filename = f"profile_picture_{instance.username}.{ext}"
     return os.path.join('webchat/profile_picture/', filename)
 
 
