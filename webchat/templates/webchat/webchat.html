@@ -143,10 +143,23 @@
       </header>
       <div class="chat-body">
 
+        {% comment %} <div class="myMessages">
+          <div class="messageContent">
+            <p>{% lorem 1 b random %}</p>
+          </div>
+        </div>
+
+        <div class="friendMessages">
+          <div class="friendMessageContent">
+            <p>{% lorem 1 b random %}</p>
+          </div>
+        </div>
+ {% endcomment %}
+
       </div>
       <div class="chat-input">
-        <input type="text" name="" id="">
-     
+        <input type="text" name="" id="sender-input">
+        <img src={% static "webchat/images/buttons/send.png" %} onclick="sendMessage()">
       </div>
     </div>
     </div>

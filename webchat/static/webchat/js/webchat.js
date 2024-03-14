@@ -5,6 +5,18 @@ let confirmUsername = document.getElementById('username-confirm');
 let photoChanger = document.getElementById('photoChanger');
 let DivPerfilTab = document.getElementById('perfil-controller');
 let DivNewChatTab = document.getElementById('new-chat-tab');
+let chatContent = document.getElementById('chat-content');
+let senderInput = document.getElementById('sender-input');
+
+var roomOpen
+
+
+senderInput.addEventListener("keyup", function (event) {
+
+    if (event.key === "Enter") {
+        sendMessage()
+    }
+})
 
 const Api = new ApiCommunicator(window.location.href)
 
@@ -137,9 +149,30 @@ async function startChat(profile1ID, profile2ID) {
 }
 
 async function openRoom(id) {
+
+    roomOpen = id
     console.log('abrindo room')
     var endpoint = `api/chatrooms/${id}/view_messages/`
     var chatData = await Api.getData(endpoint)
+    var members = chatData.chatroom.members
+    let friendPicture
+    let friendName
+    var chatName = chatContent.querySelector('.chat-name span');
+    var chatPicture = chatContent.querySelector('.chat-picture img');
+    var chatBody = chatContent.querySelector('.chat-body');
+
+
+
+    chatBody.innerHTML = ''
+    members.forEach(members => {
+        if (members.id != profileID) {
+            friendPicture = members.profile_picture
+            friendName = members.username
+        }
+    });
+
+
+
 
 
 
@@ -153,26 +186,66 @@ async function openRoom(id) {
 
     // Separando mensagens por remetente
     const myMessages = [];
-    const otherPersonMessages = [];
+    const friendMessages = [];
+
 
     chatData.messages.forEach(message => {
-        if (message.sender === chatData.chatroom.members[0].id) {
+        if (message.sender === profileID) {
             myMessages.push(message);
+
+            var myDiv = `
+            <div class="myMessages">
+              <div class="messageContent">
+                <p>${message.content}</p>
+              </div>
+            </div>
+            `;
+
+            chatBody.innerHTML += myDiv
+
+
         } else {
-            otherPersonMessages.push(message);
+            friendMessages.push(message);
+            var friendDiv = `
+            <div class="friendMessages">
+              <div class="friendMessageContent">
+                <p>${message.content}</p>
+              </div>
+            </div>
+            `;
+            chatBody.innerHTML += friendDiv
         }
     });
 
     // Exibindo mensagens separadas
     console.log("Minhas mensagens:", myMessages);
-    console.log("Mensagens da outra pessoa:", otherPersonMessages);
+    console.log("Mensagens da outra pessoa:", friendMessages);
+
+
+
+
+
+
+    chatName.textContent = friendName;
+    chatPicture.src = friendPicture;
+    chatContent.style.display = 'block'
 
     // Separar o que são meus dados e o que são dados de quem eu estou conversando
 }
 
 
-function sendMessage(id) {
-    //vai mandar menssagem pra room
+async function sendMessage() {
+    var endpoint = `api/chatrooms/${roomOpen}/send_message/`
+    var data = {
+        room: roomOpen,
+        sender: profileID,
+        content: senderInput.value
+    }
+
+    console.log(data)
+    await Api.postData(endpoint, data)
+    senderInput.value = ''
+    openRoom(roomOpen)
 }
 
 

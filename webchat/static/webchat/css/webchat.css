@@ -290,6 +290,7 @@ header {
     width: 100%;
     min-height: 10vh;
     background-color: aquamarine;
+    cursor: pointer;
 }
 
 .chatroom .chatroom-picture {
@@ -332,7 +333,10 @@ header {
 
 .chat-body {
     height: 80vh;
+    max-height: 80vh;
     width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .chat-input {
@@ -340,7 +344,7 @@ header {
     align-items: center;
     justify-content: center;
     height: 10vh;
-    background-color: blue;
+    background-color: rgb(63, 73, 88);
 }
 
 .chat-input input {
@@ -349,6 +353,46 @@ header {
     font-size: 1.3rem;
 
     border-radius: 5px;
-    width: 70%;
+    width: 80%;
     height: 7vh;
+    padding-left: 10px;
+}
+
+.chat-input img {
+    margin-left: 20px;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+
+.myMessages {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.myMessages .messageContent {
+    margin-top: 10px;
+    width: 40%;
+    padding: 7px;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: rgb(16, 150, 184);
+}
+
+.friendMessages {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+
+}
+
+.friendMessages .friendMessageContent {
+    margin-top: 10px;
+    width: 40%;
+    padding: 7px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: rgb(9, 92, 112);
 }
