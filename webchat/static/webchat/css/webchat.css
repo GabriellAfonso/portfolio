@@ -365,6 +365,21 @@ header {
     height: 35px;
 }
 
+.messagesDate {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.messagesDate .dateBox {
+    margin: auto;
+    border-radius: 10px;
+    padding-inline: 10px;
+    padding-block: 5px;
+    text-align: center;
+    background-color: rgb(197, 126, 126);
+}
+
 
 .myMessages {
     display: flex;
@@ -372,13 +387,30 @@ header {
     width: 100%;
 }
 
-.myMessages .messageContent {
+.myMessages .messageBox {
+    display: flex;
+
+    align-items: flex-end;
     margin-top: 10px;
-    width: 40%;
+    min-width: 15%;
+    max-width: 70%;
     padding: 7px;
     border-radius: 5px;
     margin-right: 10px;
     background-color: rgb(16, 150, 184);
+}
+
+.myMessages .messageText {
+    width: 100%;
+    margin-right: 10px;
+
+}
+
+.myMessages .messageTime {
+
+    padding-top: 5px;
+    font-size: 0.7rem;
+    color: white;
 }
 
 .friendMessages {
@@ -388,11 +420,26 @@ header {
 
 }
 
-.friendMessages .friendMessageContent {
+.friendMessages .messageBox {
+    display: flex;
+    align-items: flex-end;
     margin-top: 10px;
-    width: 40%;
+    min-width: 15%;
+    max-width: 70%;
     padding: 7px;
     border-radius: 5px;
     margin-left: 10px;
     background-color: rgb(9, 92, 112);
+}
+
+.friendMessages .messageText {
+    width: 100%;
+    margin-right: 10px;
+
+}
+
+.friendMessages .messageTime {
+    padding-top: 5px;
+    font-size: 0.7rem;
+    color: white;
 }

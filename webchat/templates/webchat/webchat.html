@@ -79,7 +79,7 @@
               <p>{{ profile.username|title }}</p>
             </div>
             <div class="new-chat-icon">
-              <img src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
+              <img src="{% static " webchat/images/buttons/new_chat_icon.png" %}" alt=""
                 onclick="startChat(profileID,{{profile.id}})">
             </div>
           </div>
@@ -130,45 +130,63 @@
     </div>
 
     <div id="chat">
-      <div id="chat-content" >
-      <header>
-        <div class="header-items">
-          <div class="chat-picture">
-            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+      <div id="chat-content">
+        <header>
+          <div class="header-items">
+            <div class="chat-picture">
+              <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+            </div>
+            <div class="chat-name">
+              <span>Nome da sala</span>
+            </div>
           </div>
-          <div class="chat-name">
-            <span>Nome da sala</span>
-          </div>
-        </div>
-      </header>
-      <div class="chat-body">
+        </header>
 
-        {% comment %} <div class="myMessages">
-          <div class="messageContent">
-            <p>{% lorem 1 b random %}</p>
-          </div>
-        </div>
+        <div class="chat-body">
 
-        <div class="friendMessages">
-          <div class="friendMessageContent">
-            <p>{% lorem 1 b random %}</p>
+          <div class="messagesDate">
+            <div class="dateBox">
+              <span>14 de Março, 2024</span>
+            </div>
           </div>
-        </div>
- {% endcomment %}
 
+
+          {% comment %} <div class="myMessages">
+            <div class="messageBox">
+              <div class="messageText">
+                 <p>{% lorem 1 b random %}</p>
+              </div>
+              <div class="messageTime">
+                <span>12:50</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="friendMessages">
+            <div class="messageBox">
+            <div class="messageText">
+              <p>{% lorem 1 b random %}</p>
+            </div>
+            <div class="messageTime">
+              <span>12:55</span>
+            </div>
+          </div>
+          </div> {% endcomment %}
+
+
+        </div>
+        <div class="chat-input">
+          <input type="text" name="" id="sender-input">
+          <img src={% static "webchat/images/buttons/send.png" %} onclick="sendMessage()">
+        </div>
       </div>
-      <div class="chat-input">
-        <input type="text" name="" id="sender-input">
-        <img src={% static "webchat/images/buttons/send.png" %} onclick="sendMessage()">
-      </div>
-    </div>
     </div>
 
 
   </main>
 </body>
 <script>
-  const profileID = {{ user_profile.id }}
+  const selfProfileID = {{ user_profile.id }}
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src={% static "webchat/js/apiCommunicator.js" %}></script>

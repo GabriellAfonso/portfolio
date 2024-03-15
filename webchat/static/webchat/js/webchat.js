@@ -1,45 +1,61 @@
-let SpanUsername = document.getElementById('username');
+//escolher nome melhores pras variaveis 
+//js pra carregar todos os dom instanciados
+//separar em funçoes menores
+
+
+
+const Api = new ApiCommunicator(window.location.href)
+
+let profileUsername = document.getElementById('username');
 let inputUsername = document.getElementById('input-username')
-let usernamePencil = document.getElementById('edit-pencil-username');
+let usernameEditPencil = document.getElementById('edit-pencil-username');
 let confirmUsername = document.getElementById('username-confirm');
 let photoChanger = document.getElementById('photoChanger');
 let DivPerfilTab = document.getElementById('perfil-controller');
 let DivNewChatTab = document.getElementById('new-chat-tab');
-let chatContent = document.getElementById('chat-content');
-let senderInput = document.getElementById('sender-input');
+let chatRoomContent = document.getElementById('chat-content');
+let messageSenderInput = document.getElementById('sender-input');
+let searchProfiles = document.getElementById('search-profiles')
 
-var roomOpen
+let chatRoomName = chatRoomContent.querySelector('.chat-name span');
+let chatRoomPicture = chatRoomContent.querySelector('.chat-picture img');
+let chatBody = chatRoomContent.querySelector('.chat-body');
 
+let activeRoomID = 0
 
-senderInput.addEventListener("keyup", function (event) {
+// setInterval(function () {
+//     openRoom(activeRoom);
+// }, 2000);
+
+messageSenderInput.addEventListener("keyup", function (event) {
 
     if (event.key === "Enter") {
         sendMessage()
     }
 })
 
-const Api = new ApiCommunicator(window.location.href)
 
 function updateElements() {
-    SpanUsername = document.getElementById('username');
+    profileUsername = document.getElementById('username');
     inputUsername = document.getElementById('input-username')
-    usernamePencil = document.getElementById('edit-pencil-username');
+    usernameEditPencil = document.getElementById('edit-pencil-username');
     confirmUsername = document.getElementById('username-confirm');
     photoChanger = document.getElementById('photoChanger');
     DivPerfilTab = document.getElementById('perfil-controller');
     DivNewChatTab = document.getElementById('new-chat-tab');
 }
 
-document.getElementById('search-profiles').addEventListener('input', filterProfiles);
+searchProfiles.addEventListener('input', filterProfiles);
 
 function filterProfiles() {
-    var input = document.getElementById('search-profiles');
+    var input = searchProfiles
     var filter = input.value.toUpperCase().trim();
     var profiles = document.getElementsByClassName('profiles-div');
 
     for (var i = 0; i < profiles.length; i++) {
         var username = profiles[i].getElementsByClassName('user-name')[0];
         var usernameText = username.textContent.toUpperCase().trim();
+
         if (usernameText.startsWith(filter)) {
             profiles[i].style.display = "";
         } else {
@@ -58,10 +74,10 @@ function toggleTab(tab) {
         } else {
             DivPerfilTab.style.left = "0px";
 
-            SpanUsername.style.display = 'inline'
+            profileUsername.style.display = 'inline'
             inputUsername.style.display = 'none'
             confirmUsername.style.display = 'none'
-            usernamePencil.style.display = 'inline'
+            usernameEditPencil.style.display = 'inline'
         }
     }
 
@@ -80,11 +96,11 @@ function toggleTab(tab) {
 function usernameEditor() {
 
     confirmUsername.style.display = 'inline'
-    usernamePencil.style.display = 'none'
+    usernameEditPencil.style.display = 'none'
 
-    inputUsername.value = SpanUsername.textContent;
+    inputUsername.value = profileUsername.textContent;
 
-    SpanUsername.style.display = 'none'
+    profileUsername.style.display = 'none'
     inputUsername.style.display = 'inline'
 
     inputUsername.focus()
@@ -98,16 +114,16 @@ function usernameEditor() {
 
 function usernameUpdate() {
 
-    SpanUsername.style.display = 'inline'
+    profileUsername.style.display = 'inline'
     inputUsername.style.display = 'none'
     confirmUsername.style.display = 'none'
-    usernamePencil.style.display = 'inline'
+    usernameEditPencil.style.display = 'inline'
 
-    var endpoint = `api/profile/${profileID}/`;
+    var endpoint = `api/profile/${selfProfileID}/`;
     var data = { username: inputUsername.value }
-    if (SpanUsername.textContent != inputUsername.value) {
+    if (profileUsername.textContent != inputUsername.value) {
         Api.patchData(endpoint, data)
-        SpanUsername.textContent = inputUsername.value
+        profileUsername.textContent = inputUsername.value
     }
 }
 
@@ -130,7 +146,7 @@ async function updatePhotoProfile(input) {
     var arquivo = input.files[0];
 
 
-    var url = `api/profile/${profileID}/`;
+    var url = `api/profile/${selfProfileID}/`;
     await Api.profilePictureUpdate(url, arquivo)
 
     await updateHtmlContent('#perfil-picture')
@@ -148,104 +164,129 @@ async function startChat(profile1ID, profile2ID) {
     await updateHtmlContent('#perfil-controller')
 }
 
-async function openRoom(id) {
+async function openRoom(room_id) {
+    if (room_id == 0) { return false }
 
-    roomOpen = id
+    activeRoomID = room_id
+
     console.log('abrindo room')
-    var endpoint = `api/chatrooms/${id}/view_messages/`
+    var endpoint = `api/chatrooms/${room_id}/view_messages/`
     var chatData = await Api.getData(endpoint)
-    var members = chatData.chatroom.members
-    let friendPicture
-    let friendName
-    var chatName = chatContent.querySelector('.chat-name span');
-    var chatPicture = chatContent.querySelector('.chat-picture img');
-    var chatBody = chatContent.querySelector('.chat-body');
+
+    var roomMembers = chatData.chatroom.members
+    var roomMessages = chatData.messages
 
 
+    // clearChatBody()
 
-    chatBody.innerHTML = ''
-    members.forEach(members => {
-        if (members.id != profileID) {
-            friendPicture = members.profile_picture
-            friendName = members.username
+    roomMessages = formatMessageDates(roomMessages)
+
+
+    const messagesByDay = {};
+    roomMessages.forEach(message => {
+        const dateKey = message.timestamp.toDateString();
+        if (!messagesByDay[dateKey]) {
+            messagesByDay[dateKey] = [];
         }
+        messagesByDay[dateKey].push(message);
     });
 
+    console.log(messagesByDay)
+
+    chatRoomCostructor(roomMembers, roomMessages)
 
 
-
-
-
-    // Adicionando um campo de carimbo de data/hora às mensagens
-    chatData.messages.forEach(message => {
-        message.timestamp = new Date(message.timestamp);
-    });
-
-    // Ordenando as mensagens por data/hora
-    chatData.messages.sort((a, b) => a.timestamp - b.timestamp);
-
-    // Separando mensagens por remetente
-    const myMessages = [];
-    const friendMessages = [];
-
-
-    chatData.messages.forEach(message => {
-        if (message.sender === profileID) {
-            myMessages.push(message);
-
-            var myDiv = `
-            <div class="myMessages">
-              <div class="messageContent">
-                <p>${message.content}</p>
-              </div>
-            </div>
-            `;
-
-            chatBody.innerHTML += myDiv
-
-
-        } else {
-            friendMessages.push(message);
-            var friendDiv = `
-            <div class="friendMessages">
-              <div class="friendMessageContent">
-                <p>${message.content}</p>
-              </div>
-            </div>
-            `;
-            chatBody.innerHTML += friendDiv
-        }
-    });
-
-    // Exibindo mensagens separadas
-    console.log("Minhas mensagens:", myMessages);
-    console.log("Mensagens da outra pessoa:", friendMessages);
-
-
-
-
-
-
-    chatName.textContent = friendName;
-    chatPicture.src = friendPicture;
-    chatContent.style.display = 'block'
-
-    // Separar o que são meus dados e o que são dados de quem eu estou conversando
 }
 
 
+function chatRoomCostructor(roomMembers, roomMessages) {
+    roomMessages.forEach(message => {
+        if (message.sender === selfProfileID) {
+            addSelfDivMessage(message)
+
+        } else {
+            addFriendDivMessage(message)
+        }
+    });
+
+    const friendINFO = getFriendInfo(roomMembers)
+    chatRoomName.textContent = friendINFO.friendName;
+    chatRoomPicture.src = friendINFO.friendPicture;
+    chatRoomContent.style.display = 'block'
+}
+
+
+function addSelfDivMessage(message) {
+    const Div = `
+    <div class="myMessages">
+    <div class="messageBox">
+      <div class="messageText">
+         <p>${message.content}</p>
+      </div>
+      <div class="messageTime">
+        <span>12:50</span>
+      </div>
+    </div>
+  </div>`;
+
+    chatBody.innerHTML += Div;
+}
+
+
+function addFriendDivMessage(message) {
+    const Div = `
+    <div class="friendMessages">
+            <div class="messageBox">
+            <div class="messageText">
+            <p>${message.content}</p>
+            </div>
+            <div class="messageTime">
+              <span>12:55</span>
+            </div>
+          </div>
+          </div>`;
+
+    chatBody.innerHTML += Div;
+}
+
+
+function getFriendInfo(membersRoom) {
+    const friendINFO = {}
+    membersRoom.forEach(member => {
+        if (member.id != selfProfileID) {
+            friendINFO.friendPicture = member.profile_picture
+            friendINFO.friendName = member.username
+        }
+    });
+    return friendINFO
+}
+
+function formatMessageDates(roomMessages) {
+    roomMessages.forEach(message => {
+        message.timestamp = new Date(message.timestamp);
+    });
+
+    return roomMessages
+}
+
+function clearChatBody() {
+    chatBody.innerHTML = '';
+}
+
+
+
 async function sendMessage() {
-    var endpoint = `api/chatrooms/${roomOpen}/send_message/`
+    var endpoint = `api/chatrooms/${activeRoomID}/send_message/`
     var data = {
-        room: roomOpen,
-        sender: profileID,
-        content: senderInput.value
+        room: activeRoomID,
+        sender: selfProfileID,
+        content: messageSenderInput.value
     }
 
     console.log(data)
     await Api.postData(endpoint, data)
-    senderInput.value = ''
-    openRoom(roomOpen)
+    messageSenderInput.value = ''
+    openRoom(activeRoomID)
 }
 
 
