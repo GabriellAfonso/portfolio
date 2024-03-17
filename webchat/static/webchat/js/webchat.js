@@ -16,6 +16,7 @@ let DivNewChatTab = document.getElementById('new-chat-tab');
 let chatRoomContent = document.getElementById('chat-content');
 let messageSenderInput = document.getElementById('sender-input');
 let searchProfiles = document.getElementById('search-profiles')
+let searchRooms = document.getElementById('search-rooms')
 
 let chatRoomName = chatRoomContent.querySelector('.chat-name span');
 let chatRoomPicture = chatRoomContent.querySelector('.chat-picture img');
@@ -54,6 +55,25 @@ function filterProfiles() {
 
     for (var i = 0; i < profiles.length; i++) {
         var username = profiles[i].getElementsByClassName('user-name')[0];
+        var usernameText = username.textContent.toUpperCase().trim();
+
+        if (usernameText.startsWith(filter)) {
+            profiles[i].style.display = "";
+        } else {
+            profiles[i].style.display = "none";
+        }
+    }
+}
+
+searchRooms.addEventListener('input', filterRooms);
+
+function filterRooms() {
+    var input = searchRooms
+    var filter = input.value.toUpperCase().trim();
+    var profiles = document.getElementsByClassName('chatroom');
+
+    for (var i = 0; i < profiles.length; i++) {
+        var username = profiles[i].getElementsByClassName('chatroom-username')[0];
         var usernameText = username.textContent.toUpperCase().trim();
 
         if (usernameText.startsWith(filter)) {
@@ -164,6 +184,11 @@ async function startChat(profile1ID, profile2ID) {
     await updateHtmlContent('#perfil-controller')
 }
 
+
+function scrollToBottom() {
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
 async function openRoom(room_id) {
     if (room_id == 0) { return false }
 
@@ -177,37 +202,49 @@ async function openRoom(room_id) {
     var roomMessages = chatData.messages
 
 
-    // clearChatBody()
+    clearChatBody()
 
     roomMessages = formatMessageDates(roomMessages)
+    roomMessages = groupMessagesByDay(roomMessages)
+    console.log(roomMessages)
 
 
-    const messagesByDay = {};
+
+
+
+
+    await chatRoomCostructor(roomMembers, roomMessages)
+
+    scrollToBottom()
+}
+
+function groupMessagesByDay(roomMessages) {
+    const groupedMessages = {};
+
     roomMessages.forEach(message => {
-        const dateKey = message.timestamp.toDateString();
-        if (!messagesByDay[dateKey]) {
-            messagesByDay[dateKey] = [];
+        const date = new Date(message.timestamp).toLocaleDateString();
+        if (!groupedMessages[date]) {
+            groupedMessages[date] = [];
         }
-        messagesByDay[dateKey].push(message);
+        groupedMessages[date].push(message);
     });
-
-    console.log(messagesByDay)
-
-    chatRoomCostructor(roomMembers, roomMessages)
-
-
+    return groupedMessages;
 }
 
 
-function chatRoomCostructor(roomMembers, roomMessages) {
-    roomMessages.forEach(message => {
-        if (message.sender === selfProfileID) {
-            addSelfDivMessage(message)
 
-        } else {
-            addFriendDivMessage(message)
-        }
-    });
+async function chatRoomCostructor(roomMembers, roomMessages) {
+    for (const date in roomMessages) {
+        displayDate(date)
+        roomMessages[date].forEach(message => {
+            if (message.sender === selfProfileID) {
+                addSelfDivMessage(message)
+
+            } else {
+                addFriendDivMessage(message)
+            }
+        });
+    }
 
     const friendINFO = getFriendInfo(roomMembers)
     chatRoomName.textContent = friendINFO.friendName;
@@ -216,6 +253,38 @@ function chatRoomCostructor(roomMembers, roomMessages) {
 }
 
 
+function displayDate(date) {
+    const today = new Date().toLocaleDateString();
+    const yesterday = getYesterdayDate()
+
+
+    if (today == date) {
+        addDateDiv('Today')
+    } else if (yesterday == date) {
+        addDateDiv('Yesterday')
+    } else {
+        addDateDiv(date)
+    }
+}
+
+function getYesterdayDate() {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    return yesterday.toLocaleDateString();
+}
+
+function addDateDiv(date) {
+    //criar um date verification de today yesterday etc
+    const Div = `
+    <div class="messagesDate">
+    <div class="dateBox">
+      <span>${date}</span>
+    </div>
+  </div>`;
+
+    chatBody.innerHTML += Div;
+}
 function addSelfDivMessage(message) {
     const Div = `
     <div class="myMessages">
@@ -224,7 +293,7 @@ function addSelfDivMessage(message) {
          <p>${message.content}</p>
       </div>
       <div class="messageTime">
-        <span>12:50</span>
+        <span>${message.time}</span>
       </div>
     </div>
   </div>`;
@@ -241,7 +310,7 @@ function addFriendDivMessage(message) {
             <p>${message.content}</p>
             </div>
             <div class="messageTime">
-              <span>12:55</span>
+              <span>${message.time}</span>
             </div>
           </div>
           </div>`;
@@ -264,6 +333,10 @@ function getFriendInfo(membersRoom) {
 function formatMessageDates(roomMessages) {
     roomMessages.forEach(message => {
         message.timestamp = new Date(message.timestamp);
+        var messageDate = message.timestamp
+        const hora = messageDate.getHours().toString().padStart(2, '0');
+        const minuto = messageDate.getMinutes().toString().padStart(2, '0');
+        message.time = `${hora}:${minuto}`
     });
 
     return roomMessages

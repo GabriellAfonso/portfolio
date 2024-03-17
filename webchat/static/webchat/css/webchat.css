@@ -1,7 +1,9 @@
 * {
     padding: 0;
     margin: 0;
-
+    font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+    --textwhite: #d1d7db;
+    --headerColor: rgb(3, 141, 146);
 }
 
 body {
@@ -11,7 +13,7 @@ body {
 
 main {
     display: flex;
-    background-color: rgb(70, 70, 70);
+    background-color: rgb(21, 59, 60);
     width: 100vw;
     height: 100vh;
 
@@ -25,7 +27,7 @@ main {
     max-width: 400px;
     height: 100%;
     transition: left 0.3s ease;
-    background-color: hsl(0, 0%, 95%);
+    background-color: rgb(21, 59, 60);
 }
 
 .tab-header {
@@ -34,12 +36,11 @@ main {
     align-items: center;
     padding-top: 20px;
     padding-bottom: 5px;
-    background-color: hsl(0, 0%, 72%);
+    background-color: rgb(3, 141, 146);
 }
 
 .tab-header h1 {
     color: rgb(255, 255, 255);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .tab-header img {
@@ -90,6 +91,7 @@ main {
 
 .perfil-span {
     margin-bottom: 20px;
+    color: var(--textwhite)
 }
 
 
@@ -109,6 +111,7 @@ main {
     height: 25px;
     font-size: 1.3rem;
     font-family: 'Segoe UI';
+    color: var(--textwhite)
 }
 
 .perfil-fields img {
@@ -127,7 +130,7 @@ main {
     max-width: 400px;
     height: 100vh;
     transition: left 0.3s ease;
-    background-color: hsl(0, 0%, 95%);
+    background-color: #0e4c4e;
 }
 
 
@@ -140,13 +143,21 @@ main {
 
 }
 
+#profiles::-webkit-scrollbar {
+    width: 4px;
+}
+
+#profiles::-webkit-scrollbar-thumb {
+    background-color: rgb(173, 173, 173);
+}
+
 .profiles-div {
     display: flex;
     align-items: center;
-    margin-top: 3px;
     width: 100%;
     min-height: 10vh;
-    background-color: rgb(202, 202, 202);
+    background-color: #126063;
+    border-bottom: 1px solid #136d70;
 }
 
 .profiles-div .picture {
@@ -187,7 +198,8 @@ main {
     height: 30px;
     font-family: 'Segoe UI';
     font-size: 1.3rem;
-    background-color: hsl(0, 0%, 95%);
+    background-color: rgb(21, 59, 60);
+    color: var(--textwhite);
 }
 
 #username-confirm {
@@ -208,7 +220,8 @@ main {
 }
 
 header {
-    background-color: hsl(0, 0%, 72%);
+    background-color: rgb(3, 141, 146);
+
     min-height: 10vh;
     display: flex;
     justify-content: left;
@@ -244,7 +257,7 @@ header {
 
 
 #Search {
-    background-color: hsl(0, 0%, 95%);
+    background-color: #126063;
     height: 11vh;
     min-height: 10vh;
     display: flex;
@@ -258,7 +271,7 @@ header {
     align-items: center;
     width: 20%;
     height: 70%;
-    background-color: hsl(0, 0%, 72%);
+    background-color: rgb(27, 173, 179);
     border-radius: 10px 0px 0px 10px;
 }
 
@@ -269,7 +282,7 @@ header {
 }
 
 #Search input {
-    background-color: hsl(0, 0%, 72%);
+    background-color: rgb(27, 173, 179);
     border-style: none;
     outline: none;
     width: 70%;
@@ -278,19 +291,40 @@ header {
 }
 
 #rooms {
-    background-color: hsl(0, 0%, 95%);
-    height: 100%;
+    background-color: #0e4c4e;
+
+    min-height: 80vh;
+    max-height: 100%;
+    /* max-height: 79vh; */
+    overflow: hidden;
+    overflow-y: auto;
+
 
 }
+
+#rooms::-webkit-scrollbar {
+    width: 4px;
+}
+
+#rooms::-webkit-scrollbar-thumb {
+    background-color: rgb(173, 173, 173);
+}
+
 
 .chatroom {
     display: flex;
     align-items: center;
-    margin-top: 3px;
+    margin-inline: auto;
+    /* margin-bottom: 3px; */
     width: 100%;
     min-height: 10vh;
-    background-color: aquamarine;
     cursor: pointer;
+    background-color: #126063;
+    border-bottom: 1px solid #136d70;
+}
+
+.chatroom:hover {
+    background-color: #a1a1a188;
 }
 
 .chatroom .chatroom-picture {
@@ -309,10 +343,11 @@ header {
 
 .chatroom .chatroom-username p {
     font-size: 1.5rem;
+    color: rgb(221, 220, 219);
 }
 
 #chat {
-    background-color: hsl(0, 0%, 72%);
+    background-color: rgb(21, 59, 60);
     width: 100%;
 
 }
@@ -331,6 +366,10 @@ header {
     border-radius: 100%;
 }
 
+.chat-name {
+    color: var(--textwhite);
+}
+
 .chat-body {
     height: 80vh;
     max-height: 80vh;
@@ -339,12 +378,21 @@ header {
     overflow-y: scroll;
 }
 
+/* Estilo da barra de rolagem */
+.chat-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+    background-color: rgb(173, 173, 173);
+}
+
 .chat-input {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 10vh;
-    background-color: rgb(63, 73, 88);
+    background-color: #136467;
 }
 
 .chat-input input {
@@ -356,6 +404,8 @@ header {
     width: 80%;
     height: 7vh;
     padding-left: 10px;
+    background-color: #0b3738;
+    color: var(--textwhite);
 }
 
 .chat-input img {
@@ -377,14 +427,18 @@ header {
     padding-inline: 10px;
     padding-block: 5px;
     text-align: center;
-    background-color: rgb(197, 126, 126);
+    background-color: rgb(39, 39, 39);
 }
 
+.messagesDate .dateBox span {
+    color: var(--textwhite);
+}
 
 .myMessages {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    padding-bottom: 15px;
 }
 
 .myMessages .messageBox {
@@ -397,20 +451,22 @@ header {
     padding: 7px;
     border-radius: 5px;
     margin-right: 10px;
-    background-color: rgb(16, 150, 184);
+    background-color: rgb(4, 118, 122);
 }
 
 .myMessages .messageText {
+    font-size: 0.9rem;
     width: 100%;
     margin-right: 10px;
+    color: var(--textwhite);
 
 }
 
 .myMessages .messageTime {
-
+    font-size: 1rem;
     padding-top: 5px;
     font-size: 0.7rem;
-    color: white;
+    color: var(--textwhite);
 }
 
 .friendMessages {
@@ -429,12 +485,14 @@ header {
     padding: 7px;
     border-radius: 5px;
     margin-left: 10px;
-    background-color: rgb(9, 92, 112);
+    background-color: rgb(8, 82, 100);
 }
 
 .friendMessages .messageText {
+    font-size: 0.9rem;
     width: 100%;
     margin-right: 10px;
+    color: var(--textwhite);
 
 }
 

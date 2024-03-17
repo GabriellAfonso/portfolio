@@ -79,7 +79,7 @@
               <p>{{ profile.username|title }}</p>
             </div>
             <div class="new-chat-icon">
-              <img src="{% static " webchat/images/buttons/new_chat_icon.png" %}" alt=""
+              <img src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
                 onclick="startChat(profileID,{{profile.id}})">
             </div>
           </div>
@@ -144,11 +144,11 @@
 
         <div class="chat-body">
 
-          <div class="messagesDate">
+          {% comment %} <div class="messagesDate">
             <div class="dateBox">
               <span>14 de Março, 2024</span>
             </div>
-          </div>
+          </div> {% endcomment %}
 
 
           {% comment %} <div class="myMessages">
