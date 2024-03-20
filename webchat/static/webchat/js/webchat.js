@@ -1,11 +1,6 @@
-//escolher nome melhores pras variaveis 
-//js pra carregar todos os dom instanciados
-//separar em funçoes menores
-
-
-
 const Api = new ApiCommunicator(window.location.href)
 
+//elements instantiated
 let profileUsername = document.getElementById('username');
 let inputUsername = document.getElementById('input-username')
 let usernameEditPencil = document.getElementById('edit-pencil-username');
@@ -13,20 +8,22 @@ let confirmUsername = document.getElementById('username-confirm');
 let photoChanger = document.getElementById('photoChanger');
 let DivPerfilTab = document.getElementById('perfil-controller');
 let DivNewChatTab = document.getElementById('new-chat-tab');
-let chatRoomContent = document.getElementById('chat-content');
 let messageSenderInput = document.getElementById('sender-input');
 let searchProfiles = document.getElementById('search-profiles')
 let searchRooms = document.getElementById('search-rooms')
-
+let chatRoomContent = document.getElementById('chat-content');
 let chatRoomName = chatRoomContent.querySelector('.chat-name span');
 let chatRoomPicture = chatRoomContent.querySelector('.chat-picture img');
 let chatBody = chatRoomContent.querySelector('.chat-body');
 
 let activeRoomID = 0
 
-// setInterval(function () {
-//     openRoom(activeRoom);
-// }, 2000);
+setInterval(() => {
+    if (activeRoomID != 0) {
+        updateRoom()
+    }
+
+}, 1000)
 
 messageSenderInput.addEventListener("keyup", function (event) {
 
@@ -36,18 +33,16 @@ messageSenderInput.addEventListener("keyup", function (event) {
 })
 
 
-function updateElements() {
+function updatePerfilElements() {
     profileUsername = document.getElementById('username');
     inputUsername = document.getElementById('input-username')
     usernameEditPencil = document.getElementById('edit-pencil-username');
     confirmUsername = document.getElementById('username-confirm');
     photoChanger = document.getElementById('photoChanger');
     DivPerfilTab = document.getElementById('perfil-controller');
-    DivNewChatTab = document.getElementById('new-chat-tab');
 }
 
 searchProfiles.addEventListener('input', filterProfiles);
-
 function filterProfiles() {
     var input = searchProfiles
     var filter = input.value.toUpperCase().trim();
@@ -66,7 +61,6 @@ function filterProfiles() {
 }
 
 searchRooms.addEventListener('input', filterRooms);
-
 function filterRooms() {
     var input = searchRooms
     var filter = input.value.toUpperCase().trim();
@@ -141,6 +135,7 @@ function usernameUpdate() {
 
     var endpoint = `api/profile/${selfProfileID}/`;
     var data = { username: inputUsername.value }
+
     if (profileUsername.textContent != inputUsername.value) {
         Api.patchData(endpoint, data)
         profileUsername.textContent = inputUsername.value
@@ -154,7 +149,6 @@ function showPhotoChager() {
 }
 
 function hidePhotoChager(element) {
-
     element.style.display = "none";
 }
 
@@ -165,13 +159,11 @@ function changePhoto() {
 async function updatePhotoProfile(input) {
     var arquivo = input.files[0];
 
-
     var url = `api/profile/${selfProfileID}/`;
     await Api.profilePictureUpdate(url, arquivo)
 
     await updateHtmlContent('#perfil-picture')
     await updateHtmlContent('#main-header')
-    // photoChanger = document.getElementById('photoChanger');
 
 }
 
@@ -189,34 +181,32 @@ function scrollToBottom() {
     chatBody.scrollTop = chatBody.scrollHeight;
 }
 
+
+
 async function openRoom(room_id) {
-    if (room_id == 0) { return false }
-
     activeRoomID = room_id
+    await updateRoom()
+    scrollToBottom()
+}
 
-    console.log('abrindo room')
-    var endpoint = `api/chatrooms/${room_id}/view_messages/`
+
+async function updateRoom() {
+
+    var endpoint = `api/chatrooms/${activeRoomID}/view_messages/`
     var chatData = await Api.getData(endpoint)
+
 
     var roomMembers = chatData.chatroom.members
     var roomMessages = chatData.messages
 
-
-    clearChatBody()
-
     roomMessages = formatMessageDates(roomMessages)
     roomMessages = groupMessagesByDay(roomMessages)
-    console.log(roomMessages)
 
-
-
-
-
-
+    clearChatBody()
     await chatRoomCostructor(roomMembers, roomMessages)
 
-    scrollToBottom()
 }
+
 
 function groupMessagesByDay(roomMessages) {
     const groupedMessages = {};
@@ -275,7 +265,6 @@ function getYesterdayDate() {
 }
 
 function addDateDiv(date) {
-    //criar um date verification de today yesterday etc
     const Div = `
     <div class="messagesDate">
     <div class="dateBox">
@@ -334,9 +323,9 @@ function formatMessageDates(roomMessages) {
     roomMessages.forEach(message => {
         message.timestamp = new Date(message.timestamp);
         var messageDate = message.timestamp
-        const hora = messageDate.getHours().toString().padStart(2, '0');
-        const minuto = messageDate.getMinutes().toString().padStart(2, '0');
-        message.time = `${hora}:${minuto}`
+        const hour = messageDate.getHours().toString().padStart(2, '0');
+        const minute = messageDate.getMinutes().toString().padStart(2, '0');
+        message.time = `${hour}:${minute}`
     });
 
     return roomMessages
@@ -347,7 +336,6 @@ function clearChatBody() {
 }
 
 
-
 async function sendMessage() {
     var endpoint = `api/chatrooms/${activeRoomID}/send_message/`
     var data = {
@@ -356,10 +344,9 @@ async function sendMessage() {
         content: messageSenderInput.value
     }
 
-    console.log(data)
     await Api.postData(endpoint, data)
     messageSenderInput.value = ''
-    openRoom(activeRoomID)
+    updateRoom()
 }
 
 
@@ -374,7 +361,7 @@ async function updateHtmlContent(selector) {
         const contentToUpdate = $(htmlData).find(selector).html();
         await $(selector).html(contentToUpdate);
 
-        updateElements()
+        updatePerfilElements()
     } catch (error) {
         console.error('Erro ao atualizar conteúdo HTML:', error);
         alert('Erro ao atualizar conteúdo HTML');

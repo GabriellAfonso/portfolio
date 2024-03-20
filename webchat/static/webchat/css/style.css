@@ -55,10 +55,10 @@
 
 .form-title {
     display: flex;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     flex-direction: column;
-    width: 150px;
-    margin-top: 35px;
+    width: 200px;
+    margin-top: 25px;
 }
 
 .form-title#RegisterTitle {

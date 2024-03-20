@@ -13,7 +13,7 @@ class ApiCommunicator {
                 throw new Error('Erro ao fazer a solicitação à API');
             }
             const data = await response.json();
-            console.log('Resposta da API:', data);
+            // console.log('Resposta da API:', data);
             return data;
         } catch (error) {
             console.error('Erro:', error.message);

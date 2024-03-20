@@ -6,9 +6,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'webchat/css/webchat.css' %}">
-  <script>
+  <link rel="icon" href="{% static 'webchat/images/favicon.ico' %}" type="image/x-icon">
+  {% comment %} <script>
     const Token = "{{ token }}";
-  </script>
+  </script> {% endcomment %}
 
 
   <title>WebChat</title>
@@ -22,7 +23,7 @@
       <!-- Perfil-controler -->
       <div id="perfil-controller">
         <div class="tab-header">
-          <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('profile')"></span>
+          <span><img title="Go Back" src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('profile')"></span>
           <h1>Perfil</h1>
         </div>
         <div id="perfil-picture" class="perfil-picture">
@@ -30,7 +31,7 @@
             onmouseover="showPhotoChager()" title="Profile Picture">
           <input id="input-photo" type="file" accept="image/*" onchange="updatePhotoProfile(this)"
             style="display: none;">
-          <div id="photoChanger" onmouseout="hidePhotoChager(this)" onclick="changePhoto()">
+          <div title="Change Photo" id="photoChanger" onmouseout="hidePhotoChager(this)" onclick="changePhoto()">
             <span>Trocar Foto</span>
           </div>
         </div>
@@ -44,9 +45,9 @@
             <span id="username">{{ user_profile.username }}</span>
 
             <input type="text" id='input-username' maxlength="20" style="display: none;">
-            <img src={% static "webchat/images/buttons/pencil_icon.png" %} alt="" onclick="usernameEditor()"
+            <img title="Edit Username" src={% static "webchat/images/buttons/pencil.png" %} alt="" onclick="usernameEditor()"
               id="edit-pencil-username">
-            <img src={% static "webchat/images/buttons/confirm_icon.png" %} alt="" onclick="usernameUpdate()"
+            <img title="Confirm" src={% static "webchat/images/buttons/confirm_button.png" %} alt="" onclick="usernameUpdate()"
               id="username-confirm" style="display: none;">
           </div>
         </div>
@@ -56,7 +57,7 @@
 
       <div id="new-chat-tab">
         <div class="tab-header">
-          <span><img src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('new-chat')"></span>
+          <span><img title="Go Back" src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('new-chat')"></span>
           <h1>Start a chat</h1>
         </div>
 
@@ -66,7 +67,6 @@
           </label>
           <input type="text" id="search-profiles">
         </div>
-
 
         <div id="profiles">
           {% for profile in profiles %}
@@ -79,7 +79,7 @@
               <p>{{ profile.username|title }}</p>
             </div>
             <div class="new-chat-icon">
-              <img src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
+              <img title="Start Chat" src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
                 onclick="startChat(profileID,{{profile.id}})">
             </div>
           </div>
@@ -93,12 +93,15 @@
 
       <header>
         <div id="main-header" class="header-items">
-          <img id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
+          <img title="Perfil" id="profile-picture" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture"
             onclick="toggleTab('profile')">
-          <img src={% static "webchat/images/buttons/friends.png" %} class="header-buttons"
+            <div class="profiles-button">
+          <img title="Profiles" src={% static "webchat/images/buttons/profiles.png" %}
             onclick="toggleTab('new-chat')">
-          <a href=" {% url 'webchat:logout' %}"> <img src={% static "webchat/images/buttons/exit-icon.png" %}
-              class="header-buttons"> </a>
+          </div>
+            <div title="Logout" class="logout-button">
+          <a href=" {% url 'webchat:logout' %}"> <img src={% static "webchat/images/buttons/exit.png" %}> </a>
+            </div>
         </div>
       </header>
 

@@ -58,7 +58,7 @@ class ChatRoom(models.Model):
 class Message(models.Model):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    content = models.TextField(max_length=10000)
+    content = models.TextField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
