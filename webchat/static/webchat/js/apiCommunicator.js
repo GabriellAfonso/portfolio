@@ -1,5 +1,3 @@
-
-
 class ApiCommunicator {
     constructor(url) {
         this.baseURL = url
