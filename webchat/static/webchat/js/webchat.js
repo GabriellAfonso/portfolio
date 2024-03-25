@@ -173,7 +173,7 @@ async function startChat(profile1ID, profile2ID) {
     var data = { profile1_id: profile1ID, profile2_id: profile2ID }
     await Api.postData(endpoint, data)
 
-    await updateHtmlContent('#perfil-controller')
+    await updateHtmlContent('#rooms')
 }
 
 
