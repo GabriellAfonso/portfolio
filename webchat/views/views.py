@@ -8,26 +8,37 @@ from ..models import Profile, ChatRoom
 from django.db.models.functions import Lower
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
+from django.views import View
+
+
+# @login_required(login_url='webchat:login')
+# class Webchat(View):
+
+#     def get(self, request):
+#         pass
 
 
 @login_required(login_url='webchat:login')
 def webchat(request):
 
-    if request.user.is_authenticated:
-        user = request.user
-        profiles = Profile.objects.all().annotate(lower_username=Lower(
-            'username')).order_by('lower_username')    # Verifica se o usuario ja existe
-        try:
-            user_profile = Profile.objects.get(user=user)
-            user_profile = Profile.objects.get(user=user)
-        except Profile.DoesNotExist:
-            user_profile = None
+    # if request.user.is_authenticated:
+    #     user = request.user
+    #     profiles = Profile.objects.all().annotate(lower_username=Lower(
+    #         'username')).order_by('lower_username')    # Verifica se o usuario ja existe
+    #     try:
+    #         user_profile = Profile.objects.get(user=user)
+    #         user_profile = Profile.objects.get(user=user)
+    #     except Profile.DoesNotExist:
+    #         user_profile = None
 
-        if not user_profile:
-            user_profile = Profile(user=user)
-            user_profile.username = str(user)
-            user_profile.save()
+    #     if not user_profile:
+    #         user_profile = Profile(user=user)
+    #         user_profile.username = str(user)
+    #         user_profile.save()
 
+    user = request.user
+    profiles = Profile.objects.all().annotate(
+        lower_username=Lower('username')).order_by('lower_username')
     user_profile = Profile.objects.get(user=user)
     user_rooms = ChatRoom.objects.filter(members=user_profile)
 
@@ -107,7 +118,6 @@ def singup(request):
     created_account = False
 
     if request.method == 'POST':
-        print(RegisterForm())
         form = RegisterForm(request.POST)
 
         if form.is_valid():
