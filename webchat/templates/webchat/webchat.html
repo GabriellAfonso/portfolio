@@ -80,7 +80,7 @@
             </div>
             <div class="new-chat-icon">
               <img title="Start Chat" src="{% static "webchat/images/buttons/new_chat_icon.png" %}" alt=""
-                onclick="startChat(profileID,{{profile.id}})">
+                onclick="startChat(selfProfileID,{{profile.id}})">
             </div>
           </div>
           {% endif %}
@@ -113,8 +113,8 @@
       </div>
 
       <div id="rooms">
-        {% for chatroom in user_rooms %}
-        {% for member in chatroom.members %}
+        {% for chatroom in user_chatrooms %}
+        {% with member=chatroom.member %}
         <div class="chatroom" onclick="openRoom('{{ chatroom.chatroom_id }}')">
           <div class="chatroom-picture">
             <img src="{{ member.profile_picture }}" alt="{{ member.username }}">
@@ -122,10 +122,9 @@
           <div class="chatroom-username">
             <p>{{ member.username }}</p>
           </div>
-
         </div>
 
-        {% endfor %}
+        {% endwith %}
         {% endfor %}
       </div>
 

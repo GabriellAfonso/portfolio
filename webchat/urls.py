@@ -10,7 +10,7 @@ urlpatterns = [
     path('singup/', views.singup, name='singup'),
     path('logout/', views.logout_view, name='logout'),
     path('getToken/', views.get_token, name='get_token'),
-    path('', views.webchat, name='chat'),
+    path('', views.Webchat.as_view(), name='chat'),
 
     path('api/profile/<int:pk>/', rest.user_profile, name='user_profile'),
     path('api/newChatRoom/', rest.create_chatroom, name='new_chat_room'),

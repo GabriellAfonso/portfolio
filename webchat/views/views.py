@@ -9,77 +9,59 @@ from django.db.models.functions import Lower
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 from django.views import View
+from django.utils.decorators import method_decorator
 
 
-# @login_required(login_url='webchat:login')
-# class Webchat(View):
+class Webchat(View):
 
-#     def get(self, request):
-#         pass
+    @method_decorator(login_required(login_url='webchat:login'))
+    def get(self, request):
+        user = request.user
+        user_profile = Profile.objects.get(user=user)
+        user_chatrooms = self.__get_user_chatrooms_info(user_profile)
+        profiles = self.__get_all_profiles()
 
+        context = {
+            'user_profile': user_profile,
+            'user_chatrooms': user_chatrooms,
+            'profiles': profiles,
+        }
 
-@login_required(login_url='webchat:login')
-def webchat(request):
+        return render(
+            request,
+            'webchat/webchat.html',
+            context,
+        )
 
-    # if request.user.is_authenticated:
-    #     user = request.user
-    #     profiles = Profile.objects.all().annotate(lower_username=Lower(
-    #         'username')).order_by('lower_username')    # Verifica se o usuario ja existe
-    #     try:
-    #         user_profile = Profile.objects.get(user=user)
-    #         user_profile = Profile.objects.get(user=user)
-    #     except Profile.DoesNotExist:
-    #         user_profile = None
+    def __get_all_profiles(self):
+        profiles = Profile.objects.all().annotate(
+            lower_username=Lower('username')).order_by('lower_username')
+        return profiles
 
-    #     if not user_profile:
-    #         user_profile = Profile(user=user)
-    #         user_profile.username = str(user)
-    #         user_profile.save()
+    def __get_user_chatrooms_info(self, user):
+        user_chatrooms = ChatRoom.objects.filter(members=user)
 
-    user = request.user
-    profiles = Profile.objects.all().annotate(
-        lower_username=Lower('username')).order_by('lower_username')
-    user_profile = Profile.objects.get(user=user)
-    user_rooms = ChatRoom.objects.filter(members=user_profile)
+        chatrooms_member_info = []
 
-    # Lista para armazenar as informações dos membros de cada chatroom
-    chatroom_members_info = []
+        for chatroom in user_chatrooms:
+            member = self.__get_member_except_user(chatroom, user)
 
-    # Itera sobre os chatrooms do usuário
-    for chatroom in user_rooms:
-        # Obtém todos os perfis dos membros do chatroom, excluindo o próprio usuário
-        members_except_user = chatroom.members.exclude(user=user)
-
-        # Lista para armazenar as informações de cada membro do chatroom
-        members_info = []
-
-        # Itera sobre os membros do chatroom
-        for member in members_except_user:
-            # Obtém a imagem de perfil e o nome de usuário de cada membro
             member_info = {
                 'id': member.id,
                 'profile_picture': member.profile_picture.url,
                 'username': member.username,
             }
-            members_info.append(member_info)
 
-        # Adiciona as informações dos membros do chatroom à lista principal
-        chatroom_members_info.append({
-            'chatroom_id': chatroom.id,
-            'members': members_info,
-        })
+            chatrooms_member_info.append({
+                'chatroom_id': chatroom.id,
+                'member': member_info,
+            })
 
-    context = {
-        'profiles': profiles,
-        'user_profile': user_profile,
-        'user_rooms': chatroom_members_info,
-    }
+        return chatrooms_member_info
 
-    return render(
-        request,
-        'webchat/webchat.html',
-        context,
-    )
+    def __get_member_except_user(self, chatroom, user_profile):
+        member = chatroom.members.exclude(user=user_profile.user).first()
+        return member
 
 
 def login(request):
