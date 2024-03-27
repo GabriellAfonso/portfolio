@@ -18,6 +18,7 @@ let chatBody = chatRoomContent.querySelector('.chat-body');
 
 let activeRoomID = 0
 
+//message update
 setInterval(() => {
     if (activeRoomID != 0) {
         updateRoom()
@@ -42,6 +43,7 @@ function updatePerfilElements() {
     DivPerfilTab = document.getElementById('perfil-controller');
 }
 
+
 searchProfiles.addEventListener('input', filterProfiles);
 function filterProfiles() {
     var input = searchProfiles
@@ -59,6 +61,7 @@ function filterProfiles() {
         }
     }
 }
+
 
 searchRooms.addEventListener('input', filterRooms);
 function filterRooms() {
@@ -274,6 +277,8 @@ function addDateDiv(date) {
 
     chatBody.innerHTML += Div;
 }
+
+
 function addSelfDivMessage(message) {
     const Div = `
     <div class="myMessages">
