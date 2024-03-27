@@ -7,7 +7,7 @@ app_name = 'webchat'
 
 urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
-    path('singup/', views.singup, name='singup'),
+    path('singup/', views.Singup.as_view(), name='singup'),
     path('logout/', views.logout_view, name='logout'),
     path('getToken/', views.get_token, name='get_token'),
     path('', views.Webchat.as_view(), name='chat'),

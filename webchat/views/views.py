@@ -89,14 +89,24 @@ class Login(View):
             return redirect('webchat:login')
 
 
-def singup(request):
+class Singup(View):
 
-    form = RegisterForm()
-    created_account = False
+    def get(self, request):
+        form = RegisterForm()
+        created_account = False
+        context = {
+            'form': form,
+            'created_account': created_account,
+        }
 
-    if request.method == 'POST':
+        return render(
+            request,
+            'webchat/singup.html',
+            context,
+        )
+
+    def post(self, request):
         form = RegisterForm(request.POST)
-
         if form.is_valid():
             form.save()
             created_account = True
@@ -108,27 +118,12 @@ def singup(request):
                 context,
             )
 
-        else:
-            pass
-
-    context = {
-        'form': form,
-        'created_account': created_account,
-    }
-
-    return render(
-        request,
-        'webchat/singup.html',
-        context,
-    )
-
 
 @login_required(login_url='webchat:login')
 def get_token(request):
     user = request.user
     token, created = Token.objects.get_or_create(user=user)
     data = {'token': str(token)}
-
     return JsonResponse(data)
 
 
