@@ -7,10 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'webchat/css/webchat.css' %}">
   <link rel="icon" href="{% static 'webchat/images/favicon.ico' %}" type="image/x-icon">
-  {% comment %} <script>
-    const Token = "{{ token }}";
-  </script> {% endcomment %}
-
 
   <title>WebChat</title>
 </head>
@@ -54,7 +50,7 @@
       </div>
       <!-- /Perfil-controler -->
 
-
+      <!-- new chat tab -->
       <div id="new-chat-tab">
         <div class="tab-header">
           <span><img title="Go Back" src={% static "webchat/images/buttons/arrow.png" %} alt="" onclick="toggleTab('new-chat')"></span>
@@ -86,10 +82,8 @@
           {% endif %}
           {% endfor %}
         </div>
-
-
       </div>
-
+    <!-- /new chat tab -->
 
       <header>
         <div id="main-header" class="header-items">
@@ -146,35 +140,6 @@
 
         <div class="chat-body">
 
-          {% comment %} <div class="messagesDate">
-            <div class="dateBox">
-              <span>14 de Março, 2024</span>
-            </div>
-          </div> {% endcomment %}
-
-
-          {% comment %} <div class="myMessages">
-            <div class="messageBox">
-              <div class="messageText">
-                 <p>{% lorem 1 b random %}</p>
-              </div>
-              <div class="messageTime">
-                <span>12:50</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="friendMessages">
-            <div class="messageBox">
-            <div class="messageText">
-              <p>{% lorem 1 b random %}</p>
-            </div>
-            <div class="messageTime">
-              <span>12:55</span>
-            </div>
-          </div>
-          </div> {% endcomment %}
-
 
         </div>
         <div class="chat-input">
@@ -183,14 +148,12 @@
         </div>
       </div>
     </div>
-
-
   </main>
+  
 </body>
 <script>
   const selfProfileID = {{ user_profile.id }}
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src={% static "webchat/js/apiCommunicator.js" %}></script>
 <script src={% static "webchat/js/webchat.js" %}></script>
 
