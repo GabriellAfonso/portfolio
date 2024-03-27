@@ -64,11 +64,19 @@ class Webchat(View):
         return member
 
 
-def login(request):
+class Login(View):
 
-    form = AuthenticationForm(request)
-    if request.method == 'POST':
+    def get(self, request):
+        form = AuthenticationForm(request)
+        context = {'form': form}
 
+        return render(
+            request,
+            'webchat/login.html',
+            context,
+        )
+
+    def post(self, request):
         form = AuthenticationForm(request, data=request.POST)
 
         if form.is_valid():
@@ -79,19 +87,6 @@ def login(request):
         else:
             messages.error(request, 'Usuário ou senha inválidos.')
             return redirect('webchat:login')
-
-    else:
-        form = AuthenticationForm(request)
-
-    context = {
-        'form': form,
-    }
-
-    return render(
-        request,
-        'webchat/login.html',
-        context,
-    )
 
 
 def singup(request):

@@ -6,7 +6,7 @@ from webchat.views import rest
 app_name = 'webchat'
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
+    path('login/', views.Login.as_view(), name='login'),
     path('singup/', views.singup, name='singup'),
     path('logout/', views.logout_view, name='logout'),
     path('getToken/', views.get_token, name='get_token'),
