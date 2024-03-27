@@ -13,7 +13,7 @@ urlpatterns = [
     path('', views.Webchat.as_view(), name='chat'),
 
     path('api/profile/<int:pk>/', rest.UserProfile.as_view(), name='user_profile'),
-    path('api/newChatRoom/', rest.create_chatroom, name='new_chat_room'),
+    path('api/newChatRoom/', rest.CreateChatroom.as_view(), name='new_chat_room'),
     path('api/chatrooms/<int:chatroom_id>/send_message/',
          rest.send_message, name='send_message'),
     path('api/chatrooms/<int:chatroom_id>/view_messages/',

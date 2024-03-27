@@ -40,45 +40,41 @@ class UserProfile(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['POST'])
-def create_chatroom(request):
-    # Obter IDs dos perfis dos dados enviados na solicitação
-    profile1_id = request.data.get('profile1_id')
-    profile2_id = request.data.get('profile2_id')
+class CreateChatroom(APIView):
 
-    # Verificar se os IDs foram fornecidos
-    if not profile1_id or not profile2_id:
-        return Response({"error": "IDs dos perfis não fornecidos"}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        profile1_id = request.data.get('profile1_id')
+        profile2_id = request.data.get('profile2_id')
 
-    try:
-        # Obter perfis do banco de dados
-        profile1 = Profile.objects.get(id=profile1_id)
-        profile2 = Profile.objects.get(id=profile2_id)
-    except Profile.DoesNotExist:
-        return Response({"error": "Perfil não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            profile1 = Profile.objects.get(id=profile1_id)
+            profile2 = Profile.objects.get(id=profile2_id)
+        except Profile.DoesNotExist:
+            return Response({"error": "Profile not found!"}, status=status.HTTP_404_NOT_FOUND)
 
-    # Verificar se já existe um chatroom entre os dois perfis
-    existing_chatroom = ChatRoom.objects.filter(
-        members=profile1
-    ).filter(
-        members=profile2
-    )
+        if self.__chatroom_exists(profile1, profile2):
+            return Response({"error": "There is already a chatroom between these profiles"})
 
-    if existing_chatroom.exists():
-        # Se um chatroom já existir, retornar um erro
-        return Response({"error": "Já existe um chatroom entre esses perfis"})
+        return self.__create_new_chatroom(profile1, profile2)
 
-    # Criar um novo chatroom
-    chatroom = ChatRoom.objects.create()
+    def __chatroom_exists(self, profile1, profile2):
+        existing_chatroom = ChatRoom.objects.filter(
+            members=profile1
+        ).filter(
+            members=profile2
+        )
 
-    # Adicionar perfis como membros do chatroom
-    chatroom.members.add(profile1)
-    chatroom.members.add(profile2)
+        return existing_chatroom.exists()
 
-    # Serializar o chatroom criado
-    serializer = ChatRoomSerializer(chatroom)
+    def __create_new_chatroom(self, profile1, profile2):
+        chatroom = ChatRoom.objects.create()
 
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        chatroom.members.add(profile1)
+        chatroom.members.add(profile2)
+
+        serializer = ChatRoomSerializer(chatroom)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
