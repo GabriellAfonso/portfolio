@@ -10,26 +10,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['id', 'username', 'profile_picture']
 
-    # def validate_user_name(self, value):
-    #     if Profile.objects.filter(user_name=value).exists():
-    #         raise serializers.ValidationError(
-    #             "Este nome de usuário já está em uso. Por favor, escolha outro.")
-    #     return value
-
 
 class ChatRoomSerializer(serializers.ModelSerializer):
-    # Incorporar o ProfileSerializer para serializar os membros
+
     members = ProfileSerializer(many=True)
 
     class Meta:
         model = ChatRoom
         fields = ['id', 'members']
-
-    # def validate_user_name(self, value):
-    #     if Profile.objects.filter(user_name=value).exists():
-    #         raise serializers.ValidationError(
-    #             "Este nome de usuário já está em uso. Por favor, escolha outro.")
-    #     return value
 
 
 class MessageSerializer(serializers.ModelSerializer):
