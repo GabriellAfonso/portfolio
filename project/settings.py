@@ -24,6 +24,7 @@ INSTALLED_APPS = [
 
     'portifolio',
     'webchat',
+    'url_shortener',
 ]
 
 MIDDLEWARE = [
