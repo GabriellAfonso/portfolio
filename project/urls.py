@@ -7,6 +7,7 @@ urlpatterns = [
     path('', include('portifolio.urls')),
     path('webchat/', include('webchat.urls')),
     path('shortener/', include('url_shortener.urls')),
+    path('picpay/', include('picpay.urls')),
     path('admin/', admin.site.urls),
 ]
 
