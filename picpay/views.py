@@ -3,6 +3,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import auth, messages
 from .forms import RegisterForm
+from .models import Profile
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -51,11 +52,26 @@ class Register(View):
         return render(request, 'picpay/register.html', {'form': form})
 
 
-class Profile(View):
+class YourProfile(View):
 
     @method_decorator(login_required(login_url='picpay:login'))
     def get(self, request):
-        return render(request, 'picpay/profile.html')
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        username = self.get_first_and_last_name(profile.complete_name)
+        context = {'username': username,
+                   'balance': profile.balance,
+                   'sex': profile.sex,
+                   }
+        print(context)
+        return render(request, 'picpay/profile.html', context)
+
+    def get_first_and_last_name(self, full_name):
+        parts = full_name.split()
+
+        first_name = parts[0].capitalize()
+        last_name = parts[-1].capitalize()
+        return f"{first_name} {last_name}"
 
 
 class Logout(View):

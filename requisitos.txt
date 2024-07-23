@@ -2,3 +2,5 @@ django
 djangorestframework
 pillow
 validate-docbr
+requests
+

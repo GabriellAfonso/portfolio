@@ -159,13 +159,6 @@ class RegisterForm(UserCreationForm):
             return 'personal'
         return 'merchant'
 
-    def get_first_and_last_name(self, full_name):
-        parts = full_name.split()
-
-        first_name = parts[0]
-        last_name = parts[-1]
-        return f"{first_name} {last_name}"
-
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']

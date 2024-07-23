@@ -1,7 +1,12 @@
-POST http://127.0.0.1:8000/webchat/api/chatrooms/1/send_message/
+
+
+
+# Criando uma transação no PicPay
+POST http://127.0.0.1:8000/picpay/api/transaction/
 Content-Type: application/json
-Authorization: Token e9c2c4e1ccd186026f9a918f18d5ee12ca621f74
 
 {
-    "user_name": "Gabriel"
+  "value": 90,
+  "sender": 2,
+  "receiver": 4
 }
