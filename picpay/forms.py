@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
+import re
+from validate_docbr import CPF, CNPJ
 
 
 class RegisterForm(UserCreationForm):
@@ -90,6 +92,68 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1',
                   'document', 'sex', 'type', 'balance')
+
+    def clean_complete_name(self):
+        name = self.cleaned_data.get('complete_name')
+        if not re.match("^[A-Za-zÀ-ÿ ]+$", name):
+            raise forms.ValidationError('O nome deve conter apenas letras.')
+        return name
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        current_email = self.instance.email
+
+        if current_email != email:
+            if User.objects.filter(email=email).exists():
+                self.add_error(
+                    'email',
+                    forms.ValidationError(
+                        'Este e-mail já esta sendo ultilizado.', code='invalid')
+                )
+        return email
+
+    def clean_document(self):
+        document = self.cleaned_data.get('document')
+        digits_only = re.sub(r'\D', '', document)
+
+        if len(digits_only) not in (11, 14):
+            raise forms.ValidationError(
+                'CPF/CNPJ inválido.')
+
+        document_type = self.cpf_or_cpnj(digits_only)
+
+        if document_type == 'cpf':
+            document = self.cpf_validator(digits_only)
+
+        if document_type == 'cnpj':
+            document = self.cnpj_validator(digits_only)
+
+        return document
+
+    def cpf_or_cpnj(self, document):
+        if len(document) == 11:
+            return 'cpf'
+        return 'cnpj'
+
+    def cpf_validator(self, document):
+        cpf = CPF()
+        doc = cpf.mask(document)
+        if not cpf.validate(doc):
+            raise forms.ValidationError('CPF inválido.')
+        if Profile.objects.filter(document=doc).exists():
+            raise forms.ValidationError('CPF já cadastrado.')
+
+        return doc
+
+    def cnpj_validator(self, document):
+        cnpj = CNPJ()
+        doc = cnpj.mask(document)
+        if not cnpj.validate(doc):
+            raise forms.ValidationError('CNPJ inválido.')
+        if Profile.objects.filter(document=doc).exists():
+            raise forms.ValidationError('CNPJ já cadastrado.')
+
+        return doc
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
