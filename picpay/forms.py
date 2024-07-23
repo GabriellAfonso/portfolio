@@ -56,21 +56,6 @@ class RegisterForm(UserCreationForm):
         }
     )
 
-    type = forms.ChoiceField(
-        required=False,
-        choices=[('personal', 'Personal'), ('merchant', 'Merchant')],
-        error_messages={
-            'required': 'Este campo é obrigatório.',
-        }
-    )
-
-    balance = forms.DecimalField(
-        required=False,
-        max_digits=10,
-        decimal_places=2,
-        error_messages={}
-    )
-
     password1 = forms.CharField(
         required=True,
         label='Password',
@@ -90,8 +75,11 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1',
-                  'document', 'sex', 'type', 'balance')
+        fields = ('complete_name', 'email', 'password1',
+                  'document', 'sex',)
+
+    def clean_username(self):
+        pass
 
     def clean_complete_name(self):
         name = self.cleaned_data.get('complete_name')
@@ -120,18 +108,19 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError(
                 'CPF/CNPJ inválido.')
 
-        document_type = self.cpf_or_cpnj(digits_only)
+        doc_type = self.cpf_or_cpnj(document)
 
-        if document_type == 'cpf':
+        if doc_type == 'cpf':
             document = self.cpf_validator(digits_only)
 
-        if document_type == 'cnpj':
+        if doc_type == 'cnpj':
             document = self.cnpj_validator(digits_only)
 
         return document
 
     def cpf_or_cpnj(self, document):
-        if len(document) == 11:
+        digits_only = re.sub(r'\D', '', document)
+        if len(digits_only) == 11:
             return 'cpf'
         return 'cnpj'
 
@@ -164,6 +153,19 @@ class RegisterForm(UserCreationForm):
             )
         return password1
 
+    def set_account_type(self, document):
+        doc_type = self.cpf_or_cpnj(document)
+        if doc_type == 'cpf':
+            return 'personal'
+        return 'merchant'
+
+    def get_first_and_last_name(self, full_name):
+        parts = full_name.split()
+
+        first_name = parts[0]
+        last_name = parts[-1]
+        return f"{first_name} {last_name}"
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
@@ -173,8 +175,15 @@ class RegisterForm(UserCreationForm):
             user.save()
             profile = Profile(
                 user=user,
+                complete_name=self.cleaned_data['complete_name'],
                 document=self.cleaned_data['document'],
+                document_type=self.cpf_or_cpnj(
+                    self.cleaned_data['document']),
                 sex=self.cleaned_data['sex'],
+                account_type=self.set_account_type(
+                    self.cleaned_data['document']),
+                balance=100
             )
             profile.save()
+
         return user
