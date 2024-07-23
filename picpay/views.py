@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
+from django.contrib import auth, messages
 from .forms import RegisterForm
 
 
@@ -28,7 +29,7 @@ class Register(View):
             print('foi salvo')
             return redirect('picpay:login')
         else:
-            print('nao foi')
+            messages.error(request, 'Usuário ou senha inválidos.')
             print(form.errors)  # Adiciona isso para exibir os erros no console
         return render(request, 'picpay/register.html', {'form': form})
 
