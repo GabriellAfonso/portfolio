@@ -14,6 +14,7 @@ ALLOWED_HOSTS = ['localhost', '192.168.1.109', '127.0.0.1']
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
+    'rolepermissions',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,6 +28,9 @@ INSTALLED_APPS = [
     'picpay',
     'url_shortener',
 ]
+
+ROLEPERMISSIONS_MODULE = 'project.roles'
+ROLEPERMISSIONS_REGISTER_ADMIN = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
