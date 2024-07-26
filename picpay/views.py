@@ -3,11 +3,16 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import auth, messages
 from .forms import RegisterForm
-from .models import Profile
+from .models import Account, Transaction
+from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from rolepermissions.roles import assign_role
+from rolepermissions.checkers import has_permission
+from django.utils.timezone import now
+from django.http import JsonResponse
 
 
 class Login(View):
@@ -46,7 +51,6 @@ class Register(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            print('foi salvo')
             return redirect('picpay:login')
 
         return render(request, 'picpay/register.html', {'form': form})
@@ -57,11 +61,12 @@ class YourProfile(View):
     @method_decorator(login_required(login_url='picpay:login'))
     def get(self, request):
         user = request.user
-        profile = Profile.objects.get(user=user)
-        username = self.get_first_and_last_name(profile.complete_name)
+        account = Account.objects.get(user=user.id)
+        username = self.get_first_and_last_name(account.complete_name)
         context = {'username': username,
-                   'balance': profile.balance,
-                   'sex': profile.sex,
+                   'balance': account.balance,
+                   'sex': account.sex,
+                   'last_transactions': self.get_last_transactions(account)
                    }
         print(context)
         return render(request, 'picpay/profile.html', context)
@@ -73,6 +78,39 @@ class YourProfile(View):
         last_name = parts[-1].capitalize()
         return f"{first_name} {last_name}"
 
+    def get_last_transactions(self, account):
+        last_transactions = Transaction.objects.filter(
+            Q(sender=account) | Q(receiver=account)
+        ).order_by('-created_at')[:3]
+
+        processed_transactions = []
+        for transaction in last_transactions:
+
+            if transaction.sender_id == account.id:
+                action = "Enviou"
+                counterpart = transaction.receiver.complete_name
+            else:
+                action = "Recebeu"
+                counterpart = transaction.sender.complete_name
+
+            time_elapsed = now() - transaction.created_at
+            days_ago = time_elapsed.days
+            if days_ago == 0:
+                time_str = "Hoje"
+            elif days_ago == 1:
+                time_str = "Ontem"
+            else:
+                time_str = f"{days_ago} dias atrás"
+
+            processed_transactions.append({
+                'action': action,
+                'time': time_str,
+                'value': transaction.value,
+                'counterpart': self.get_first_and_last_name(counterpart)
+            })
+
+        return processed_transactions
+
 
 class Logout(View):
 
@@ -80,3 +118,20 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('picpay:login')
+
+
+@login_required(login_url='picpay:login')
+def start_transaction(request):
+    document = request.GET.get('document')
+    print(document)
+    if document:
+        try:
+            account = Account.objects.get(document=document)
+            data = {
+                'name': account.complete_name,
+            }
+            return JsonResponse(data)
+        except Account.DoesNotExist:
+            return JsonResponse({'error': 'Account not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'No document provided'}, status=400)
