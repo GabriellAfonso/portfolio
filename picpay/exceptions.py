@@ -21,7 +21,7 @@ class AccountDoesNotExist(TransactionExceptions):
 class SelfTransferError(TransactionExceptions):
     """Exception raised when a transfer to the same account is attempted."""
 
-    def __init__(self, message="Transfer to the same account is not allowed", status_code=status.HTTP_400_BAD_REQUEST):
+    def __init__(self, message="Transferring to your own account is not allowed", status_code=status.HTTP_400_BAD_REQUEST):
         super().__init__(message, status_code)
 
 
@@ -36,7 +36,7 @@ class InsufficientBalanceError(TransactionExceptions):
 class AuthorizationDenied(TransactionExceptions):
     """Exception raised when authorization is denied."""
 
-    def __init__(self, message="Authorization denied!", status_code=status.HTTP_403_FORBIDDEN):
+    def __init__(self, message="Authorization denied, try again", status_code=status.HTTP_403_FORBIDDEN):
         super().__init__(message, status_code)
 
 
