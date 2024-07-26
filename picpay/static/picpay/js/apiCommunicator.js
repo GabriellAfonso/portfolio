@@ -7,12 +7,14 @@ class ApiCommunicator {
     async send(url, options) {
         try {
             const response = await fetch(url, options);
-            if (!response.ok) {
+
+            const data = await response.json();
+
+            if (response.status >= 500) {
                 throw new Error('Erro ao fazer a solicitação à API');
             }
-            const data = await response.json();
-            // console.log('Resposta da API:', data);
             return data;
+
         } catch (error) {
             console.error('Erro:', error.message);
             throw error;
@@ -22,7 +24,6 @@ class ApiCommunicator {
 
     #options(method, data, includeContentType = true) {
         const headers = {
-            'Authorization': this.#getApiToken(),
             'X-CSRFToken': this.#getCSRFToken(),
         };
 
@@ -71,6 +72,14 @@ class ApiCommunicator {
     }
 
 
+    async profilePictureUpdate(endpoint, picture) {
+        const url = `${this.baseURL}${endpoint}`;
+        const options = this.#options('PATCH', picture, false)
+        console.log(options)
+
+        return await this.send(url, options)
+    }
+
     #getCSRFToken() {
         const cookies = document.cookie.split(';');
         for (const cookie of cookies) {
@@ -82,20 +91,8 @@ class ApiCommunicator {
         return null;
     }
 
-    async #getApiToken() {
-        try {
-            const response = await fetch(this.baseURL + 'getToken/', { method: 'GET' });
-            if (!response.ok) {
-                throw new Error('Erro ao obter token da API');
-            }
-            const data = await response.json();
-            return data.token;
-
-        } catch (error) {
-            console.error('Erro ao obter token:', error);
-            throw error;
-        }
-    };
 
 }
+
+
 

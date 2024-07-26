@@ -147,7 +147,7 @@ body {
     max-width: 100%;
     height: 100%;
     transition: left 0.3s ease;
-    background-color: rgb(21, 59, 60);
+    background-color: #191a19;
 }
 
 #transactionTab form {
@@ -156,11 +156,31 @@ body {
     width: 70%;
 }
 
-.aaa {
-    color: rgb(175, 31, 31);
+
+
+
+
+
+.received {
+    color: #20aa40;
 }
 
+.sent {
+    color: #dc3545;
+}
 
+.confirmation-div {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 75%;
+    max-width: 75%;
+    height: 30%;
+    transition: left 0.3s ease;
+    background-color: #191a19;
+}
 
 @keyframes fadeInMove {
     0% {

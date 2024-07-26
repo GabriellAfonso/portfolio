@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import Login, Register, YourProfile, Logout
+from .views import Login, Register, YourProfile, Logout, start_transaction
 from .rest_views import TransactionRest
 
 
@@ -12,4 +12,6 @@ urlpatterns = [
     path('Seu-perfil/', YourProfile.as_view(), name='profile'),
     path('logout/', Logout.as_view(), name='logout'),
     path('api/transaction/', TransactionRest.as_view(), name='api_transaction'),
+    path('api/start_transaction/', start_transaction,
+         name='start_transaction'),
 ]

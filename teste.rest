@@ -7,6 +7,6 @@ Content-Type: application/json
 
 {
   "value": 90,
-  "sender": 2,
+  "sender": 0,
   "receiver": 4
 }

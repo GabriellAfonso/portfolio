@@ -1,5 +1,6 @@
 django
 djangorestframework
+django-role-permissions
 pillow
 validate-docbr
 requests
