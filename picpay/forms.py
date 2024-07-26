@@ -1,9 +1,11 @@
 from django import forms
+from rolepermissions.roles import assign_role
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Account
 import re
 from validate_docbr import CPF, CNPJ
+from django.db import transaction
 
 
 class RegisterForm(UserCreationForm):
@@ -129,7 +131,7 @@ class RegisterForm(UserCreationForm):
         doc = cpf.mask(document)
         if not cpf.validate(doc):
             raise forms.ValidationError('CPF inválido.')
-        if Profile.objects.filter(document=doc).exists():
+        if Account.objects.filter(document=doc).exists():
             raise forms.ValidationError('CPF já cadastrado.')
 
         return doc
@@ -139,7 +141,7 @@ class RegisterForm(UserCreationForm):
         doc = cnpj.mask(document)
         if not cnpj.validate(doc):
             raise forms.ValidationError('CNPJ inválido.')
-        if Profile.objects.filter(document=doc).exists():
+        if Account.objects.filter(document=doc).exists():
             raise forms.ValidationError('CNPJ já cadastrado.')
 
         return doc
@@ -153,30 +155,35 @@ class RegisterForm(UserCreationForm):
             )
         return password1
 
-    def set_account_type(self, document):
-        doc_type = self.cpf_or_cpnj(document)
+    def get_account_type(self):
+        doc = self.cleaned_data['document']
+        doc_type = self.cpf_or_cpnj(doc)
         if doc_type == 'cpf':
             return 'personal'
         return 'merchant'
 
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.username = self.cleaned_data['email']
-        if commit:
-            user.set_password(self.cleaned_data['password1'])
-            user.save()
-            profile = Profile(
-                user=user,
-                complete_name=self.cleaned_data['complete_name'],
-                document=self.cleaned_data['document'],
-                document_type=self.cpf_or_cpnj(
-                    self.cleaned_data['document']),
-                sex=self.cleaned_data['sex'],
-                account_type=self.set_account_type(
-                    self.cleaned_data['document']),
-                balance=100
-            )
-            profile.save()
+        with transaction.atomic():
+            user = super().save(commit=False)
+            user.email = self.cleaned_data['email']
+            user.username = self.cleaned_data['email']
+
+            if commit:
+                user.set_password(self.cleaned_data['password1'])
+                user.save()
+
+                assign_role(user, self.get_account_type())
+
+                account = Account(
+                    user=user,
+                    complete_name=self.cleaned_data['complete_name'],
+                    document=self.cleaned_data['document'],
+                    document_type=self.cpf_or_cpnj(
+                        self.cleaned_data['document']),
+                    sex=self.cleaned_data['sex'],
+                    account_type=self.get_account_type(),
+                    balance=100
+                )
+                account.save()
 
         return user
