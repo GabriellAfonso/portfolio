@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'webchat',
     'picpay',
     'url_shortener',
+    'igreja',
 ]
 
 ROLEPERMISSIONS_MODULE = 'project.roles'
