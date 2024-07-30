@@ -210,6 +210,8 @@ nav a:hover {
 .projects {
     background-color: hsl(0, 0%, 5%);
     justify-items: center;
+    min-height: 92vh;
+    max-height: 100%;
 
 }
 
@@ -217,19 +219,20 @@ nav a:hover {
     color: #a604e6;
     font-size: 33px;
     text-align: center;
-    padding-top: 12vh;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
 }
 
 .projects-container {
-    padding-top: 3vw;
     display: grid;
-    grid-template-columns: 300px 300px 300px;
+    grid-template-columns: 300px 300px 300px 300px;
     gap: 30px;
     justify-content: center;
 
 }
 
 .card {
+    margin-inline: auto;
     width: 300px;
     height: 500px;
     border-radius: 5px;
@@ -245,7 +248,26 @@ nav a:hover {
     text-align: center;
     color: #ECECEC;
     font-size: 22px;
-    padding-top: 20px;
+    margin-top: 20px;
+}
+
+
+@media (max-width: 1200px) {
+    .projects-container {
+        grid-template-columns: repeat(3, 300px);
+    }
+}
+
+@media (max-width: 900px) {
+    .projects-container {
+        grid-template-columns: repeat(2, 300px);
+    }
+}
+
+@media (max-width: 600px) {
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Div pro mobile */
