@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Category, Music, Played
 
-# Register your models here.
+admin.site.register(Category)
+admin.site.register(Music)
+admin.site.register(Played)
