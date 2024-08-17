@@ -12,47 +12,109 @@
 <body class="d-flex bg-body-tertiary">
 
     <div class="m-auto my-tables">
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Ultimas Tocadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Mais Tocadas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Tons mais frequntes</a>
-        </li>
-      </ul>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#" onclick="changeView('last_songs')">Últimas Tocadas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeView('top_songs')">Mais Tocadas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="changeView('top_tones')">Tons mais Frequentes</a>
+            </li>
+        </ul>
+        
         <table class="table table-striped table-dark">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
+            <thead id="table-head">
+                <!-- Cabeçalhos padrão para as "Últimas Tocadas" -->
+                <tr>
+                    <th scope="col" style="padding-right: 20px;">#</th>
+                    <th scope="col" style="padding-right: 20px;">Nome</th>
+                    <th scope="col" style="padding-right: 20px;">Tom</th>
+                    <th scope="col" style="padding-right: 0px;">Data</th>
+                    <th scope="col" style="padding-right: 0px;">Artista</th>
+                </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+            <tbody id="table-body">
+                <!-- Linhas para "Últimas Tocadas" -->
+                {% for song in last_songs %}
+                <tr data-view="last_songs">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ song.music.title }}</td>
+                    <td>{{ song.tone }}</td>
+                    <td>{{ song.date }}</td>
+                    <td>{{ song.music.artist|slice:":20" }}{% if song.music.artist|length > 20 %}...{% endif %}</td>
+                </tr>
+                {% endfor %}
+                <!-- Linhas para "Mais Tocadas" -->
+                {% for song in top_songs %}
+                <tr data-view="top_songs" style="display: none;">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ song.music__title }}</td>
+                    <td>{{ song.play_count }}</td>
+                </tr>
+                {% endfor %}
+                <!-- Linhas para "Tons mais Frequentes" -->
+                {% for tone in top_tones %}
+                <tr data-view="top_tones" style="display: none;">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ tone.tone }}</td>
+                    <td>{{ tone.tone_count }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
+        </table>
     </div>
+
+    <script>
+        function changeView(viewType) {
+            // Remove a classe ativa de todas as abas
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Adiciona a classe ativa ao link clicado
+            event.target.classList.add('active');
+
+            // Atualiza os cabeçalhos da tabela com base na visualização selecionada
+            let theadHTML = '';
+            if (viewType === 'last_songs') {
+                theadHTML = `
+                    <tr>
+                        <th scope="col" style="padding-right: 20px;">#</th>
+                        <th scope="col" style="padding-right: 20px;">Nome</th>
+                        <th scope="col" style="padding-right: 20px;">Tom</th>
+                        <th scope="col" style="padding-right: 0px;">Data</th>
+                        <th scope="col" style="padding-right: 0px;">Artista</th>
+                    </tr>`;
+            } else if (viewType === 'top_songs') {
+                theadHTML = `
+                    <tr>
+                        <th scope="col" style="padding-right: 20px;">#</th>
+                        <th scope="col" style="padding-right: 40px;">Nome</th>
+                        <th scope="col" style="padding-right: 80px;">Vezes</th>
+                    </tr>`;
+            } else if (viewType === 'top_tones') {
+                theadHTML = `
+                    <tr>
+                        <th scope="col" style="">#</th>
+                        <th scope="col" style="">Tom</th>
+                        <th scope="col" style="">Vezes</th>
+                    </tr>`;
+            }
+            document.getElementById('table-head').innerHTML = theadHTML;
+            
+            // Esconde todas as linhas da tabela
+            document.querySelectorAll('#table-body tr').forEach(row => {
+                row.style.display = 'none';
+            });
+
+            // Mostra apenas as linhas da tabela correspondentes à viewType selecionada
+            document.querySelectorAll(`#table-body tr[data-view="${viewType}"]`).forEach(row => {
+                row.style.display = '';
+            });
+        }
+    </script>
+
 </body>
 </html>

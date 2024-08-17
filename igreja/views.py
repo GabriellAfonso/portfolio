@@ -1,6 +1,8 @@
-from django.shortcuts import render
+import re
+from django.shortcuts import render, redirect
 from django.views import View
-from .models import Music
+from django.db.models import Count
+from .models import Music, Played
 
 
 class Home(View):
@@ -12,7 +14,22 @@ class Home(View):
 class Tables(View):
 
     def get(self, request):
-        return render(request, 'igreja/tables.html')
+        last_songs = Played.objects.all().order_by('-date')[:16]
+
+        top_songs = Played.objects.values('music__title').annotate(
+            play_count=Count('music')).order_by('-play_count')
+
+        top_tones = Played.objects.values('tone').annotate(
+            tone_count=Count('tone')).order_by('-tone_count')
+
+        print(top_songs)
+        context = {
+            'last_songs': last_songs,
+            'top_songs': top_songs,
+            'top_tones': top_tones,
+        }
+
+        return render(request, 'igreja/tables.html', context)
 
 
 class RegisterSundays(View):
@@ -27,23 +44,46 @@ class RegisterSundays(View):
         }
         return render(request, 'igreja/register_sundays.html', context)
 
-    # def post(self, request):
-    #     # Capturando dados do formulário
-    #     date = request.POST.get('date')
-    #     musics = [
-    #         (request.POST.get('first_music'), request.POST.get('tune_first_music')),
-    #         (request.POST.get('second_music'),
-    #          request.POST.get('tune_second_music')),
-    #         (request.POST.get('third_music'), request.POST.get('tune_third_music')),
-    #         (request.POST.get('fourth_music'),
-    #          request.POST.get('tune_fourth_music')),
-    #     ]
+    def post(self, request):
+        # Capturando dados do formulário
+        date = request.POST.get('date')
+        musics = [
+            (request.POST.get('first_music'),
+             request.POST.get('tone_first_music'), 1),
+            (request.POST.get('second_music'),
+             request.POST.get('tone_second_music'), 2),
+            (request.POST.get('third_music'),
+             request.POST.get('tone_third_music'), 3),
+            (request.POST.get('fourth_music'),
+             request.POST.get('tone_fourth_music'), 4),
+        ]
 
-    #     # Salvando músicas no banco de dados com a mesma data
-    #     for name, tone in musics:
-    #         if name:
-    #             music_name = name.strip().upper()
-    #             Music.objects.create(
-    #                 name=music_name, date=date, tone=tone or None)
+        print(musics)
+        # Salvando músicas no banco de dados com a mesma data
+        for music, tone, position in musics:
+            if music:
+                cleaned_name,  artist = self.clean_music_title(music)
+                print(artist)
+                try:
+                    music = Music.objects.get(
+                        title=cleaned_name,  artist=artist)
+                    music_id = music.id
+                except Music.DoesNotExist:
+                    # Caso a música não seja encontrada, continue com o próximo item
+                    music_id = None
+                    # Opcional: você pode adicionar uma mensagem de erro aqui
 
-    #     return redirect('culto_musicas:home')
+                if music_id:
+                    Played.objects.create(
+                        music_id=music_id, date=date, tone=tone, position=position
+                    )
+        return redirect('igreja:tabela')
+
+    def clean_music_title(self, title):
+        match = re.match(r'^(.*?)\s*\((.*?)\)\s*$', title)
+        if match:
+            cleaned_title = match.group(1).strip()
+            artist = match.group(2).strip()
+            return [cleaned_title,  artist]
+
+        return [title.strip(), '']

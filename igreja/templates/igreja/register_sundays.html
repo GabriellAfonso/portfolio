@@ -68,8 +68,30 @@
             <div>
                 <button class="btn btn-primary" type="submit">Salvar dados</button>
             </div>
+
         </div>
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function checkMusicAndTone(musicId, toneId) {
+                const music = $(musicId);
+                const tone = $(toneId);
+                
+                music.on('input', function() {
+                    if (music.val().trim() !== "") {
+                        tone.attr('required', true);
+                    } else {
+                        tone.removeAttr('required');
+                    }
+                });
+            }
+
+            checkMusicAndTone('#first_music', '#tone_first_music');
+            checkMusicAndTone('#second_music', '#tone_second_music');
+            checkMusicAndTone('#third_music', '#tone_third_music');
+            checkMusicAndTone('#fourth_music', '#tone_fourth_music');
+        });
+    </script>
 </body>
 </html>

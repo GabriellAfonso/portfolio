@@ -29,7 +29,7 @@ form {
     display: flex;
     justify-content: center;
     margin: auto;
-    width: 80%;
+    width: 100%;
     margin-bottom: 10px;
     /* Diminui o conteúdo para 80% do tamanho original */
     /* Define o ponto de origem do redimensionamento */
@@ -37,16 +37,26 @@ form {
 
 select {
     padding: 10px;
+    padding-right: 10px;
     font-size: 16px;
     border: none;
     background-color: #383737;
     border-radius: 4px;
-
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
+
+
 
 .select-music {
     width: 80%;
     margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #383737;
+    border-radius: 4px;
 }
 
 .select-tone {
@@ -55,7 +65,7 @@ select {
 }
 
 .date-div {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .date-div label {
@@ -69,28 +79,5 @@ select {
 
 
 button {
-    margin-top: 20px;
+    margin-top: 10px;
 }
-
-/* @media (max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
-
-    .card-container div {
-        display: flex;
-        justify-content: center;
-        margin: auto;
-        width: 100%;
-        margin-bottom: 4px;
-
-    }
-
-    .select-music {
-        width: 60%;
-    }
-
-    select {
-        padding: 8px;
-    }
-} */
