@@ -19,7 +19,7 @@
                 <input list="musics" id="first_music" name="first_music" class="select-music" placeholder="Música 1">
                 <datalist id="musics">
                     {% for music in musics %}
-                        <option value="{{ music.title }} ({{ music.artist }})"></option>
+                        <option value="{{ music.title }} [{{ music.artist }}]"></option>
                     {% endfor %}
                 </datalist>
                 <select id="tone_first_music" name="tone_first_music">

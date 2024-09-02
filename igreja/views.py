@@ -1,7 +1,9 @@
 import re
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.views import View
 from django.db.models import Count
+from django.db.models import Q
 from .models import Music, Played
 
 
@@ -14,7 +16,7 @@ class Home(View):
 class Tables(View):
 
     def get(self, request):
-        last_songs = Played.objects.all().order_by('-date')[:16]
+        last_songs = Played.objects.all().order_by('-date')
 
         top_songs = Played.objects.values('music__title').annotate(
             play_count=Count('music')).order_by('-play_count')
@@ -63,7 +65,6 @@ class RegisterSundays(View):
         for music, tone, position in musics:
             if music:
                 cleaned_name,  artist = self.clean_music_title(music)
-                print(artist)
                 try:
                     music = Music.objects.get(
                         title=cleaned_name,  artist=artist)
@@ -80,10 +81,31 @@ class RegisterSundays(View):
         return redirect('igreja:tabela')
 
     def clean_music_title(self, title):
-        match = re.match(r'^(.*?)\s*\((.*?)\)\s*$', title)
+        match = re.match(r'^(.*?)\s*\[(.*?)\]\s*$', title)
         if match:
             cleaned_title = match.group(1).strip()
             artist = match.group(2).strip()
             return [cleaned_title,  artist]
 
         return [title.strip(), '']
+
+
+class FindMusic(View):
+    def get(self, request):
+        query = request.GET.get('query')
+        if query:
+            musics = Music.objects.filter(
+                Q(title__icontains=query) | Q(artist__icontains=query)
+            )
+        else:
+            musics = Music.objects.all()
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            # Se a requisição for AJAX, retorna um JSON
+            music_data = list(musics.values('title', 'artist'))
+            return JsonResponse({'musics': music_data})
+
+        context = {
+            'musics': musics,
+        }
+        return render(request, 'igreja/search.html', context)
