@@ -107,16 +107,18 @@ class Singup(View):
 
     def post(self, request):
         form = RegisterForm(request.POST)
+        context = {'form': form}
+        print('passou aqui')
         if form.is_valid():
             form.save()
             created_account = True
-            context = {'created_account': created_account, }
+            context['created_account'] = created_account
 
-            return render(
-                request,
-                'webchat/singup.html',
-                context,
-            )
+        return render(
+            request,
+            'webchat/singup.html',
+            context,
+        )
 
 
 @login_required(login_url='webchat:login')
