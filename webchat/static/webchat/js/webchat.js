@@ -177,6 +177,7 @@ async function startChat(profile1ID, profile2ID) {
     await Api.postData(endpoint, data)
 
     await updateHtmlContent('#rooms')
+    toggleTab('new-chat')
 }
 
 
