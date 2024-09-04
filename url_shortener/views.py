@@ -12,26 +12,35 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class ShortenUrl(View):
-    @method_decorator(login_required(login_url='webchat:login'))
+    @method_decorator(login_required(login_url='url_shortener:login'))
     def get(self, request):
         user = request.user
         user_urls = URL.objects.filter(owner=user)
+
+        context = {'user_urls': user_urls,
+                   'base': request.build_absolute_uri(f'/shortener/')}
         return render(
             request,
             'url_shortener/index.html',
-            {'user_urls': user_urls}
+            context
         )
 
     def post(self, request):
         user = request.user
+
         long_url = request.POST.get('long_url')
         short_url = self.get_random_short_url()
 
         url = URL(long_url=long_url, short_url=short_url, owner=user)
         url.save()
         full_short_url = request.build_absolute_uri(f'/shortener/{short_url}/')
+        user_urls = URL.objects.filter(owner=user)
 
-        return render(request, 'url_shortener/index.html', {'short_url': full_short_url})
+        context = {'user_urls': user_urls,
+                   'base': request.build_absolute_uri(f'/shortener/'),
+                   'short_url': full_short_url}
+
+        return render(request, 'url_shortener/index.html', context)
 
     def get_random_short_url(self):
         while True:

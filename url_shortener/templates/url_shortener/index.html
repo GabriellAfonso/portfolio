@@ -9,15 +9,19 @@
     <link rel="stylesheet" href="{% static 'url_shortener/css/style.css' %}">
     
 </head>
-<body class="d-flex align-items-center bg-body-tertiary">
+<body class="d-flex  bg-body-tertiary">
 
 <div class="owner-tab d-flex flex-column">
 <h1>Seus Links</h1>
-{% for url in user_urls %}
-<li>{{url.short_url}}</li>
-{% endfor %}
+    <div class="links">
+        <ol>
+            {% for url in user_urls %}
+            <li><a href="{{ base }}{{ url.short_url }}" target="_blank">{{ base }}{{ url.short_url }}</a></li>
+            {% endfor %}
+        </ol>
+    </div>
 </div>
-<div class="m-auto">
+<div class="m-auto align-items-center">
     <div class='main-content'>
         <h1>Encurtador de Url</h1>
         <form method="POST" action="{% url 'url_shortener:shorten-url' %}">

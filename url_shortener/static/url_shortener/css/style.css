@@ -9,7 +9,24 @@
     min-width: 300px;
     height: 100vh;
     background-color: rgb(54, 48, 68);
-    justify-content: center;
+
+}
+
+.owner-tab h1 {
+    text-align: center;
+}
+
+.owner-tab .links {
+    margin-top: 20px;
+}
+
+.links li {
+    font-size: 0.9rem;
+}
+
+.links ol {
+
+    padding: 18px;
 }
 
 .main-content input {
