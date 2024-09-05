@@ -66,7 +66,7 @@
   </section>
 
   <section class="projects" id="projetos">
-    <h1 id="title">Projetos</h1>
+    <h1 id="title">Principais Projetos</h1>
     <div class="projects-container">
       <div class="card">
         <h3>Dumcrown</h3>
@@ -74,10 +74,46 @@
       </div>
       <div class="card">  
         <h3>WebChat</h3>
-        <img src="{% static "images/webchat_template.png" %}" alt="" width="300px">
+        <a href="{% url "webchat:chat" %}" target="_blank">
+        <div class="card-template">
+          <div class="card-overlay">
+            <span class="card-text">Ver Projeto</span>
+          </div>
+          <img src="{% static "images/webchat_template.png" %}" alt="">
+        </div>
+      </a>
+
+        <div class="card-description">
+          <p>
+            Um chat online simples, inspirado no WhatsApp Web, 
+            que utiliza Django REST para comunicação em tempo real 
+            entre dois usuários.
+          </p>
+        </div>
+        <div class="card-button" >
+          <button type="button">Ler Mais</button>
+        </div>
       </div>
       <div class="card">
         <h3>PicPay</h3>
+        <a href="{% url "picpay:profile" %}" target="_blank">
+          <div class="card-template">
+            <div class="card-overlay">
+              <span class="card-text">Ver Projeto</span>
+            </div>
+            <img src="{% static "images/picpay_template.png" %}" alt="">
+          </div>
+        </a>
+  
+          <div class="card-description">
+            <p> 
+              Projeto que simula transferências de valores entre usuários, gerenciamento de saldo e 
+              acompanhamento do histórico de transações.
+            </p>
+          </div>
+          <div class="card-button" >
+            <button type="button">Ler Mais</button>
+          </div>
       </div>
       <div class="card">
         <h3>Encurtador de url</h3>
