@@ -36,11 +36,6 @@ services:
       - ./django/static:/django/static/
       - ./certbot/etc/letsencrypt:/etc/letsencrypt 
       - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge
-      - ./nginx/conf.d/default.$(ENV).conf:/etc/nginx/conf.d/default.conf
-    env_file:
-      - ./dotenv_files/.env
-    environment:
-      - ENV=${ENV}
     depends_on:
       - django
 
