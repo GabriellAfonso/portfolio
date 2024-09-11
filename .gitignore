@@ -4,13 +4,14 @@
 *.pyc
 __pycache__
 db.sqlite3
-
+media
+django/static
 venv.txt
 project/local_settings.py
 certbot/usr
 certbot/etc
 certbot-challenge
-
+default.prod.conf
 # Backup files # 
 *.bak 
 
