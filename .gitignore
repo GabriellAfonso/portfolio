@@ -4,9 +4,12 @@
 *.pyc
 __pycache__
 db.sqlite3
-media
+
 venv.txt
 project/local_settings.py
+certbot/usr
+certbot/etc
+certbot-challenge
 
 # Backup files # 
 *.bak 
@@ -137,3 +140,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+#docker
+
+postgres
+ssl
