@@ -49,10 +49,10 @@ class Register(View):
 
     def post(self, request):
         form = RegisterForm(request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('picpay:login')
-
         return render(request, 'picpay/register.html', {'form': form})
 
 
@@ -68,7 +68,6 @@ class YourProfile(View):
                    'sex': account.sex,
                    'last_transactions': self.get_last_transactions(account)
                    }
-        print(context)
         return render(request, 'picpay/profile.html', context)
 
     def get_first_and_last_name(self, full_name):

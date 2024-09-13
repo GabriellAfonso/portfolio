@@ -1,6 +1,6 @@
 from django import forms
 from rolepermissions.roles import assign_role
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from django.contrib.auth.models import User
 from .models import Account
 import re
@@ -8,7 +8,7 @@ from validate_docbr import CPF, CNPJ
 from django.db import transaction
 
 
-class RegisterForm(UserCreationForm):
+class RegisterForm(forms.ModelForm):
     from django.conf import settings
     settings.AUTH_PASSWORD_VALIDATORS = []
 
@@ -60,14 +60,6 @@ class RegisterForm(UserCreationForm):
 
     password1 = forms.CharField(
         required=True,
-        label='Password',
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-        error_messages={
-            'required': 'Este campo é obrigatório.',
-        },
-    )
-    password2 = forms.CharField(
-        required=False,
         label='Password',
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         error_messages={
@@ -163,6 +155,7 @@ class RegisterForm(UserCreationForm):
         return 'merchant'
 
     def save(self, commit=True):
+
         with transaction.atomic():
             user = super().save(commit=False)
             user.email = self.cleaned_data['email']
@@ -185,5 +178,4 @@ class RegisterForm(UserCreationForm):
                     balance=100
                 )
                 account.save()
-
         return user
