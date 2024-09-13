@@ -22,7 +22,7 @@ class ShortenUrl(View):
 
         context = {'user_urls': user_urls,
                    'base': base_url}
-        print(context)
+
         return render(
             request,
             'url_shortener/index.html',
