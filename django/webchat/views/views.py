@@ -113,7 +113,7 @@ class Singup(View):
 
         if form.is_valid():
             user = form.save()
-            self.create_generic_account(user)
+            create_generic_account(user)
             created_account = True
             context['created_account'] = created_account
 
@@ -122,22 +122,6 @@ class Singup(View):
             'webchat/singup.html',
             context,
         )
-
-    def create_generic_account(self, user):
-        cpf = CPF()
-        complete_name = user.username
-        document = cpf.generate(True)
-        sex = 'M'
-        account = Account(
-            user=user,
-            complete_name=complete_name,
-            document=document,
-            document_type='cpf',
-            sex=sex,
-            account_type='personal',
-            balance=100
-        )
-        account.save()
 
 
 @login_required(login_url='webchat:login')
@@ -153,3 +137,20 @@ def logout_view(request):
         logout(request)
 
     return redirect('webchat:login')
+
+
+def create_generic_account(user):
+    cpf = CPF()
+    complete_name = user.username
+    document = cpf.generate(True)
+    sex = 'M'
+    account = Account(
+        user=user,
+        complete_name=complete_name,
+        document=document,
+        document_type='cpf',
+        sex=sex,
+        account_type='personal',
+        balance=100
+    )
+    account.save()

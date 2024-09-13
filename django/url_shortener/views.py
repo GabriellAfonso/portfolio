@@ -10,6 +10,7 @@ from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from webchat.views.views import create_generic_account
 
 
 class ShortenUrl(View):
@@ -110,7 +111,8 @@ class SingUp(View):
         form = RegisterForm(request.POST)
         context = {'form': form}
         if form.is_valid():
-            form.save()
+            user = form.save()
+            create_generic_account(user)
             created_account = True
             context['created_account'] = created_account
 
