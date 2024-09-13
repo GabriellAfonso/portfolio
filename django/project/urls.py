@@ -8,10 +8,10 @@ urlpatterns = [
     path('', include('portifolio.urls')),
     path('webchat/', include('webchat.urls')),
     path('shortener/', include('url_shortener.urls')),
-    # path('<str:short_url>/', redirect_view, name='redirect_view'),
     path('picpay/', include('picpay.urls')),
     path('igreja/', include('igreja.urls')),
     path('admin/', admin.site.urls),
+    path('s/<str:short_url>/', redirect_view, name='redirect_view'),
 ]
 
 if settings.DEBUG:
