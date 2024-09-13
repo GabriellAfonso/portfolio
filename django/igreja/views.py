@@ -16,7 +16,7 @@ class Home(View):
 class Tables(View):
 
     def get(self, request):
-        last_songs = Played.objects.all().order_by('-date')
+        last_songs = Played.objects.all().order_by('-date', 'position')
 
         top_songs = Played.objects.values('music__title').annotate(
             play_count=Count('music')).order_by('-play_count')

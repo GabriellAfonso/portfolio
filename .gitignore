@@ -11,8 +11,9 @@ project/local_settings.py
 certbot/usr
 certbot/etc
 certbot-challenge
-default.prod.conf
+
 # Backup files # 
+
 *.bak 
 
 # If you are using PyCharm # 
@@ -146,3 +147,7 @@ GitHub.sublime-settings
 
 postgres
 ssl
+
+#nginx
+default.challenge.conf
+default.prod.conf

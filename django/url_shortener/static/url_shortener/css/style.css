@@ -21,12 +21,12 @@
 }
 
 .links li {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 .links ol {
-
-    padding: 18px;
+    list-style-type: disc;
 }
 
 .main-content input {

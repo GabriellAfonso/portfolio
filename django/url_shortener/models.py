@@ -8,7 +8,7 @@ class URL(models.Model):
     long_url = models.URLField(unique=False)
     short_url = models.CharField(max_length=40, unique=True)
 
-    MAX_URLS_PER_USER = 9  # Limite de URLs por usuário
+    MAX_URLS_PER_USER = 10  # Limite de URLs por usuário
 
     def save(self, *args, **kwargs):
         # Verifica se o usuário já tem 10 URLs

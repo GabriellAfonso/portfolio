@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.views import View
 from .models import URL
 import random
@@ -16,9 +17,11 @@ class ShortenUrl(View):
     def get(self, request):
         user = request.user
         user_urls = URL.objects.filter(owner=user)
+        base_url = self.get_base_url(request)
 
         context = {'user_urls': user_urls,
-                   'base': request.build_absolute_uri(f'/shortener/')}
+                   'base': base_url}
+        print(context)
         return render(
             request,
             'url_shortener/index.html',
@@ -27,18 +30,18 @@ class ShortenUrl(View):
 
     def post(self, request):
         user = request.user
-
+        base_url = self.get_base_url(request)
         long_url = request.POST.get('long_url')
         short_url = self.get_random_short_url()
 
         url = URL(long_url=long_url, short_url=short_url, owner=user)
         url.save()
-        full_short_url = request.build_absolute_uri(f'/shortener/{short_url}/')
+
         user_urls = URL.objects.filter(owner=user)
 
         context = {'user_urls': user_urls,
-                   'base': request.build_absolute_uri(f'/shortener/'),
-                   'short_url': full_short_url}
+                   'base': base_url,
+                   'shortened_url': f'{base_url}{short_url}'}
 
         return render(request, 'url_shortener/index.html', context)
 
@@ -49,9 +52,16 @@ class ShortenUrl(View):
             if not URL.objects.filter(short_url=short_url).exists():
                 return short_url
 
+    def get_base_url(self, request):
+        scheme = request.scheme
+        host = request.get_host()
+        url = {'full': f'{scheme}://{host}/',
+               'short': f'{host}/'}
+        return url
+
 
 def redirect_view(request, short_url):
-    url = URL.objects.get(short_url=short_url)
+    url = get_object_or_404(URL, short_url=short_url)
     return redirect(url.long_url)
 
 
