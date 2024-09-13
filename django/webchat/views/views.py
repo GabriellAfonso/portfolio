@@ -10,6 +10,8 @@ from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 from django.views import View
 from django.utils.decorators import method_decorator
+from validate_docbr import CPF
+from picpay.models import Account
 
 
 class Webchat(View):
@@ -108,9 +110,10 @@ class Singup(View):
     def post(self, request):
         form = RegisterForm(request.POST)
         context = {'form': form}
-        print('passou aqui')
+
         if form.is_valid():
-            form.save()
+            user = form.save()
+            self.create_generic_account(user)
             created_account = True
             context['created_account'] = created_account
 
@@ -119,6 +122,22 @@ class Singup(View):
             'webchat/singup.html',
             context,
         )
+
+    def create_generic_account(self, user):
+        cpf = CPF()
+        complete_name = user.username
+        document = cpf.generate(True)
+        sex = 'M'
+        account = Account(
+            user=user,
+            complete_name=complete_name,
+            document=document,
+            document_type='cpf',
+            sex=sex,
+            account_type='personal',
+            balance=100
+        )
+        account.save()
 
 
 @login_required(login_url='webchat:login')
