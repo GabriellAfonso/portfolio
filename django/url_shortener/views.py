@@ -42,7 +42,7 @@ class ShortenUrl(View):
 
         context = {'user_urls': user_urls,
                    'base': base_url,
-                   'shortened_url': f'{base_url}{short_url}'}
+                   'shortened_url': f'{base_url['full']}s/{short_url}'}
 
         return render(request, 'url_shortener/index.html', context)
 

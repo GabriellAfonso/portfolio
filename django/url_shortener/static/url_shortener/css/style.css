@@ -9,12 +9,15 @@
     min-width: 300px;
     height: 100vh;
     background-color: rgb(54, 48, 68);
+    align-items: center;
 
 }
 
 .owner-tab h1 {
+    margin-top: 10px;
     text-align: center;
 }
+
 
 .owner-tab .links {
     margin-top: 20px;
@@ -27,6 +30,21 @@
 
 .links ol {
     list-style-type: disc;
+}
+
+.bnt-logout {
+    display: flex;
+    width: 50%;
+    height: 35px;
+    margin-top: auto;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-style: none;
+    background-color: rgb(25, 22, 32);
+    color: antiquewhite;
 }
 
 .main-content input {

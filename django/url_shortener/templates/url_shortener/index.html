@@ -17,10 +17,12 @@
     <div class="links">
         <ol>
             {% for url in user_urls %}
-            <li><a href="{{ base.full }}{{ url.short_url }}" target="_blank">{{ base.short }}{{ url.short_url }}</a></li>
+            <li><a href="{{ base.full }}s/{{ url.short_url }}" target="_blank">{{ base.short }}s/{{ url.short_url }}</a></li>
             {% endfor %}
         </ol>
     </div>
+    <a href="logout/" class="bnt-logout">SAIR</a>
+
 </div>
 <div class="m-auto align-items-center">
     <div class='main-content'>
