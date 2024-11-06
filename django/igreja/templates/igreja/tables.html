@@ -45,7 +45,7 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ song.music.title }}</td>
                     <td>{{ song.tone }}</td>
-                    <td>{{ song.date }}</td>
+                    <td>{{ song.date|date:"d/m/Y" }}</td>
                     <td>{{ song.music.artist|slice:":20" }}{% if song.music.artist|length > 20 %}...{% endif %}</td>
                 </tr>
                 {% endfor %}
