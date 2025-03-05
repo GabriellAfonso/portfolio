@@ -1,4 +1,7 @@
 import re
+import random
+from django.utils.timezone import now
+from datetime import timedelta
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views import View
@@ -24,14 +27,37 @@ class Tables(View):
         top_tones = Played.objects.values('tone').annotate(
             tone_count=Count('tone')).order_by('-tone_count')
 
-        print(top_songs)
+        suggested_songs = self.get_suggested_songs()
+
+        # Verificando se é uma requisição AJAX
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'suggested_songs': suggested_songs})
+
         context = {
             'last_songs': last_songs,
             'top_songs': top_songs,
             'top_tones': top_tones,
+            'suggested_songs': suggested_songs,
         }
 
         return render(request, 'igreja/tables.html', context)
+
+    def get_suggested_songs(self):
+        three_months_ago = now() - timedelta(days=90)
+        suggested_songs = {}
+
+        for position in range(1, 5):
+            eligible_songs = (
+                Played.objects
+                .filter(position=position, date__lt=three_months_ago)
+                .values('music__id', 'music__title', 'music__artist', 'tone')
+                .distinct()
+            )
+            print(eligible_songs)
+            if eligible_songs:
+                suggested_songs[position] = random.choice(list(eligible_songs))
+
+        return suggested_songs
 
 
 class RegisterSundays(View):
