@@ -7,6 +7,7 @@ class Account(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE,)
     complete_name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True, null=True, blank=True)
     document = models.CharField(max_length=100)
     document_type = models.CharField(max_length=4, choices=[
         ('cpf', 'CPF'), ('cnpj', 'CNPJ')])
