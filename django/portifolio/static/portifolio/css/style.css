@@ -471,8 +471,11 @@ nav a:hover {
     }
 
     #bar a {
+        padding: 25px;
+    }
 
-        padding: 20px;
+    #bar li {
+        padding: 25px;
     }
 
     .mobile-menu {

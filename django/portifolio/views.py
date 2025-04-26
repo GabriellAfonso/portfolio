@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def index(request):
 
     context = {
@@ -8,6 +9,6 @@ def index(request):
 
     return render(
         request,
-        'index.html',
+        'portifolio/index.html',
         context,
     )

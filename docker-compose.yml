@@ -8,6 +8,7 @@ services:
     volumes:
       - ./django:/django
       - ./django/static:/django/static/
+      - ./django/portifolio/static/portifolio:/django/static/portifolio
       - ./django/media:/django/media/
     env_file:
       - ./dotenv_files/.env
@@ -34,6 +35,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/html:/usr/share/nginx/html
       - ./django/static:/django/static/
+      - ./django/portifolio/static/portifolio:/django/static/portifolio
       - ./django/media:/django/media/
       - ./certbot/etc/letsencrypt:/etc/letsencrypt 
       - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge

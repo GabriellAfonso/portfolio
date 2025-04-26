@@ -5,6 +5,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de Gabriel Afonso - Desenvolvedor Backend especializado em Django, Python, JavaScript e mais.">
+  <meta name="keywords" content="Gabriel Afonso, Desenvolvedor Backend, Django, Python, Web Development, Portfólio">
+  <meta name="author" content="Gabriel Afonso">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000000">
   <title>Gabriel Afonso</title>
   <link rel="stylesheet" href="{% static 'portifolio/css/style.css' %}">
   <link rel="shortcut icon" href="{% static "portifolio/images/favicon.ico" %}" type="image/x-icon">
@@ -12,20 +17,21 @@
 </head>
 
 <body>
+  <main>
 
   <header class="navigation-bar">
     <nav>
-      <ul class="nav-list">
-        <div class="mobile-menu" id="menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-        </div>
-        <li id="bar"><a href="#home">Inicio</a>
-        <a href="#sobre">Sobre mim</a>
-        <a href="#projetos">Projetos</a>
-        <a href="#contato">Contato</a>
-        </li>
+      <div class="mobile-menu" id="menu">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+      
+      <ul class="nav-list" id="bar">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#sobre">Sobre mim</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
   </header>
@@ -61,7 +67,7 @@
           focando em resolver problemas e desenvolver soluções eficientes.
         </p>
       </div>
-      <img src="{% static "portifolio/images/python-icon.png" %}" alt="" id="pyimg">
+      <img src="{% static "portifolio/images/python-icon.png" %}" alt="Python icon" id="pyimg">
       </div>
   </section>
 
@@ -75,7 +81,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/dumcrown_template.png" %}" alt="">
+            <img src="{% static "portifolio/images/dumcrown_template.png" %}" alt="Dumcrown Template">
           </div>
         </a>
   
@@ -98,7 +104,7 @@
           <div class="card-overlay">
             <span class="card-text">Ver Projeto</span>
           </div>
-          <img src="{% static "portifolio/images/webchat_template.png" %}" alt="">
+          <img src="{% static "portifolio/images/webchat_template.png" %}" alt="Webchat Template">
         </div>
       </a>
 
@@ -120,7 +126,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/picpay_template.png" %}" alt="">
+            <img src="{% static "portifolio/images/picpay_template.png" %}" alt="Picpay Template">
           </div>
         </a>
   
@@ -141,7 +147,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/url_shortener_template.png" %}" alt="">
+            <img src="{% static "portifolio/images/url_shortener_template.png" %}" alt="URL Shortener Template">
           </div>
         </a>
   
@@ -167,18 +173,20 @@
 
     <div class="contact-info">
       <div class="contact-item1">
-          <a href="mailto:gabrieldelimaafonso@gmail.com"><img src="{% static "portifolio/images/gmail_icon.png" %}" alt=""></a>
+          <a href="mailto:gabrieldelimaafonso@gmail.com"><img src="{% static "portifolio/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
       </div>
       <div class="contact-item2">
-          <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "portifolio/images/wsa_icon.png" %}" alt=""></a>
+          <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "portifolio/images/wsa_icon.png" %}" alt="WhatsApp Icon"></a>
       </div>
-
+    </div>
   </section>
+</main>
   <script>
     function redirect(link) {
       window.open(link, "_blank");
   }
   </script>
+
 </body>
 
 </html>
