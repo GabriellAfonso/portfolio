@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'igreja',
 ]
 
-ROLEPERMISSIONS_MODULE = 'project.roles'
+ROLEPERMISSIONS_MODULE = 'core.roles'
 ROLEPERMISSIONS_REGISTER_ADMIN = True
 
 MIDDLEWARE = [
@@ -48,7 +48,7 @@ MIDDLEWARE = [
 
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -66,7 +66,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 DATABASES = {
