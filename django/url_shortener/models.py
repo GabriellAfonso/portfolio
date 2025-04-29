@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class URL(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='urls')
-    long_url = models.URLField(unique=False)
+    long_url = models.URLField(max_length=1500, unique=False)
     short_url = models.CharField(max_length=40, unique=True)
 
     MAX_URLS_PER_USER = 10  # Limite de URLs por usuário
