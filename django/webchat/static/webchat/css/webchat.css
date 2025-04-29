@@ -15,7 +15,7 @@ main {
     display: flex;
     background-color: rgb(21, 59, 60);
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
 
 }
 
@@ -388,7 +388,7 @@ header {
 }
 
 .chat-body {
-    height: 80vh;
+    height: 80dvh;
     max-height: 80vh;
     width: 100%;
     overflow: hidden;
@@ -518,4 +518,45 @@ header {
     padding-top: 5px;
     font-size: 0.7rem;
     color: white;
+}
+
+.back-button {
+    display: none;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 768px) {
+    .back-button {
+        display: block;
+    }
+
+    .back-button img {
+        width: 20px;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    #user-controller {
+        width: 100%;
+        min-width: 100%;
+        display: block;
+    }
+
+    #chat {
+        width: 100%;
+        min-width: 100%;
+        display: none;
+        /* Esconde o chat por padrão */
+    }
+
+    #chat-content {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+    }
 }
