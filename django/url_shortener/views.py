@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from webchat.views.views import create_generic_account
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 
 class ShortenUrl(View):
@@ -34,6 +36,14 @@ class ShortenUrl(View):
         base_url = self.get_base_url(request)
         long_url = request.POST.get('long_url')
         short_url = self.get_random_short_url()
+        validator = URLValidator()
+
+        try:
+            validator(long_url)
+        except ValidationError:
+            messages.error(
+                request, 'URL inválida. Por favor, insira uma URL válida.')
+            return redirect('url_shortener:shorten-url')
 
         url = URL(long_url=long_url, short_url=short_url, owner=user)
         url.save()
