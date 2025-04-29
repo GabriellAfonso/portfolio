@@ -5,6 +5,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WebChat - Converse em tempo real com seus amigos.">
+  <meta name="keywords" content="WebChat, Chat, Mensagens, Conversa Online, Comunicação">
+  <meta name="author" content="Gabriel Afonso">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#038d92">
+
   <link rel="stylesheet" href="{% static 'webchat/css/webchat.css' %}">
   <link rel="icon" href="{% static 'webchat/images/favicon.ico' %}" type="image/x-icon">
 
@@ -109,7 +115,8 @@
       <div id="rooms">
         {% for chatroom in user_chatrooms %}
         {% with member=chatroom.member %}
-        <div class="chatroom" onclick="openRoom('{{ chatroom.chatroom_id }}')">
+        <div class="chatroom" onclick="openRoomMobile('{{ chatroom.chatroom_id }}')">
+
           <div class="chatroom-picture">
             <img src="{{ member.profile_picture }}" alt="{{ member.username }}">
           </div>
@@ -128,7 +135,12 @@
     <div id="chat">
       <div id="chat-content">
         <header>
+         
+        
           <div class="header-items">
+            <div class="back-button" onclick="returnToList()" title="Voltar">
+              <img src="{% static 'webchat/images/buttons/arrow.png' %}" alt="Voltar">
+            </div>
             <div class="chat-picture">
               <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
             </div>
