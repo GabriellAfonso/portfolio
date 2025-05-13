@@ -5,6 +5,8 @@ Este projeto foi desenvolvido como parte do [Desafio Back-end PicPay](https://gi
 
 A aplicação permite a realização de **transferências entre usuários**, seguindo as regras de negócio descritas no desafio, com foco em clareza de código, boas práticas e estrutura escalável.
 
+
+
 ---
 
 ## ⚙️ Tecnologias Utilizadas
@@ -70,3 +72,5 @@ A aplicação permite a realização de **transferências entre usuários**, seg
 - Criação dinâmica de permissões com `rolepermissions`.
 
 ---
+
+> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portifolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.
