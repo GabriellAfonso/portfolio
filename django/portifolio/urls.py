@@ -6,4 +6,6 @@ app_name = 'portifolio'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('guest/<str:app_name>/', views.guest_login, name='guest_login'),
+
 ]
