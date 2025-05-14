@@ -73,6 +73,8 @@ class RegisterSundays(View):
         return render(request, 'igreja/register_sundays.html', context)
 
     def post(self, request):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return redirect('igreja:tabela')
         # Capturando dados do formulário
         date = request.POST.get('date')
         musics = [
@@ -105,6 +107,11 @@ class RegisterSundays(View):
                         music_id=music_id, date=date, tone=tone, position=position
                     )
         return redirect('igreja:tabela')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return redirect('igreja:tabela')
+        return super().dispatch(request, *args, **kwargs)
 
     def clean_music_title(self, title):
         match = re.match(r'^(.*?)\s*\[(.*?)\]\s*$', title)
