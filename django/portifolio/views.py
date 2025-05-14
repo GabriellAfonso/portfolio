@@ -7,6 +7,9 @@ import string
 from picpay.models import Account
 from rolepermissions.roles import assign_role
 from django.http import HttpResponseBadRequest
+from django.http import FileResponse
+import os
+from django.conf import settings
 
 
 def index(request):
@@ -49,3 +52,9 @@ def guest_login(request, app_name):
         return redirect("picpay:profile")
     else:
         return HttpResponseBadRequest("App inválido")
+
+
+def curriculo(request):
+    PATH = os.path.join(settings.BASE_DIR, 'portifolio',
+                        'static', 'portifolio', 'docs', 'curriculo.pdf')
+    return FileResponse(open(PATH, 'rb'), content_type='application/pdf')
