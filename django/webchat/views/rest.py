@@ -76,7 +76,6 @@ class CreateChatroom(APIView):
 def view_messages(request, chatroom_id):
     chatroom = ChatRoom.objects.get(pk=chatroom_id)
 
-    # Verifica se o usuário atual está entre os membros da sala de chat
     if request.user.profile not in chatroom.members.all():
         return Response({"error": "Você não tem permissão para visualizar mensagens nesta sala de chat."}, status=status.HTTP_403_FORBIDDEN)
 
@@ -96,7 +95,6 @@ def view_messages(request, chatroom_id):
 def send_message(request, chatroom_id):
     chatroom = ChatRoom.objects.get(pk=chatroom_id)
 
-    # Verifica se o usuário atual está entre os membros da sala de chat
     if request.user.profile not in chatroom.members.all():
         return Response({"error": "Você não tem permissão para enviar mensagens para esta sala de chat."}, status=status.HTTP_403_FORBIDDEN)
 
