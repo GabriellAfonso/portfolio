@@ -1,15 +1,15 @@
 services:
-  django:
-    container_name: django-server
+  portifolio:
+    container_name: portifolio-server
     build:
       context: .
     ports:
       - 8000:8000 
     volumes:
-      - ./django:/django
-      - ./django/static:/django/static/
-      - ./django/portifolio/static/portifolio:/django/static/portifolio
-      - ./django/media:/django/media/
+      - ./portifolio:/portifolio
+      - ./portifolio/static:/portifolio/static/
+      - ./portifolio/home/static/home:/portifolio/static/home
+      - ./portifolio/media:/portifolio/media/
     env_file:
       - ./dotenv_files/.env
     depends_on:
@@ -34,18 +34,13 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/html:/usr/share/nginx/html
-      - ./django/static:/django/static/
-      - ./django/portifolio/static/portifolio:/django/static/portifolio
-      - ./django/media:/django/media/
+      - ./portifolio/static:/portifolio/static/
+      - ./portifolio/home/static/home:/portifolio/static/home
+      - ./portifolio/webchat/static/webchat:/portifolio/static/webchat
+      - ./portifolio/media:/portifolio/media/
       - ./certbot/etc/letsencrypt:/etc/letsencrypt 
       - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge
     depends_on:
-      - django
+      - portifolio
 
-  certbot:
-    build: ./certbot
-    volumes:
-      - ./certbot/etc/letsencrypt:/etc/letsencrypt
-      - ./certbot/var/lib/letsencrypt:/var/lib/letsencrypt
-      - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  

@@ -11,6 +11,7 @@ project/local_settings.py
 certbot/usr
 certbot/etc
 certbot-challenge
+portifolio/static
 
 # Backup files # 
 
