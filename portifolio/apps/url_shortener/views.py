@@ -3,14 +3,14 @@ from django.shortcuts import get_object_or_404
 from django.views import View
 from .models import URL
 import random
-from webchat.forms import RegisterForm
+from apps.webchat.forms import RegisterForm
 from django.contrib.auth import logout
 import string
 from django.contrib import auth, messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from webchat.views.views import create_generic_account
+from apps.webchat.views.views import create_generic_account
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 

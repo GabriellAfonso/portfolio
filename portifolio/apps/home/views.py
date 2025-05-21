@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 import random
 import string
-from picpay.models import Account
+from apps.picpay.models import Account
 from rolepermissions.roles import assign_role
 from django.http import HttpResponseBadRequest
 from django.http import FileResponse
@@ -20,7 +20,7 @@ def index(request):
 
     return render(
         request,
-        'portifolio/index.html',
+        'home/index.html',
         context,
     )
 
@@ -55,6 +55,6 @@ def guest_login(request, app_name):
 
 
 def curriculo(request):
-    PATH = os.path.join(settings.BASE_DIR, 'portifolio',
-                        'static', 'portifolio', 'docs', 'curriculo.pdf')
+    PATH = os.path.join(settings.BASE_DIR, 'apps', 'home',
+                        'static', 'home', 'docs', 'curriculo.pdf')
     return FileResponse(open(PATH, 'rb'), content_type='application/pdf')

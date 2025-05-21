@@ -11,9 +11,9 @@
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#000000">
   <title>Gabriel Afonso</title>
-  <link rel="stylesheet" href="{% static 'portifolio/css/style.css' %}">
-  <link rel="shortcut icon" href="{% static "portifolio/images/favicon.ico" %}" type="image/x-icon">
-  <script src="{% static "portifolio/js/mobile.js" %}" defer=""></script>
+  <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+  <link rel="shortcut icon" href="{% static "home/images/favicon.ico" %}" type="image/x-icon">
+  <script src="{% static "home/js/mobile.js" %}" defer=""></script>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
         <li><a href="#sobre">Sobre mim</a></li>
         <li><a href="#projetos">Projetos</a></li>
         <li><a href="#contato">Contato</a></li>
-        <li><a href="{% url "portifolio:curriculo" %}">Currículo</a></li>
+        <li><a href="{% url "home:curriculo" %}">Currículo</a></li>
       </ul>
     </nav>
   </header>
@@ -47,11 +47,11 @@
           <p class="home-text" id="backend">Backend</p>
         <div class="social-icons-div">
           <a href="https://github.com/GabriellAfonso" target="_blank">
-            <img src="{% static "portifolio/images/github-icon.png" %}" alt="GitHub-Icon" class="social-icons">
+            <img src="{% static "home/images/github-icon.png" %}" alt="GitHub-Icon" class="social-icons">
           </a>
            
           <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank">
-            <img src="{% static "portifolio/images/linkedin-icon.png" %}" alt="Linkedin-Icon" class="social-icons">
+            <img src="{% static "home/images/linkedin-icon.png" %}" alt="Linkedin-Icon" class="social-icons">
           </a> 
         </div>
       </div>
@@ -68,7 +68,7 @@
           focando em resolver problemas e desenvolver soluções eficientes.
         </p>
       </div>
-      <img src="{% static "portifolio/images/python-icon.png" %}" alt="Python icon" id="pyimg">
+      <img src="{% static "home/images/python-icon.png" %}" alt="Python icon" id="pyimg">
       </div>
   </section>
 
@@ -82,7 +82,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/dumcrown_template.png" %}" alt="Dumcrown Template">
+            <img src="{% static "home/images/dumcrown_template.png" %}" alt="Dumcrown Template">
           </div>
         </a>
   
@@ -105,7 +105,7 @@
           <div class="card-overlay">
             <span class="card-text">Ver Projeto</span>
           </div>
-          <img src="{% static "portifolio/images/webchat_template.png" %}" alt="Webchat Template">
+          <img src="{% static "home/images/webchat_template.png" %}" alt="Webchat Template">
         </div>
       </a>
 
@@ -127,7 +127,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/picpay_template.png" %}" alt="Picpay Template">
+            <img src="{% static "home/images/picpay_template.png" %}" alt="Picpay Template">
           </div>
         </a>
   
@@ -148,7 +148,7 @@
             <div class="card-overlay">
               <span class="card-text">Ver Projeto</span>
             </div>
-            <img src="{% static "portifolio/images/url_shortener_template.png" %}" alt="URL Shortener Template">
+            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
           </div>
         </a>
   
@@ -174,10 +174,10 @@
 
     <div class="contact-info">
       <div class="contact-item1">
-          <a href="mailto:gabrieldelimaafonso@gmail.com"><img src="{% static "portifolio/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
+          <a href="mailto:gabrieldelimaafonso@gmail.com"><img src="{% static "home/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
       </div>
       <div class="contact-item2">
-          <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "portifolio/images/wsa_icon.png" %}" alt="WhatsApp Icon"></a>
+          <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "home/images/wsa_icon.png" %}" alt="WhatsApp Icon"></a>
       </div>
     </div>
   </section>

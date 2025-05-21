@@ -27,11 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'portifolio',
-    'webchat',
-    'picpay',
-    'url_shortener',
-    'igreja',
+    'apps.home',
+    'apps.webchat',
+    'apps.picpay',
+    'apps.url_shortener',
+    'apps.igreja',
 ]
 
 ROLEPERMISSIONS_MODULE = 'core.roles'

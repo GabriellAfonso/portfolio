@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from webchat.forms import RegisterForm
+from apps.webchat.forms import RegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
 from ..models import Profile, ChatRoom
@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from django.views import View
 from django.utils.decorators import method_decorator
 from validate_docbr import CPF
-from picpay.models import Account
+from apps.picpay.models import Account
 
 
 class Webchat(View):

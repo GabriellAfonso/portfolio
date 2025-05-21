@@ -1,6 +1,6 @@
 from django.urls import path, include
-from webchat.views import views
-from webchat.views import rest
+from apps.webchat.views import views
+from apps.webchat.views import rest
 
 
 app_name = 'webchat'

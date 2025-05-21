@@ -1,8 +1,8 @@
 from django.urls import path, include
-from portifolio import views
+from apps.home import views
 
 
-app_name = 'portifolio'
+app_name = 'home'
 
 urlpatterns = [
     path('', views.index, name='index'),
