@@ -15,7 +15,7 @@ python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 sleep 0.2
 
-# Iniciar Daphne
+# Iniciar 
 python manage.py runserver 0.0.0.0:8000
 
 # Iniciar Nginx
