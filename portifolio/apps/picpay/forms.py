@@ -9,8 +9,8 @@ from django.db import transaction
 
 
 class RegisterForm(forms.ModelForm):
-    from django.conf import settings
-    settings.AUTH_PASSWORD_VALIDATORS = []
+    # from django.conf import settings
+    # settings.AUTH_PASSWORD_VALIDATORS = []
 
     username = forms.CharField(
         required=False,

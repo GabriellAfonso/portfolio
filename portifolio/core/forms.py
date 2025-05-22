@@ -4,10 +4,16 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
 
-class RegisterForm(UserCreationForm):
-    # from django.conf import settings
-    # settings.AUTH_PASSWORD_VALIDATORS = []
-    print('entrou no do webchat')
+class BaseRegisterForm(UserCreationForm):
+    """
+    Formulário base reutilizável para cadastro de usuários em múltiplos apps.
+    """
+
+    error_messages = {
+        **UserCreationForm.error_messages,
+        "password_mismatch": "As senhas não correspondem.",
+    }
+
     username = forms.CharField(
         required=True,
         min_length=3,
@@ -17,12 +23,13 @@ class RegisterForm(UserCreationForm):
             'min_length': 'nome de usuário muito curto.',
             'max_length': 'nome de usuário muito grande.',
             'invalid': 'nome de usuário invalido, nao utilize espaços',
+            'unique': 'Este nome de usuário já está em uso.',
         }
     )
 
     email = forms.EmailField(
-        required=False,
-        max_length=100,
+        required=True,
+        max_length=250,
         error_messages={
             'invalid': 'utilize um e-mail valido',
         }
@@ -50,15 +57,6 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-
-        # Verifica se ja existe esse usuario no banco de dados
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError('Este nome de usuário já está em uso.')
-
-        return username
-
     def clean_email(self):
         email = self.cleaned_data.get('email')
         current_email = self.instance.email
@@ -72,19 +70,3 @@ class RegisterForm(UserCreationForm):
                         'Este e-mail ja esta cadastrado', code='invalid')
                 )
         return email
-
-    def clean_password1(self):
-        password1 = self.cleaned_data.get('password1')
-
-        if len(password1) < 6:
-            raise forms.ValidationError(
-                'A senha deve ter no mínimo 6 caracteres.')
-        return password1
-
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError('As senhas não correspondem.')
-        return password2
