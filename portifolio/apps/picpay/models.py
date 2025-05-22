@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from decimal import Decimal
 
 
-class Account(models.Model):
+class PicPayAccount(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE,)
-    complete_name = models.CharField(max_length=50)
+    complete_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True, null=True, blank=True)
-    document = models.CharField(max_length=100)
+    document = models.CharField(max_length=100, unique=True)
     document_type = models.CharField(max_length=4, choices=[
         ('cpf', 'CPF'), ('cnpj', 'CNPJ')])
     sex = models.CharField(max_length=1, choices=[
@@ -37,7 +37,7 @@ class Transaction(models.Model):
     value = models.DecimalField(
         max_digits=10, decimal_places=2, editable=False)
     sender = models.ForeignKey(
-        Account, related_name='sent_transactions', on_delete=models.CASCADE, editable=False)
+        PicPayAccount, related_name='sent_transactions', on_delete=models.CASCADE, editable=False)
     receiver = models.ForeignKey(
-        Account, related_name='received_transactions', on_delete=models.CASCADE, editable=False)
+        PicPayAccount, related_name='received_transactions', on_delete=models.CASCADE, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)

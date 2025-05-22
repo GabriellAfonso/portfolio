@@ -1,6 +1,6 @@
 import requests
 from rest_framework.views import APIView
-from .models import Account
+from .models import PicPayAccount
 from .serializers import TransactionSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -49,9 +49,9 @@ class TransactionRest(APIView):
         return float(v2)
 
     def get_sender(self, id):
-        sender = Account.objects.get(user_id=id)
+        sender = PicPayAccount.objects.get(user_id=id)
         return sender.id
 
     def get_receiver(self, doc):
-        receiver = Account.objects.get(document=doc)
+        receiver = PicPayAccount.objects.get(document=doc)
         return receiver.id

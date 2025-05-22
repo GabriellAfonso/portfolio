@@ -1,5 +1,5 @@
 import requests
-from .models import Account, Transaction
+from .models import PicPayAccount, Transaction
 from django.db import transaction as django_transaction
 from rolepermissions.checkers import has_permission
 from .exceptions import (
@@ -23,8 +23,8 @@ class TransactionValidator():
         self.process_transaction(data['value'])
 
     def account_exists(self, account):
-        if Account.objects.filter(id=account).exists():
-            return Account.objects.get(id=account)
+        if PicPayAccount.objects.filter(id=account).exists():
+            return PicPayAccount.objects.get(id=account)
         raise AccountDoesNotExist(account)
 
     def check_same_account(self, sender, receiver):

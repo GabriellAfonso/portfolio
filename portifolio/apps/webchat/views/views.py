@@ -11,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from django.views import View
 from django.utils.decorators import method_decorator
 from validate_docbr import CPF
-from apps.picpay.models import Account
+from apps.picpay.models import PicPayAccount
 
 
 class Webchat(View):
@@ -144,7 +144,7 @@ def create_generic_account(user):
     complete_name = user.username
     document = cpf.generate(True)
     sex = 'M'
-    account = Account(
+    account = PicPayAccount(
         user=user,
         complete_name=complete_name,
         document=document,
