@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse
 from django.contrib import auth, messages
-from .forms import RegisterForm
-from .models import Account, Transaction
+from apps.picpay.forms import PicPayRegisterForm
+from apps.picpay.models import PicPayAccount, Transaction
 from django.db.models import Q
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
@@ -13,6 +13,7 @@ from rolepermissions.roles import assign_role
 from rolepermissions.checkers import has_permission
 from django.utils.timezone import now
 from django.http import JsonResponse
+from apps.picpay.services.register_picpay_user import PicPayRegistrationService
 
 
 class Login(View):
@@ -39,7 +40,7 @@ class Login(View):
 class Register(View):
 
     def get(self, request):
-        form = RegisterForm()
+        form = PicPayRegisterForm()
         created_account = False
         context = {
             'form': form,
@@ -48,10 +49,11 @@ class Register(View):
         return render(request, 'picpay/register.html', context)
 
     def post(self, request):
-        form = RegisterForm(request.POST)
+        form = PicPayRegisterForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            PicPayRegistrationService(form.cleaned_data).register()
+
             return redirect('picpay:login')
         return render(request, 'picpay/register.html', {'form': form})
 
@@ -61,7 +63,7 @@ class YourProfile(View):
     @method_decorator(login_required(login_url='picpay:login'))
     def get(self, request):
         user = request.user
-        account = Account.objects.get(user=user.id)
+        account = PicPayAccount.objects.get(user=user.id)
         username = self.get_first_and_last_name(account.complete_name)
         context = {'username': username,
                    'balance': account.balance,
@@ -129,12 +131,12 @@ def start_transaction(request):
     print(document)
     if document:
         try:
-            account = Account.objects.get(document=document)
+            account = PicPayAccount.objects.get(document=document)
             data = {
                 'name': account.complete_name,
             }
             return JsonResponse(data)
-        except Account.DoesNotExist:
+        except PicPayAccount.DoesNotExist:
             return JsonResponse({'error': 'Account not found'}, status=404)
     else:
         return JsonResponse({'error': 'No document provided'}, status=400)
