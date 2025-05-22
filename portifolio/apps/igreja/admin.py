@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Music, Played
+from apps.igreja.models import Category, Music, Played
 
 admin.site.register(Category)
 admin.site.register(Music)

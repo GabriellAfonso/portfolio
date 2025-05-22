@@ -8,5 +8,6 @@ validate-docbr==1.10.0
 requests==2.32.3
 psycopg2-binary>=2.9.6,<2.10
 
-
-
+pytest==8.3.5
+pytest-django==4.11.1
+python-dotenv==1.1.0
