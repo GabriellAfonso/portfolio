@@ -1,12 +1,9 @@
 from .base import *
+import os
 
-DEBUG = True
-# ALLOWED_HOSTS = ["*"]
 
-# INSTALLED_APPS += [
-#     "debug_toolbar",
-# ]
+TEMPLATE_DEBUG = True
+CORS_ALLOW_ALL_ORIGINS = True
 
-# MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
-
-# INTERNAL_IPS = ["127.0.0.1"]
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
