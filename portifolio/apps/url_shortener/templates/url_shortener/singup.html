@@ -54,7 +54,7 @@
 			<li class="error-messages">{{ error }}</li>
 			{% endfor %}
 
-			<input type="email" id="email" class="form-input" placeholder="E-mail(opcional)"
+			<input type="email" id="email" class="form-input" placeholder="E-mail"
 			name={{ form.email.html_name }} 
 			value={{ form.email.value|default_if_none:'' }}>
 

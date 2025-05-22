@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from apps.webchat.forms import RegisterForm
+from core.forms import BaseRegisterForm
 from django.contrib import auth, messages
 from django.contrib.auth import logout
 from ..models import Profile, ChatRoom
@@ -94,7 +94,7 @@ class Login(View):
 class Singup(View):
 
     def get(self, request):
-        form = RegisterForm()
+        form = BaseRegisterForm()
         created_account = False
         context = {
             'form': form,
@@ -108,7 +108,7 @@ class Singup(View):
         )
 
     def post(self, request):
-        form = RegisterForm(request.POST)
+        form = BaseRegisterForm(request.POST)
         context = {'form': form}
 
         if form.is_valid():

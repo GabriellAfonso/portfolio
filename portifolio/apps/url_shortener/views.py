@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from django.views import View
 from .models import URL
 import random
-from apps.webchat.forms import RegisterForm
 from django.contrib.auth import logout
 import string
 from django.contrib import auth, messages
@@ -13,6 +12,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from apps.webchat.views.views import create_generic_account
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from core.forms import BaseRegisterForm
 
 
 class ShortenUrl(View):
@@ -104,7 +104,7 @@ class Login(View):
 class SingUp(View):
 
     def get(self, request):
-        form = RegisterForm()
+        form = BaseRegisterForm()
         created_account = False
         context = {
             'form': form,
@@ -118,7 +118,7 @@ class SingUp(View):
         )
 
     def post(self, request):
-        form = RegisterForm(request.POST)
+        form = BaseRegisterForm(request.POST)
         context = {'form': form}
         if form.is_valid():
             user = form.save()
