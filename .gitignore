@@ -12,7 +12,7 @@ certbot/usr
 certbot/etc
 certbot-challenge
 portifolio/static
-
+portifolio/core/settings/prod.py
 # Backup files # 
 
 *.bak 
@@ -105,12 +105,12 @@ celerybeat-schedule.*
 *.sage.py 
 
 # Environments 
-.env 
-.venv 
-env/ 
+# .env 
+# .venv 
+# env/ 
 venv/ 
-ENV/ 
-env.bak/ 
+# ENV/ 
+# env.bak/ 
 venv.bak/ 
 
 # mkdocs documentation 
