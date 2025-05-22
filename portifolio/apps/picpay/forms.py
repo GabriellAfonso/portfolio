@@ -2,31 +2,18 @@ from django import forms
 from rolepermissions.roles import assign_role
 from django import forms
 from django.contrib.auth.models import User
-from .models import Account
+from .models import PicPayAccount
 import re
 from validate_docbr import CPF, CNPJ
 from django.db import transaction
 
 
-class RegisterForm(forms.ModelForm):
-    # from django.conf import settings
-    # settings.AUTH_PASSWORD_VALIDATORS = []
-
-    username = forms.CharField(
-        required=False,
-        min_length=3,
-        max_length=50,
-        error_messages={
-            'required': 'Este campo é obrigatório.',
-            'min_length': 'Nome de usuário muito curto.',
-            'max_length': 'Nome de usuário muito longo.',
-        }
-    )
+class PicPayRegisterForm(forms.ModelForm):
 
     complete_name = forms.CharField(
         required=True,
         min_length=4,
-        max_length=50,
+        max_length=100,
         error_messages={
             'required': 'Este campo é obrigatório.',
             'min_length': 'Nome de usuário muito curto.',
@@ -36,7 +23,7 @@ class RegisterForm(forms.ModelForm):
 
     email = forms.EmailField(
         required=True,
-        max_length=100,
+        max_length=254,
         error_messages={
             'invalid': 'Utilize um e-mail válido',
         }
@@ -44,7 +31,7 @@ class RegisterForm(forms.ModelForm):
 
     document = forms.CharField(
         required=True,
-        max_length=100,
+        max_length=50,
         error_messages={
             'required': 'Este campo é obrigatório.',
         }
@@ -71,9 +58,6 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ('complete_name', 'email', 'password1',
                   'document', 'sex',)
-
-    def clean_username(self):
-        pass
 
     def clean_complete_name(self):
         name = self.cleaned_data.get('complete_name')
@@ -106,10 +90,10 @@ class RegisterForm(forms.ModelForm):
 
         if doc_type == 'cpf':
             document = self.cpf_validator(digits_only)
-
+            self.cleaned_data['document_type'] = 'cpf'
         if doc_type == 'cnpj':
             document = self.cnpj_validator(digits_only)
-
+            self.cleaned_data['document_type'] = 'cnpj'
         return document
 
     def cpf_or_cpnj(self, document):
@@ -123,7 +107,7 @@ class RegisterForm(forms.ModelForm):
         doc = cpf.mask(document)
         if not cpf.validate(doc):
             raise forms.ValidationError('CPF inválido.')
-        if Account.objects.filter(document=doc).exists():
+        if PicPayAccount.objects.filter(document=doc).exists():
             raise forms.ValidationError('CPF já cadastrado.')
 
         return doc
@@ -133,7 +117,7 @@ class RegisterForm(forms.ModelForm):
         doc = cnpj.mask(document)
         if not cnpj.validate(doc):
             raise forms.ValidationError('CNPJ inválido.')
-        if Account.objects.filter(document=doc).exists():
+        if PicPayAccount.objects.filter(document=doc).exists():
             raise forms.ValidationError('CNPJ já cadastrado.')
 
         return doc
@@ -146,36 +130,3 @@ class RegisterForm(forms.ModelForm):
                 'A senha deve ter no mínimo 6 caracteres.'
             )
         return password1
-
-    def get_account_type(self):
-        doc = self.cleaned_data['document']
-        doc_type = self.cpf_or_cpnj(doc)
-        if doc_type == 'cpf':
-            return 'personal'
-        return 'merchant'
-
-    def save(self, commit=True):
-
-        with transaction.atomic():
-            user = super().save(commit=False)
-            user.email = self.cleaned_data['email']
-            user.username = self.cleaned_data['email']
-
-            if commit:
-                user.set_password(self.cleaned_data['password1'])
-                user.save()
-
-                assign_role(user, self.get_account_type())
-
-                account = Account(
-                    user=user,
-                    complete_name=self.cleaned_data['complete_name'],
-                    document=self.cleaned_data['document'],
-                    document_type=self.cpf_or_cpnj(
-                        self.cleaned_data['document']),
-                    sex=self.cleaned_data['sex'],
-                    account_type=self.get_account_type(),
-                    balance=100
-                )
-                account.save()
-        return user
