@@ -80,6 +80,7 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = [
+    'core.auth_backend.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
