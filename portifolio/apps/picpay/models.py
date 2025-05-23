@@ -22,12 +22,10 @@ class PicPayAccount(models.Model):
     def pay(self, value):
         value = Decimal(value)  # Converte o valor para Decimal
         self.balance -= value
-        self.save()
 
     def receive(self, value):
         value = Decimal(value)  # Converte o valor para Decimal
         self.balance += value
-        self.save()
 
     def __str__(self):
         return f'id:{self.id} {self.user.email}'
