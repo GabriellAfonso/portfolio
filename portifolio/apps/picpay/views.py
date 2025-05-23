@@ -14,27 +14,25 @@ from rolepermissions.checkers import has_permission
 from django.utils.timezone import now
 from django.http import JsonResponse
 from apps.picpay.services.register_picpay_user import PicPayRegistrationService
+from core.forms import EmailAuthenticationForm
 
 
 class Login(View):
 
     def get(self, request):
-        form = AuthenticationForm(request)
+        form = EmailAuthenticationForm(request=request)
         context = {'form': form, }
         return render(request, 'picpay/login.html', context)
 
     def post(self, request):
-        form = AuthenticationForm(request, data=request.POST)
+        form = EmailAuthenticationForm(data=request.POST, request=request)
 
         if form.is_valid():
             user = form.get_user()
             auth.login(request, user)
             return redirect('picpay:profile')
 
-        else:
-            print(form.errors)
-            messages.error(request, 'E-mail ou senha inválidos.')
-            return redirect('picpay:login')
+        return render(request, 'picpay/login.html', {'form': form})
 
 
 class Register(View):

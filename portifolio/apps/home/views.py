@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 import random
 import string
-from apps.picpay.models import Account
+from apps.picpay.models import PicPayAccount
 from rolepermissions.roles import assign_role
 from django.http import HttpResponseBadRequest
 from django.http import FileResponse
@@ -13,16 +13,7 @@ from django.conf import settings
 
 
 def index(request):
-
-    context = {
-
-    }
-
-    return render(
-        request,
-        'home/index.html',
-        context,
-    )
+    return render(request, 'home/index.html')
 
 
 def guest_login(request, app_name):
@@ -38,7 +29,7 @@ def guest_login(request, app_name):
     elif app_name == "url_shortener":
         return redirect("url_shortener:shorten-url")
     elif app_name == "picpay":
-        Account.objects.create(
+        PicPayAccount.objects.create(
             user=user,
             complete_name="Convidado PicPay",
             email=f"{username}@guest.com",
@@ -55,6 +46,6 @@ def guest_login(request, app_name):
 
 
 def curriculo(request):
-    PATH = os.path.join(settings.BASE_DIR, 'apps', 'home',
-                        'static', 'home', 'docs', 'curriculo.pdf')
+    PATH = os.path.join(settings.BASE_DIR, 'apps',
+                        'home', 'docs', 'curriculo.pdf')
     return FileResponse(open(PATH, 'rb'), content_type='application/pdf')

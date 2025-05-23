@@ -21,7 +21,7 @@ class PicPayRegistrationService():
         with transaction.atomic():
             user = User(
                 email=self.form_data['email'],
-                username=self.form_data['email'],
+                username='',
             )
             user.set_password(self.form_data['password1'])
             user.save()

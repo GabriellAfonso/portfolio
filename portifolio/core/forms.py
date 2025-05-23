@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -70,3 +71,30 @@ class BaseRegisterForm(UserCreationForm):
                         'Este e-mail ja esta cadastrado', code='invalid')
                 )
         return email
+
+
+class EmailAuthenticationForm(forms.Form):
+    email = forms.EmailField(label="E-mail")
+    password = forms.CharField(label="Senha", widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request", None)
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+
+        if email and password:
+            self.user_cache = authenticate(
+                self.request,
+                email=email,
+                password=password
+            )
+            if self.user_cache is None:
+                raise forms.ValidationError("E-mail ou senha inválidos.")
+        return self.cleaned_data
+
+    def get_user(self):
+        return self.user_cache

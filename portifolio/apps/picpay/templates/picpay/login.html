@@ -21,20 +21,19 @@
             <h1 class="h4 mb-3 ">Login</h1>
 
             <div class="form-floating pb-2">
-                <input type="email" name="{{ form.username.html_name }}" class="form-control" id="floatingInput" placeholder="E-mail">
+                <input type="email" name="{{ form.email.html_name }}" class="form-control" id="floatingInput" placeholder="E-mail">
                 <label for="floatingInput">E-mail</label>
             </div>
             <div class="form-floating pb-2">
                 <input type="password" name="{{ form.password.html_name }}" class="form-control" id="floatingInput" placeholder="Senha">
                 <label for="floatingInput">Senha</label>
             </div>
-            {% if messages %}
-              {% for message in messages %}
-                {% if message.tags == 'error' %}
-                <div class="mb-2"style="color: #dc3545;">{{ message }}</div>
-                {% endif %}
-              {% endfor %}
-          {% endif %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="mb-2" style="color: #dc3545;">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
             <button class="btn btn-primary w-100 py-2">Entrar</button>
             <a class="icon-link icon-link-hover mt-2" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="{% url "picpay:register" %}">
                 <i class="bi bi-clipboard"></i>
