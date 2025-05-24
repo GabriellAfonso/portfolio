@@ -28,7 +28,7 @@ class PicPayAccount(models.Model):
         self.balance += value
 
     def __str__(self):
-        return f'id:{self.id} {self.user.email}'
+        return f'{self.complete_name} ({self.document})'
 
 
 class Transaction(models.Model):

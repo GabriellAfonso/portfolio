@@ -41,13 +41,13 @@ class TransactionAPIView(APIView):
             )
 
         except TransactionExceptions as e:
-            return Response({'detail': e.message}, status=e.status_code)
+            return Response({'error': e.message}, status=e.status_code)
 
         except PicPayAccount.DoesNotExist:
-            return Response({'detail': 'Conta não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Conta não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
 
-        # except Exception as e:
-        #     return Response({'detail': 'Erro interno ao processar a transação.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            return Response({'error': 'Erro interno ao processar a transação.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def process_value(self, value):
         v1 = value.replace('.', '')

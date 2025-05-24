@@ -10,6 +10,7 @@ services:
       - ./portifolio:/portifolio
       - ./portifolio/static:/portifolio/static/
       - ./portifolio/apps/home/static/home:/portifolio/static/home
+      - ./portifolio/apps/picpay/static/picpay:/portifolio/static/picpay
       - ./portifolio/media:/portifolio/media/
     env_file:
       - ./dotenv_files/.env
@@ -38,6 +39,7 @@ services:
       - ./portifolio/static:/portifolio/static/
       - ./portifolio/apps/home/static/home:/portifolio/static/home
       - ./portifolio/apps/webchat/static/webchat:/portifolio/static/webchat
+      - ./portifolio/apps/picpay/static/picpay:/portifolio/static/picpay
       - ./portifolio/media:/portifolio/media/
       - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge
     depends_on:

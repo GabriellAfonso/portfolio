@@ -95,14 +95,13 @@ async function transaction() {
         document: receiverDocument,
         value: transactionValue,
     }
-
     var request = await Api.postData(endpoint, data)
-    if (request.validation_error) {
-        transactionError(request.validation_error)
-    }
-    if (request.Success) {
 
-        transactionSuccess(request.Success)
+    if (request.error) {
+        transactionError(request.error)
+    }
+    if (request.success) {
+        transactionSuccess(request.success)
         document.getElementById('cpfcnpj').value = ''
         document.getElementById('valueTransactionInput').value = ''
     }
