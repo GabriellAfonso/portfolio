@@ -5,16 +5,15 @@ from django.contrib import auth, messages
 from apps.picpay.forms import PicPayRegisterForm
 from apps.picpay.models import PicPayAccount, Transaction
 from django.db.models import Q
-from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from rolepermissions.roles import assign_role
-from rolepermissions.checkers import has_permission
 from django.utils.timezone import now
 from django.http import JsonResponse
 from apps.picpay.services.register_picpay_user import PicPayRegistrationService
 from core.forms import EmailAuthenticationForm
+from apps.picpay.utils import get_first_and_last_name
+from apps.picpay.services.profile_service import get_last_transactions
 
 
 class Login(View):
@@ -62,57 +61,13 @@ class YourProfile(View):
     def get(self, request):
         user = request.user
         account = PicPayAccount.objects.get(user=user.id)
-        username = self.get_first_and_last_name(account.complete_name)
-        context = {'username': username,
+        display_name = get_first_and_last_name(account.complete_name)
+        context = {'display_name': display_name,
                    'balance': account.balance,
                    'sex': account.sex,
-                   'last_transactions': self.get_last_transactions(account)
+                   'last_transactions': get_last_transactions(account)
                    }
         return render(request, 'picpay/profile.html', context)
-
-    def get_first_and_last_name(self, full_name):
-        parts = full_name.split()
-
-        first_name = parts[0].capitalize()
-
-        if len(parts) > 1:
-            last_name = parts[-1].capitalize()
-            return f"{first_name} {last_name}"
-        else:
-            return first_name
-
-    def get_last_transactions(self, account):
-        last_transactions = Transaction.objects.filter(
-            Q(sender=account) | Q(receiver=account)
-        ).order_by('-created_at')[:3]
-
-        processed_transactions = []
-        for transaction in last_transactions:
-
-            if transaction.sender_id == account.id:
-                action = "Enviou"
-                counterpart = transaction.receiver.complete_name
-            else:
-                action = "Recebeu"
-                counterpart = transaction.sender.complete_name
-
-            time_elapsed = now() - transaction.created_at
-            days_ago = time_elapsed.days
-            if days_ago == 0:
-                time_str = "Hoje"
-            elif days_ago == 1:
-                time_str = "Ontem"
-            else:
-                time_str = f"{days_ago} dias atrás"
-
-            processed_transactions.append({
-                'action': action,
-                'time': time_str,
-                'value': transaction.value,
-                'counterpart': self.get_first_and_last_name(counterpart)
-            })
-
-        return processed_transactions
 
 
 class Logout(View):
