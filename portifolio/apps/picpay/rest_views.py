@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from .models import PicPayAccount
-from .serializers import TransactionSerializer
+from .serializers import TransactionSerializer, RecipientPreviewSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .exceptions import TransactionExceptions
@@ -61,3 +61,21 @@ class TransactionAPIView(APIView):
     def get_receiver(self, doc):
         receiver = PicPayAccount.objects.get(document=doc)
         return receiver
+
+
+class RecipientPreviewAPIView(APIView):
+
+    def get(self, request):
+        document = request.query_params.get('document')
+
+        if not document:
+            return Response({'erro': 'Documento não informado.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            account = PicPayAccount.objects.get(document=document)
+        except PicPayAccount.DoesNotExist:
+            return Response({'erro': 'Destinatário não encontrado.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Retorna apenas os dados que devem ser exibidos para confirmação
+        serializer = RecipientPreviewSerializer(account)
+        return Response(serializer.data, status=status.HTTP_200_OK)

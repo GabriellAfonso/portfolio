@@ -6,6 +6,8 @@
  *  Made by Diego Plentz
  *  Under MIT License
  */
+
+
 (function ($) {
     "use strict";
     if (!$.browser) {
@@ -589,3 +591,9 @@
         }
     };
 })(window.jQuery || window.Zepto);
+
+export const MaskMoney = {
+    apply: function (selector) {
+        $(selector).maskMoney({ thousands: '.', decimal: ',' });
+    }
+}

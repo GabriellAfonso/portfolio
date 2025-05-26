@@ -76,20 +76,3 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('picpay:login')
-
-
-@login_required(login_url='picpay:login')
-def start_transaction(request):
-    document = request.GET.get('document')
-    print(document)
-    if document:
-        try:
-            account = PicPayAccount.objects.get(document=document)
-            data = {
-                'name': account.complete_name,
-            }
-            return JsonResponse(data)
-        except PicPayAccount.DoesNotExist:
-            return JsonResponse({'error': 'Account not found'}, status=404)
-    else:
-        return JsonResponse({'error': 'No document provided'}, status=400)

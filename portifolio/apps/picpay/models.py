@@ -20,11 +20,11 @@ class PicPayAccount(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def pay(self, value):
-        value = Decimal(value)  # Converte o valor para Decimal
+        value = Decimal(value)
         self.balance -= value
 
     def receive(self, value):
-        value = Decimal(value)  # Converte o valor para Decimal
+        value = Decimal(value)
         self.balance += value
 
     def __str__(self):
@@ -35,7 +35,24 @@ class Transaction(models.Model):
     value = models.DecimalField(
         max_digits=10, decimal_places=2, editable=False)
     sender = models.ForeignKey(
-        PicPayAccount, related_name='sent_transactions', on_delete=models.CASCADE, editable=False)
+        PicPayAccount,
+        related_name='sent_transactions',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        editable=False
+    )
     receiver = models.ForeignKey(
-        PicPayAccount, related_name='received_transactions', on_delete=models.CASCADE, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+        PicPayAccount,
+        related_name='received_transactions',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        editable=False
+    )
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self):
+        sender = self.sender.complete_name if self.sender else "Usuário Removido"
+        receiver = self.receiver.complete_name if self.receiver else "Usuário Removido"
+        return f'{sender} send ({self.value}) to {receiver}'
