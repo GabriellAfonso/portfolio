@@ -13,7 +13,7 @@ from django.http import JsonResponse
 from apps.picpay.services.register_picpay_user import PicPayRegistrationService
 from core.forms import EmailAuthenticationForm
 from apps.picpay.utils import get_first_and_last_name
-from apps.picpay.services.profile_service import get_last_transactions
+from apps.picpay.services.profile_service import get_recent_profile_transactions
 
 
 class Login(View):
@@ -65,7 +65,7 @@ class YourProfile(View):
         context = {'display_name': display_name,
                    'balance': account.balance,
                    'sex': account.sex,
-                   'last_transactions': get_last_transactions(account)
+                   'last_transactions':  get_recent_profile_transactions(account, 2)
                    }
         return render(request, 'picpay/profile.html', context)
 
