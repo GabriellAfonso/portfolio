@@ -1,20 +1,18 @@
-from apps.picpay.models import Transaction
-from apps.picpay.exceptions import AuthorizationDenied
 import requests
+from apps.picpay.exceptions import AuthorizationDenied
 from django.db import transaction as django_transaction
-
 from apps.picpay.validators.transaction_validator import TransactionValidator
+from apps.picpay.models import Transaction
 
 
 class TransactionService():
+    def __init__(self, validator: TransactionValidator, transaction_model: Transaction):
+        self.validator = validator
+        self.transaction_model = transaction_model
 
     def process_transaction(self, data):
-        validator = TransactionValidator()
-        validator.validate(data)
-        sender = data['sender']
-        receiver = data['receiver']
-        transaction = self._perform_transfer(data['value'], sender, receiver)
-        return transaction
+        self.validator.validate(data)
+        return self._create_transaction(data['value'], data['sender'], data['receiver'])
 
     def _get_external_authorization(self):
         external_service_url = 'https://util.devi.tools/api/v2/authorize'
@@ -25,14 +23,14 @@ class TransactionService():
             return True
         raise AuthorizationDenied
 
-    def _perform_transfer(self, value, sender, receiver):
+    def _create_transaction(self, value, sender, receiver):
         transaction_value = value
         with django_transaction.atomic():
             self._get_external_authorization()
             sender.pay(transaction_value)
             receiver.receive(transaction_value)
 
-            transactionDB = Transaction(
+            transaction_db = self.transaction_model(
                 sender=sender,
                 receiver=receiver,
                 value=transaction_value,
@@ -40,5 +38,5 @@ class TransactionService():
 
             sender.save()
             receiver.save()
-            transactionDB.save()
-            return transactionDB
+            transaction_db.save()
+            return transaction_db
