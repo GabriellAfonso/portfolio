@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from .models import PicPayAccount
+from apps.picpay.models import Transaction
 from .serializers import TransactionSerializer, RecipientPreviewSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,6 +8,7 @@ from .exceptions import TransactionExceptions
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from apps.picpay.services.transaction_service import TransactionService
+from apps.picpay.validators.transaction_validator import TransactionValidator
 
 
 class TransactionAPIView(APIView):
@@ -30,8 +32,11 @@ class TransactionAPIView(APIView):
                 'sender': sender,
                 'receiver': receiver,
             }
-
-            transaction = TransactionService()
+            transaction_model = Transaction
+            validator = TransactionValidator()
+            transaction = TransactionService(
+                validator=validator,
+                transaction_model=transaction_model)
             transaction_process = transaction.process_transaction(data)
             serializer = TransactionSerializer(transaction_process)
             return Response(
