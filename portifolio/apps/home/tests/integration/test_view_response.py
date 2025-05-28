@@ -1,8 +1,9 @@
+import pytest
 from django.test import TestCase, Client
-from django.urls import reverse, resolve
-from apps.home import views
+from django.urls import reverse
 
 
+@pytest.mark.integration
 class ViewResponseTest(TestCase):
 
     def test_index_view_renders_correct_content(self):

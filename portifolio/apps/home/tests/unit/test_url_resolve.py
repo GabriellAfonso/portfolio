@@ -1,8 +1,10 @@
+import pytest
 from django.test import TestCase
-from django.urls import reverse, resolve
+from django.urls import resolve
 from apps.home import views
 
 
+@pytest.mark.unit
 class UrlResolveTest(TestCase):
 
     def test_index_url_resolves_to_correct_view(self):
