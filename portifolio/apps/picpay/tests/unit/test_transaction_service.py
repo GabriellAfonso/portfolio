@@ -1,6 +1,6 @@
 import pytest
 from django.test import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, Mock
 from apps.picpay.exceptions import AuthorizationDenied
 from apps.picpay.services.transaction_service import TransactionService
 
@@ -10,13 +10,13 @@ class TransactionServiceTest(TestCase):
 
     def setUp(self):
         self.service = TransactionService(
-            validator=MagicMock(), transaction_model=MagicMock)
+            validator=Mock(), transaction_model=Mock)
 
-        self.sender = MagicMock()
+        self.sender = Mock()
         self.sender.id = 1
         self.sender.balance = 100
 
-        self.receiver = MagicMock()
+        self.receiver = Mock()
         self.receiver.id = 2
 
         self.data = {
@@ -26,7 +26,7 @@ class TransactionServiceTest(TestCase):
         }
 
     def mock_response(self, status_code=200, json_data=None):
-        response = MagicMock()
+        response = Mock()
         response.status_code = status_code
         response.json.return_value = json_data or {}
         return response

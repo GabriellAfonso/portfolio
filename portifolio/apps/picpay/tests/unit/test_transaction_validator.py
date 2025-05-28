@@ -1,6 +1,6 @@
 import pytest
 from django.test import TestCase
-from unittest.mock import MagicMock, patch
+from unittest.mock import Mock, patch
 from apps.picpay.validators.transaction_validator import TransactionValidator
 from apps.picpay.exceptions import (
     SelfTransferError, InsufficientBalanceError,
@@ -15,14 +15,14 @@ class TransactionValidatorTest(TestCase):
     def setUp(self):
         self.validator = TransactionValidator()
 
-        self.sender = MagicMock()
+        self.sender = Mock()
         self.sender.id = 1
         self.sender.balance = 100
-        self.sender.user = MagicMock()
+        self.sender.user = Mock()
 
-        self.receiver = MagicMock()
+        self.receiver = Mock()
         self.receiver.id = 2
-        self.receiver.user = MagicMock()
+        self.receiver.user = Mock()
 
     @patch('apps.picpay.validators.transaction_validator.has_permission')
     def test_validate_success(self, mock_has_permission):
