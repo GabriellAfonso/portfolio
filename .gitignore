@@ -1,5 +1,4 @@
-#vscode
-.vscode/
+Makefile
 
 # Django #
 *.log
@@ -18,8 +17,6 @@ portifolio/static
 portifolio/core/settings/prod.py
 # Backup files # 
 *.bak 
-
-
 
 # If you are using PyCharm # 
 # User-specific stuff
@@ -51,8 +48,6 @@ portifolio/core/settings/prod.py
 # File-based project format
 *.iws
 
-# IntelliJ
-out/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
@@ -141,7 +136,8 @@ Control.system-ca-bundle
 GitHub.sublime-settings 
 
 # Visual Studio Code # 
-.vscode/* 
+.vscode/
+.vscode/*
 !.vscode/settings.json 
 !.vscode/tasks.json 
 !.vscode/launch.json 
