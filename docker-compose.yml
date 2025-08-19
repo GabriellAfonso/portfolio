@@ -3,9 +3,9 @@ services:
     container_name: portifolio-server
     build:
       context: .
-    image: django-portifolio:dev  
+    image: django-portifolio:dev
     ports:
-      - 8000:8000 
+      - 8000:8000
     volumes:
       - ./portifolio:/portifolio
       - ./portifolio/static:/portifolio/static/
@@ -15,7 +15,7 @@ services:
     env_file:
       - ./dotenv_files/.env
     depends_on:
-      - portfolio_db 
+      - portfolio_db
 
   portfolio_db:
     container_name: portfolio-db
@@ -26,23 +26,3 @@ services:
       - ./postgres/data:/var/lib/postgresql/data/
     env_file:
       - ./dotenv_files/.env
-
-  portfolio_nginx:  
-    container_name: portfolio-nginx
-    image: nginx:1.25.1
-    ports:
-      - 80:80 
-      - 443:443  
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/html:/usr/share/nginx/html
-      - ./portifolio/static:/portifolio/static/
-      - ./portifolio/apps/home/static/home:/portifolio/static/home
-      - ./portifolio/apps/webchat/static/webchat:/portifolio/static/webchat
-      - ./portifolio/apps/picpay/static/picpay:/portifolio/static/picpay
-      - ./portifolio/media:/portifolio/media/
-      - ./certbot-challenge:/usr/share/nginx/html/.well-known/acme-challenge
-    depends_on:
-      - portfolio_django
-
-  
