@@ -18,5 +18,3 @@ sleep 0.2
 # Iniciar 
 python manage.py runserver 0.0.0.0:8000
 
-# Iniciar Nginx
-nginx -g "daemon off;"
