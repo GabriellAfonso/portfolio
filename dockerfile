@@ -5,13 +5,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 ENV PYTHONUNBUFFERED 1
 
-copy portifolio /portifolio
-copy scripts /scripts
+COPY portifolio /portifolio
+COPY scripts /scripts
 
 WORKDIR /portifolio
 
 RUN chmod +x /scripts/commands.sh && \
-    chmod -R a+rw /portifolio
+  chmod -R a+rw /portifolio
 
 
 EXPOSE 8000
