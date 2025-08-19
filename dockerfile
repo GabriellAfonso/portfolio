@@ -21,6 +21,6 @@ RUN python -m venv /venv && \
   /venv/bin/pip install -r /portifolio/requirements.txt && \
   adduser --disabled-password --no-create-home duser
 
-ENV PATH="/scripts:/venv/bin:${PATH}"
+ENV PATH="/venv/bin:/scripts:${PATH}"
 
 CMD ["commands.sh"]
