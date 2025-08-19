@@ -1,7 +1,7 @@
 from .base import *
 import os
 from dotenv import load_dotenv
-dotenv_path = BASE_DIR / "dotenv_files/.env"
+dotenv_path = BASE_DIR / "dotenv_files/.env.prod"
 load_dotenv(dotenv_path)
 
 
