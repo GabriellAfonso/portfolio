@@ -1,3 +1,6 @@
+#vscode
+.vscode/
+
 # Django #
 *.log
 *.pot
@@ -16,8 +19,8 @@ portifolio/core/settings/prod.py
 # Backup files # 
 *.bak 
 
-.vscode/
-docker-compose.prod.yml
+
+
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -146,7 +149,8 @@ GitHub.sublime-settings
 .history
 
 #docker
-
+docker-compose.prod.yml
+.env.prod
 postgres
 ssl
 
