@@ -14,7 +14,7 @@ certbot/usr
 certbot/etc
 certbot-challenge
 portifolio/static
-portifolio/core/settings/prod.py
+# portifolio/core/settings/prod.py
 # Backup files # 
 *.bak 
 
