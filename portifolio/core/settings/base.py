@@ -1,20 +1,8 @@
-import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-dotenv_path = BASE_DIR / "dotenv_files/.env"
-load_dotenv(dotenv_path)
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'change-me')
-
-DEBUG = bool(int(os.getenv('DEBUG', 0)))
-
-ALLOWED_HOSTS = [
-    h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',')
-    if h.strip()
-]
 
 INSTALLED_APPS = [
     'rest_framework',
@@ -68,16 +56,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'change-me'),
-        'NAME': os.getenv('POSTGRES_DB', 'change-me'),
-        'USER': os.getenv('POSTGRES_USER', 'change-me'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'change-me'),
-        'HOST': os.getenv('POSTGRES_HOST', 'change-me'),
-        'PORT': os.getenv('POSTGRES_PORT', 'change-me'),
-    }
-}
 
 AUTHENTICATION_BACKENDS = [
     'core.auth_backend.EmailBackend',
