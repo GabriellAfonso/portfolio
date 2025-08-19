@@ -14,9 +14,10 @@ certbot-challenge
 portifolio/static
 portifolio/core/settings/prod.py
 # Backup files # 
-
 *.bak 
 
+.vscode/
+docker-compose.prod.yml
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/**/workspace.xml
