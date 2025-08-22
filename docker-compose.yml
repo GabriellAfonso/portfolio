@@ -5,7 +5,7 @@ services:
       context: .
     image: django-portfolio:dev
     ports:
-      - 8000:8000
+      - 80:8000
     volumes:
       - ./portfolio:/portfolio
       - ./portfolio/static:/portfolio/static/
