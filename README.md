@@ -12,9 +12,9 @@ Escolhi trabalhar com backend justamente por gostar de criar estruturas, impleme
 Clique em qualquer projeto abaixo para ver detalhes técnicos, funcionalidades e instruções de uso:
 
 - [`Dumcrown`](https://github.com/GabriellAfonso/dumcrown) – Jogo de cartas online desenvolvido com Django e Phaser, com sistema de duelo 1v1 entre jogadores.
-- [`Webchat`](https://github.com/GabriellAfonso/portifolio/blob/main/portifolio/apps/webchat/README_webchat.md) – Aplicação de chat em tempo real com autenticação de usuários.
-- [`Url_shortener`](https://github.com/GabriellAfonso/portifolio/blob/main/portifolio/apps/url_shortener/README_url_shortener.md) – Encurtador de URLs simples, onde cada usuário possui seus próprios links encurtados.
-- [`Picpay`](https://github.com/GabriellAfonso/portifolio/blob/main/portifolio/apps/picpay/README_picpay.md) – Versão simplificada da plataforma PicPay, com transferências entre usuários e carteira virtual.
+- [`Webchat`](https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/webchat/README_webchat.md) – Aplicação de chat em tempo real com autenticação de usuários.
+- [`Url_shortener`](https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md) – Encurtador de URLs simples, onde cada usuário possui seus próprios links encurtados.
+- [`Picpay`](https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/picpay/README_picpay.md) – Versão simplificada da plataforma PicPay, com transferências entre usuários e carteira virtual.
 
 
 ## Tecnologias Utilizadas

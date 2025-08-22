@@ -25,4 +25,4 @@ Este projeto faz parte do meu portfólio e foi desenvolvido com o objetivo de ex
 - O foco principal foi entender os limites e possibilidades do Django REST Framework para sistemas interativos.
 - O WebChat é totalmente funcional e está embutido no portfólio principal. Ao rodar o portfólio, ele já estará disponível.
 
-> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portifolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.
+> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portfolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.

@@ -1,17 +1,17 @@
 services:
   portfolio_django:
-    container_name: portifolio-server
+    container_name: portfolio-server
     build:
       context: .
-    image: django-portifolio:dev
+    image: django-portfolio:dev
     ports:
       - 8000:8000
     volumes:
-      - ./portifolio:/portifolio
-      - ./portifolio/static:/portifolio/static/
-      - ./portifolio/apps/home/static/home:/portifolio/static/home
-      - ./portifolio/apps/picpay/static/picpay:/portifolio/static/picpay
-      - ./portifolio/media:/portifolio/media/
+      - ./portfolio:/portfolio
+      - ./portfolio/static:/portfolio/static/
+      - ./portfolio/apps/home/static/home:/portfolio/static/home
+      - ./portfolio/apps/picpay/static/picpay:/portfolio/static/picpay
+      - ./portfolio/media:/portfolio/media/
     env_file:
       - ./dotenv_files/.env
     depends_on:

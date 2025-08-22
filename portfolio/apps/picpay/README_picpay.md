@@ -73,4 +73,4 @@ A aplicação permite a realização de **transferências entre usuários**, seg
 
 ---
 
-> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portifolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.
+> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portfolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.

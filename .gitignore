@@ -13,8 +13,8 @@ project/local_settings.py
 certbot/usr
 certbot/etc
 certbot-challenge
-portifolio/static
-# portifolio/core/settings/prod.py
+portfolio/static
+# portfolio/core/settings/prod.py
 # Backup files # 
 *.bak 
 

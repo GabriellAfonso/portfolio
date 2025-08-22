@@ -48,4 +48,4 @@ Todas as funcionalidades são protegidas por login. Isso garante que cada usuár
 - Expiração automática de links
 - Dashboard de estatísticas
 
-> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portifolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.
+> Este projeto faz parte do meu [Portfólio](https://github.com/GabriellAfonso/portfolio), onde você pode conhecer outros projetos e detalhes do desenvolvedor.
