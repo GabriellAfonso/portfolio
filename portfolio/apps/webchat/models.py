@@ -3,14 +3,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.templatetags.static import static
 from PIL import Image
 
-DEFAULT_PROFILE_PICTURE = 'webchat/empty_picture.jpg'
+
+DEFAULT_PROFILE_PICTURE = '../static/webchat/images/icons/empty_picture.jpg'
 
 
 def get_profile_picture_path(instance, filename):
     ext = filename.split('.')[-1]
-    filename = f"profile_picture_{instance.username}.{ext}"
+    # Nome fixo baseado no usuário
+    filename = f"profile_picture_{instance.user.id}.{ext}"
     return os.path.join('webchat/profile_picture/', filename)
 
 
@@ -18,35 +21,25 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile')
     username = models.CharField(max_length=50)
-    profile_picture = models.ImageField(upload_to=get_profile_picture_path, blank=True,
-                                        null=True, default=DEFAULT_PROFILE_PICTURE)
+    profile_picture = models.ImageField(
+        upload_to=get_profile_picture_path, blank=True, default=DEFAULT_PROFILE_PICTURE)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
+    def resize_profile_picture(self):
+        """Redimensiona a foto de perfil para 200x200 se não for a padrão."""
+        if not self.profile_picture or 'empty_picture.jpg' in self.profile_picture.name:
+            return
         try:
-            profile = Profile.objects.get(pk=self.pk)
-        except Profile.DoesNotExist:
-            profile = None
-
-        super(Profile, self).save(*args, **kwargs)
-
-        if profile and profile.profile_picture and profile.profile_picture != self.profile_picture:
-            try:
-                if str(profile.profile_picture) != DEFAULT_PROFILE_PICTURE:
-                    os.remove(os.path.join(settings.MEDIA_ROOT,
-                                           str(profile.profile_picture)))
-            except FileNotFoundError:
-                pass
-
-        if self.profile_picture:
             img = Image.open(self.profile_picture.path)
             img = img.resize((200, 200))
             img.save(self.profile_picture.path)
+        except FileNotFoundError:
+            pass
 
-    def __str__(self):
-        return f'id:{self.id} {self.user}'
+    # TODO fazer o profile picture voltar ao default se a imagem do usuario for deletada do sistema de arquivos
+    # TODO deletar imagem antiga ao trocar a imagem de perfil
 
 
 class ChatRoom(models.Model):
