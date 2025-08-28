@@ -1,8 +1,10 @@
 from django.db.models.signals import post_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import Message
 from .models import Profile
+from PIL import Image
 
 
 @receiver(post_save, sender=Message)
@@ -25,3 +27,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+@receiver(post_save, sender=Profile)
+def handle_profile_picture(sender, instance, **kwargs):
+    instance.resize_profile_picture()
