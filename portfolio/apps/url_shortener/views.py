@@ -93,7 +93,8 @@ class Login(View):
 
         if form.is_valid():
             user = form.get_user()
-            auth.login(request, user)
+            auth.login(request, user,
+                       backend='django.contrib.auth.backends.ModelBackend')
             return redirect('url_shortener:shorten-url')
 
         else:

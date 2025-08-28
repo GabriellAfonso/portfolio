@@ -22,11 +22,12 @@ def guest_login(request, app_name):
     user = User.objects.create_user(username=username)
     user.set_unusable_password()
     user.save()
-    login(request, user)
 
     if app_name == "webchat":
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect("webchat:chat")
     elif app_name == "url_shortener":
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect("url_shortener:shorten-url")
     elif app_name == "picpay":
         PicPayAccount.objects.create(
@@ -40,6 +41,7 @@ def guest_login(request, app_name):
             balance=100
         )
         assign_role(user, 'personal')
+        login(request, user, backend='core.auth_backend.EmailBackend')
         return redirect("picpay:profile")
     else:
         return HttpResponseBadRequest("App inválido")
