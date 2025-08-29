@@ -12,7 +12,6 @@ services:
       - ./portfolio/apps/home/static/home:/portfolio/static/home
       - ./portfolio/apps/picpay/static/picpay:/portfolio/static/picpay
       - ./portfolio/apps/webchat/static/webchat:/portfolio/static/webchat
-      - ./portfolio/apps/webchat/media/webchat:/portfolio/media/webchat
       - ./portfolio/media:/portfolio/media/
     env_file:
       - ./dotenv_files/.env
