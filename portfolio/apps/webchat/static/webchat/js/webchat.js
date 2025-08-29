@@ -23,9 +23,10 @@ let activeRoomID = 0
 setInterval(() => {
     if (activeRoomID != 0) {
         updateRoom()
-    }
 
-}, 1000)
+    }
+    updateChatList()
+}, 500)
 
 messageSenderInput.addEventListener("keyup", function (event) {
 
@@ -34,6 +35,10 @@ messageSenderInput.addEventListener("keyup", function (event) {
     }
 })
 
+function updateChatList() {
+    console.log('updatou')
+    updateHtmlContent('#rooms')
+}
 
 function updatePerfilElements() {
     profileUsername = document.getElementById('username');
