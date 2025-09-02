@@ -10,6 +10,7 @@ from django.http import HttpResponseBadRequest
 from django.http import FileResponse
 import os
 from django.conf import settings
+from apps.webchat.views.views import create_generic_account
 
 
 def index(request):
@@ -22,6 +23,7 @@ def guest_login(request, app_name):
     user = User.objects.create_user(username=username)
     user.set_unusable_password()
     user.save()
+    create_generic_account(user)
 
     if app_name == "webchat":
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
