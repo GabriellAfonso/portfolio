@@ -35,6 +35,13 @@
             {% endif %}
 
             <button class="btn btn-primary w-100 py-2">Entrar</button>
+
+              <div class="guest-login-bnt">
+				<a href="{% url "home:guest_login" "picpay" %}" class="link_button" id="guest-link">
+					Entrar como convidado
+				</a>
+			    </div>
+
             <a class="icon-link icon-link-hover mt-2" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="{% url "picpay:register" %}">
                 <i class="bi bi-clipboard"></i>
                 Cadastre-se

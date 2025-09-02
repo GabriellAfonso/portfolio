@@ -39,6 +39,12 @@
             
                 
                 <button type="submit" class="btn btn-primary" id="django-form">Entrar</button>
+
+                <div class="guest-login-bnt">
+				<a href="{% url "home:guest_login" "url_shortener" %}" class="link_button" id="guest-link">
+					Entrar como convidado
+				</a>
+			    </div>
                 <a href="{% url "url_shortener:singup" %}" id="ForgotPasswordLink">Registrar-se</a>
 
         </form>

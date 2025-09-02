@@ -20,6 +20,28 @@ body {
     margin-bottom: 5rem;
 }
 
+.link_button {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 33px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    color: rgb(237, 237, 237);
+    background-image: #f0f2f5;
+    border: 1px solid rgb(102, 102, 102);
+    margin-bottom: 5px;
+}
+
+.link_button:hover {
+    background-color: rgb(165, 165, 165);
+    color: white;
+
+}
 
 
 /* Profile */
