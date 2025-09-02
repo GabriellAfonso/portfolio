@@ -59,6 +59,7 @@
     flex-direction: column;
     width: 200px;
     margin-top: 25px;
+    text-align: center;
 }
 
 .form-title#RegisterTitle {
