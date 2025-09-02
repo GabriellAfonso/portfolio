@@ -53,11 +53,11 @@
 			<div id="or">
 			<hr>
 			</div>
-			<div class="login_icons">
+			{% comment %} <div class="login_icons">
 				<a href="#" class="link_button" id="google-link">
 					<img src="{% static 'webchat/images/icons/google-icon.png' %}" alt="google">
 				</a>
-			</div>
+			</div> {% endcomment %}
 
 			<div class="login_icons">
 				<a href="{% url "home:guest_login" "webchat" %}" class="link_button" id="guest-link">
