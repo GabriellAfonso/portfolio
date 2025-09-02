@@ -21,9 +21,11 @@ def guest_login(request, app_name):
     username = "guest_" + \
         ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     user = User.objects.create_user(username=username)
+    print('Usuário guest criado:', user.id, user.username)
     user.set_unusable_password()
     user.save()
     create_generic_account(user)
+    assign_role(user, 'personal')
 
     if app_name == "webchat":
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
@@ -32,17 +34,6 @@ def guest_login(request, app_name):
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect("url_shortener:shorten-url")
     elif app_name == "picpay":
-        PicPayAccount.objects.create(
-            user=user,
-            complete_name="Convidado PicPay",
-            email=f"{username}@guest.com",
-            document="00000000000",
-            document_type="cpf",
-            sex="M",
-            account_type="personal",
-            balance=100
-        )
-        assign_role(user, 'personal')
         login(request, user, backend='core.auth_backend.EmailBackend')
         return redirect("picpay:profile")
     else:
