@@ -36,7 +36,6 @@ messageSenderInput.addEventListener("keyup", function (event) {
 })
 
 function updateChatList() {
-    console.log('updatou')
     updateHtmlContent('#rooms')
 }
 
@@ -180,8 +179,8 @@ async function updatePhotoProfile(input) {
 async function startChat(profile1ID, profile2ID) {
     var endpoint = 'api/newChatRoom/';
     var data = { profile1_id: profile1ID, profile2_id: profile2ID }
-    await Api.postData(endpoint, data)
-
+    var response = await Api.postData(endpoint, data)
+    openRoom(response.id)
     await updateHtmlContent('#rooms')
     toggleTab('new-chat')
 }
