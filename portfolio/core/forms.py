@@ -29,7 +29,7 @@ class BaseRegisterForm(UserCreationForm):
     )
 
     email = forms.EmailField(
-        required=True,
+        required=False,
         max_length=250,
         error_messages={
             'invalid': 'utilize um e-mail valido',
