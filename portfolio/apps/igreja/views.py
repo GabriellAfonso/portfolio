@@ -46,14 +46,19 @@ class Tables(View):
         three_months_ago = now() - timedelta(days=90)
         suggested_songs = {}
 
+        # músicas tocadas nos últimos 3 meses (todas as posições)
+        recent_songs = Played.objects.filter(
+            date__gte=three_months_ago).values_list("music__id", flat=True)
+
         for position in range(1, 5):
             eligible_songs = (
                 Played.objects
                 .filter(position=position, date__lt=three_months_ago)
+                .exclude(music__id__in=recent_songs)
                 .values('music__id', 'music__title', 'music__artist', 'tone')
                 .distinct()
             )
-            print(eligible_songs)
+
             if eligible_songs:
                 suggested_songs[position] = random.choice(list(eligible_songs))
 
