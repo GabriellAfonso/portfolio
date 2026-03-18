@@ -62,12 +62,9 @@
     <div class="about">
       <div class="sobre-mim">
         <h1>Sobre mim</h1>
-        <p>Sou desenvolvedor backend especializado em Django, com sólida experiência em
-          Python, JavaScript, PostgreSQL e Docker, além de conhecimento em outras tecnologias
-          do ecossistema web. Gosto de criar sistemas escaláveis, claros e eficientes,
-          transformando problemas complexos em soluções práticas. Estou sempre aprendendo novas
-          ferramentas e aplicando-as de forma objetiva. Se quiser discutir projetos, sinta-se à vontade para
-          me contatar via <a href="mailto:gabrieldelimaafonso@gmail.com">e-mail</a> ou <a href="https://wa.me/5527992453811" target="_blank">WhatsApp</a>.
+        <p>Desenvolvedor backend com 4 anos de experiência em Python e Django, de APIs REST a sistemas em tempo real com WebSockets.
+          Me interesso por softwares que resolvem problemas reais, como um app que fiz de gestão para uma igreja e um jogo de cartas PvP online do zero.
+          Se quiser discutir projetos, sinta-se à vontade para me contatar via <a href="mailto:gabrieldelimaafonso@gmail.com">e-mail</a> ou <a href="https://wa.me/5527992453811" target="_blank">WhatsApp</a>.
         </p>
       </div>
       <img src="{% static "home/images/python-icon.png" %}" alt="Python icon" id="pyimg">
@@ -78,7 +75,51 @@
     <h1 id="title">Principais Projetos</h1>
     <div class="projects-container">
 
-      <!-- 1º card: Dumcrown -->
+      <!-- 1º card: IPB Castelo Branco -->
+      <div class="card">
+        <h3>Ipb Castelo Branco</h3>
+        <a href="https://gabrielafonso.com.br/ipbcb/api/schema/swagger-ui/" target="_blank">
+        <div class="card-template">
+          <div class="card-overlay">
+            <span class="card-text">Ver Projeto</span>
+          </div>
+          <img src="{% static "home/images/ipbcb_template.jpg" %}" alt="ipbcb Template">
+        </div>
+      </a>
+
+        <div class="card-description">
+          <p>
+            Uma API RESTful para o App da Igreja Presbiteriana de Castelo Branco.
+          </p>
+        </div>
+        <div class="card-button">
+          <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/webchat/README_webchat.md')" type="button">Ler Mais</button>
+        </div>
+      </div>
+
+      <!-- 2º card: Encurtador de URL -->
+      <div class="card">
+        <h3>Shorter</h3>
+        <a href="https://gabrielafonso.com.br/shorter" target="_blank">
+          <div class="card-template">
+            <div class="card-overlay">
+              <span class="card-text">Ver Projeto</span>
+            </div>
+            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
+          </div>
+        </a>
+
+          <div class="card-description">
+            <p>
+             Encurtador de URLs com analytics de cliques, dispositivos e origens de tráfego.
+            </p>
+          </div>
+          <div class="card-button">
+            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md')" type="button">Ler Mais</button>
+          </div>
+      </div>
+
+      <!-- 3º card: Dumcrown -->
       <div class="card">
         <h3>Dumcrown</h3>
         <a href="https://dumcrown.com.br/" target="_blank">
@@ -99,54 +140,6 @@
           <div class="card-button">
             <button onclick="redirect('https://github.com/GabriellAfonso/dumcrown/blob/master/README.md')" type="button">Ler Mais</button>
           </div>
-      </div>
-
-      <!-- 2º card: Encurtador de URL -->
-      <div class="card">
-        <h3>Encurtador de url</h3>
-        <a href="https://gabrielafonso.com.br/shorter" target="_blank">
-          <div class="card-template">
-            <div class="card-overlay">
-              <span class="card-text">Ver Projeto</span>
-            </div>
-            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
-          </div>
-        </a>
-
-          <div class="card-description">
-            <p>
-              Encurtador de URLs, desenvolvido em Django,
-              que permite a criação e gerenciamento de links curtos
-              personalizados para cada usuário.
-            </p>
-          </div>
-          <div class="card-button">
-            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md')" type="button">Ler Mais</button>
-          </div>
-      </div>
-
-      <!-- 3º card: WebChat -->
-      <div class="card">
-        <h3>WebChat</h3>
-        <a href="{% url "webchat:chat" %}" target="_blank">
-        <div class="card-template">
-          <div class="card-overlay">
-            <span class="card-text">Ver Projeto</span>
-          </div>
-          <img src="{% static "home/images/webchat_template.png" %}" alt="Webchat Template">
-        </div>
-      </a>
-
-        <div class="card-description">
-          <p>
-            Um chat online simples, inspirado no WhatsApp Web,
-            que utiliza Django REST para comunicação em tempo real
-            entre dois usuários.
-          </p>
-        </div>
-        <div class="card-button">
-          <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/webchat/README_webchat.md')" type="button">Ler Mais</button>
-        </div>
       </div>
 
       <!-- 4º card: PicPay -->
@@ -182,7 +175,7 @@
 
     <div class="contact-info">
       <div class="contact-item1">
-          <a href="mailto:gabrieldelimaafonso@gmail.com"><img src="{% static "home/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
+          <a href="mailto:gabriellafonso.dev@gmail.com"><img src="{% static "home/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
       </div>
       <div class="contact-item2">
           <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "home/images/wsa_icon.png" %}" alt="WhatsApp Icon"></a>
