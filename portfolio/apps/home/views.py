@@ -30,9 +30,6 @@ def guest_login(request, app_name):
     if app_name == "webchat":
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect("webchat:chat")
-    elif app_name == "url_shortener":
-        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return redirect("url_shortener:shorten-url")
     elif app_name == "picpay":
         login(request, user, backend='core.auth_backend.EmailBackend')
         return redirect("picpay:profile")
