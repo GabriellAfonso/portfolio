@@ -26,7 +26,7 @@
         <div class="line2"></div>
         <div class="line3"></div>
       </div>
-      
+
       <ul class="nav-list" id="bar">
         <li><a href="#home">Inicio</a></li>
         <li><a href="#sobre">Sobre mim</a></li>
@@ -43,30 +43,30 @@
           <p class="ola">Olá, meu nome é Gabriel Afonso</p>
 
           <h1 class="home-text" id="dev">Desenvolvedor</h1>
-      
+
           <p class="home-text" id="backend">Backend</p>
         <div class="social-icons-div">
           <a href="https://github.com/GabriellAfonso" target="_blank">
             <img src="{% static "home/images/github-icon.png" %}" alt="GitHub-Icon" class="social-icons">
           </a>
-           
+
           <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank">
             <img src="{% static "home/images/linkedin-icon.png" %}" alt="Linkedin-Icon" class="social-icons">
-          </a> 
+          </a>
         </div>
       </div>
-   
+
   </section>
 
   <section id="sobre">
     <div class="about">
       <div class="sobre-mim">
         <h1>Sobre mim</h1>
-        <p>Sou desenvolvedor backend especializado em Django, com sólida experiência em 
-          Python, JavaScript, PostgreSQL e Docker, além de conhecimento em outras tecnologias 
-          do ecossistema web. Gosto de criar sistemas escaláveis, claros e eficientes, 
-          transformando problemas complexos em soluções práticas. Estou sempre aprendendo novas 
-          ferramentas e aplicando-as de forma objetiva. Se quiser discutir projetos, sinta-se à vontade para 
+        <p>Sou desenvolvedor backend especializado em Django, com sólida experiência em
+          Python, JavaScript, PostgreSQL e Docker, além de conhecimento em outras tecnologias
+          do ecossistema web. Gosto de criar sistemas escaláveis, claros e eficientes,
+          transformando problemas complexos em soluções práticas. Estou sempre aprendendo novas
+          ferramentas e aplicando-as de forma objetiva. Se quiser discutir projetos, sinta-se à vontade para
           me contatar via <a href="mailto:gabrieldelimaafonso@gmail.com">e-mail</a> ou <a href="https://wa.me/5527992453811" target="_blank">WhatsApp</a>.
         </p>
       </div>
@@ -77,6 +77,8 @@
   <section class="projects" id="projetos">
     <h1 id="title">Principais Projetos</h1>
     <div class="projects-container">
+
+      <!-- 1º card: Dumcrown -->
       <div class="card">
         <h3>Dumcrown</h3>
         <a href="https://dumcrown.com.br/" target="_blank">
@@ -87,20 +89,44 @@
             <img src="{% static "home/images/dumcrown_template.png" %}" alt="Dumcrown Template">
           </div>
         </a>
-  
+
           <div class="card-description">
             <p>
-              Dumcrown é um jogo de cartas online player vs player 
-              baseado em uma história de RPG de mesa criada pelo meu irmão 
+              Dumcrown é um jogo de cartas online player vs player
+              baseado em uma história de RPG de mesa criada pelo meu irmão
             </p>
           </div>
-          <div class="card-button" >
-           
+          <div class="card-button">
             <button onclick="redirect('https://github.com/GabriellAfonso/dumcrown/blob/master/README.md')" type="button">Ler Mais</button>
           </div>
-      
       </div>
-      <div class="card">  
+
+      <!-- 2º card: Encurtador de URL -->
+      <div class="card">
+        <h3>Encurtador de url</h3>
+        <a href="https://gabrielafonso.com.br/shorter" target="_blank">
+          <div class="card-template">
+            <div class="card-overlay">
+              <span class="card-text">Ver Projeto</span>
+            </div>
+            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
+          </div>
+        </a>
+
+          <div class="card-description">
+            <p>
+              Encurtador de URLs, desenvolvido em Django,
+              que permite a criação e gerenciamento de links curtos
+              personalizados para cada usuário.
+            </p>
+          </div>
+          <div class="card-button">
+            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md')" type="button">Ler Mais</button>
+          </div>
+      </div>
+
+      <!-- 3º card: WebChat -->
+      <div class="card">
         <h3>WebChat</h3>
         <a href="{% url "webchat:chat" %}" target="_blank">
         <div class="card-template">
@@ -113,15 +139,17 @@
 
         <div class="card-description">
           <p>
-            Um chat online simples, inspirado no WhatsApp Web, 
-            que utiliza Django REST para comunicação em tempo real 
+            Um chat online simples, inspirado no WhatsApp Web,
+            que utiliza Django REST para comunicação em tempo real
             entre dois usuários.
           </p>
         </div>
-        <div class="card-button" >
+        <div class="card-button">
           <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/webchat/README_webchat.md')" type="button">Ler Mais</button>
         </div>
       </div>
+
+      <!-- 4º card: PicPay -->
       <div class="card">
         <h3>PicPay</h3>
         <a href="{% url "picpay:profile" %}" target="_blank">
@@ -132,40 +160,18 @@
             <img src="{% static "home/images/picpay_template.png" %}" alt="Picpay Template">
           </div>
         </a>
-  
+
           <div class="card-description">
-            <p> 
-              Projeto que simula transferências de valores entre usuários, gerenciamento de saldo e 
+            <p>
+              Projeto que simula transferências de valores entre usuários, gerenciamento de saldo e
               acompanhamento do histórico de transações.
             </p>
           </div>
-          <div class="card-button" >
-            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/picpay/README_picpay.md')"type="button">Ler Mais</button>
+          <div class="card-button">
+            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/picpay/README_picpay.md')" type="button">Ler Mais</button>
           </div>
       </div>
-      <div class="card">
-        <h3>Encurtador de url</h3>
-        <a href="{% url "url_shortener:shorten-url" %}" target="_blank">
-          <div class="card-template">
-            <div class="card-overlay">
-              <span class="card-text">Ver Projeto</span>
-            </div>
-            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
-          </div>
-        </a>
-  
-          <div class="card-description">
-            <p> 
-              Encurtador de URLs, desenvolvido em Django, 
-              que permite a criação e gerenciamento de links curtos 
-              personalizados para cada usuário.
-            </p>
-          </div>
-          <div class="card-button" >
-            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md')" type="button">Ler Mais</button>
-          </div>
-      </div>
-     
+
     </div>
     {% comment %} <a href="#" class="more-projects"><p>Projetos menores</p></a> {% endcomment %}
 
