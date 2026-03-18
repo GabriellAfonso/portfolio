@@ -19,7 +19,6 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.webchat',
     'apps.picpay',
-    'apps.igreja',
 ]
 
 ROLEPERMISSIONS_MODULE = 'core.roles'
