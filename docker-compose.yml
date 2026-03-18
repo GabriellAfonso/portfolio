@@ -5,22 +5,17 @@ services:
       context: .
     image: django-portfolio:dev
     ports:
-      - 80:8000
+      - "8000:8000"
     volumes:
       - ./portfolio:/portfolio
-      - ./portfolio/static:/portfolio/static/
-      - ./portfolio/apps/home/static/home:/portfolio/static/home
-      - ./portfolio/apps/picpay/static/picpay:/portfolio/static/picpay
-      - ./portfolio/apps/webchat/static/webchat:/portfolio/static/webchat
-      - ./portfolio/media:/portfolio/media/
     env_file:
       - ./dotenv_files/.env
     depends_on:
       - portfolio_db
-
+ #Mudei a versao do banco de dados vai dar problema tem que ser ajeitado
   portfolio_db:
     container_name: portfolio-db
-    image: postgres:13-alpine
+    image: postgres:17-alpine
     ports:
       - 5432:5432
     volumes:
