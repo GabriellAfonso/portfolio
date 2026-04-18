@@ -1,33 +1,11 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from django.contrib.auth import login
-from django.shortcuts import redirect
-import random
-import string
-from apps.picpay.models import PicPayAccount
-from rolepermissions.roles import assign_role
-from django.http import HttpResponseBadRequest
 from django.http import FileResponse
 import os
 from django.conf import settings
+
+
 def index(request):
     return render(request, 'home/index.html')
-
-
-def guest_login(request, app_name):
-    username = "guest_" + \
-        ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
-    user = User.objects.create_user(username=username)
-    print('Usuário guest criado:', user.id, user.username)
-    user.set_unusable_password()
-    user.save()
-    assign_role(user, 'personal')
-
-    if app_name == "picpay":
-        login(request, user, backend='core.auth_backend.EmailBackend')
-        return redirect("picpay:profile")
-    else:
-        return HttpResponseBadRequest("App inválido")
 
 
 def curriculo(request):
