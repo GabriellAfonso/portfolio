@@ -1,11 +1,7 @@
 Django==6.0.3
-djangorestframework==3.16.1
-django-role-permissions==3.2.0
 
 pillow==12.1.1
-validate-docbr==1.10.0
 
-requests==2.32.3
 psycopg2-binary==2.9.11
 
 pytest==8.3.5
