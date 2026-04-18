@@ -5,10 +5,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 INSTALLED_APPS = [
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rolepermissions',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -17,11 +13,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'apps.home',
-    'apps.picpay',
 ]
-
-ROLEPERMISSIONS_MODULE = 'core.roles'
-ROLEPERMISSIONS_REGISTER_ADMIN = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,11 +45,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-AUTHENTICATION_BACKENDS = [
-    'core.auth_backend.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
