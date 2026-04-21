@@ -1,5 +1,5 @@
 [tool.bandit]
-exclude_dirs = ["wsl_venv", "portfolio/apps/home/tests", "portfolio/core/tests"]
+exclude_dirs = ["wsl_venv", "portfolio/apps/home/tests", "portfolio/apps/content/tests", "portfolio/core/tests"]
 skips = ["B101", "B105", "B106", "B311"]
 
 [tool.ruff]
@@ -12,7 +12,7 @@ strict = true
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = ["apps.home.tests.*"]
+module = ["apps.home.tests.*", "apps.content.tests.*"]
 disallow_untyped_defs = false
 
 [tool.django-stubs]
