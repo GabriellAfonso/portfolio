@@ -1,19 +1,27 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfólio de Gabriel Afonso - Desenvolvedor Backend especializado em Django, Python, JavaScript e mais.">
-  <meta name="keywords" content="Gabriel Afonso, Desenvolvedor Backend, Django, Python, Web Development, Portfólio">
+  {% if LANGUAGE_CODE == 'en' %}
+    <meta name="description" content="Gabriel Afonso portfolio - Backend Developer specialized in Django, Python, JavaScript and more.">
+  {% else %}
+    <meta name="description" content="Portfólio de Gabriel Afonso - Desenvolvedor Backend especializado em Django, Python, JavaScript e mais.">
+  {% endif %}
+  <meta name="keywords" content="Gabriel Afonso, Backend Developer, Django, Python, Web Development, Portfolio">
   <meta name="author" content="Gabriel Afonso">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0a0a0a">
   <title>Gabriel Afonso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
-  <link rel="shortcut icon" href="{% static "home/images/favicon.ico" %}" type="image/x-icon">
-  <script src="{% static "home/js/mobile.js" %}" defer=""></script>
+  <link rel="shortcut icon" href="{% static 'home/images/favicon.ico' %}" type="image/x-icon">
+  <script src="{% static 'home/js/mobile.js' %}" defer></script>
 </head>
 
 <body>
@@ -26,167 +34,140 @@
         <div class="line2"></div>
         <div class="line3"></div>
       </div>
-
-      <ul class="nav-list" id="bar">
-        <li><a href="#home">Inicio</a></li>
-        <li><a href="#sobre">Sobre mim</a></li>
-        <li><a href="#projetos">Projetos</a></li>
-        <li><a href="#contato">Contato</a></li>
-        <li><a href="{% url "home:curriculo" %}" target="_blank">Currículo</a></li>
-      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+        <span class="lang-switcher">
+          {% if LANGUAGE_CODE == 'en' %}
+            <a href="/" hreflang="pt-br"><img src="https://flagcdn.com/16x12/us.png" alt="US"> EN</a>
+          {% else %}
+            <a href="/en/" hreflang="en"><img src="https://flagcdn.com/16x12/br.png" alt="BR"> PT</a>
+          {% endif %}
+        </span>
+      </div>
     </nav>
   </header>
+  <ul class="nav-list" id="bar">
+    <li class="nav-close"><button id="close-menu" aria-label="Fechar menu">✕</button></li>
+    {% if LANGUAGE_CODE == 'en' %}
+      <li><a href="#home">Home</a></li>
+      <li><a href="#sobre">About</a></li>
+      <li><a href="#projetos">Projects</a></li>
+      <li><a href="#contato">Contact</a></li>
+      <li><a href="{% url 'content:resume' %}" target="_blank">Resume</a></li>
+    {% else %}
+      <li><a href="#home">Inicio</a></li>
+      <li><a href="#sobre">Sobre mim</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li><a href="{% url 'content:resume' %}" target="_blank">Currículo</a></li>
+    {% endif %}
+  </ul>
 
   <section class="home" id="home">
-
-      <div class="home-container">
-          <p class="ola">Olá, meu nome é Gabriel Afonso</p>
-
-          <h1 class="home-text" id="dev">Desenvolvedor</h1>
-
-          <p class="home-text" id="backend">Backend</p>
-        <div class="social-icons-div">
-          <a href="https://github.com/GabriellAfonso" target="_blank">
-            <img src="{% static "home/images/github-icon.png" %}" alt="GitHub-Icon" class="social-icons">
-          </a>
-
-          <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank">
-            <img src="{% static "home/images/linkedin-icon.png" %}" alt="Linkedin-Icon" class="social-icons">
-          </a>
+    <div class="home-container">
+      <div class="hero-text-block">
+      {% if LANGUAGE_CODE == 'en' %}
+        <p class="ola">Hi, my name is Gabriel Afonso</p>
+        <h1 class="home-text" id="dev">Backend</h1>
+        <div class="backend-row">
+          <div class="social-icons-div">
+            <a href="https://github.com/GabriellAfonso" target="_blank" rel="noopener noreferrer">
+              <img src="{% static 'home/images/github-icon.png' %}" alt="GitHub-Icon" class="social-icons">
+            </a>
+            <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank" rel="noopener noreferrer">
+              <img src="{% static 'home/images/linkedin-icon.png' %}" alt="Linkedin-Icon" class="social-icons">
+            </a>
+          </div>
+          <p class="home-text" id="backend">Developer</p>
         </div>
+      {% else %}
+        <p class="ola">Olá, meu nome é Gabriel Afonso</p>
+        <h1 class="home-text" id="dev">Desenvolvedor</h1>
+        <div class="backend-row">
+          <div class="social-icons-div">
+            <a href="https://github.com/GabriellAfonso" target="_blank" rel="noopener noreferrer">
+              <img src="{% static 'home/images/github-icon.png' %}" alt="GitHub-Icon" class="social-icons">
+            </a>
+            <a href="https://www.linkedin.com/in/gabriel-afonso-929807267/" target="_blank" rel="noopener noreferrer">
+              <img src="{% static 'home/images/linkedin-icon.png' %}" alt="Linkedin-Icon" class="social-icons">
+            </a>
+          </div>
+          <p class="home-text" id="backend">Backend</p>
+        </div>
+      {% endif %}
       </div>
-
+    </div>
   </section>
 
   <section id="sobre">
     <div class="about">
-      <div class="sobre-mim">
-        <h1>Sobre mim</h1>
-          <p>Desenvolvedor backend com 4 anos de experiência em Python e Django, desenvolvendo desde APIs REST até sistemas em tempo real com WebSockets.
-            Me interesso por softwares que resolvem problemas reais e tornam a vida das pessoas mais simples, seja automatizando processos ou criando experiências mais fluidas, como um app que fiz de gestão para uma igreja e um jogo de cartas PvP online do zero.
-            Caso tenha se interessado pelo meu trabalho, entre em contato via <a href="mailto:gabriellafonso.dev@gmail.com">e-mail</a> ou <a href="https://wa.me/5527992453811" target="_blank">WhatsApp</a>.
-          </p>
-        </div>
-      <img src="{% static "home/images/python-icon.png" %}" alt="Python icon" id="pyimg">
+      <div class="sobre-mim reveal">
+        <h1>{% if LANGUAGE_CODE == 'en' %}About me{% else %}Sobre mim{% endif %}</h1>
+        {{ about_content|safe|linebreaks }}
       </div>
+      <img src="https://github.com/GabriellAfonso.png" alt="Gabriel Afonso" id="pyimg" class="reveal">
+    </div>
   </section>
 
   <section class="projects" id="projetos">
-    <h1 id="title">Principais Projetos</h1>
+    <h1 id="title" class="reveal">{% if LANGUAGE_CODE == 'en' %}Main Projects{% else %}Principais Projetos{% endif %}</h1>
     <div class="projects-container">
-
-      <!-- 1º card: IPB Castelo Branco -->
+      {% for project in projects %}
       <div class="card">
-        <h3>Ipb Castelo Branco</h3>
-        <a href="https://gabrielafonso.com.br/ipbcb/api/schema/swagger-ui/" target="_blank">
-        <div class="card-template">
-          <div class="card-overlay">
-            <span class="card-text">Ver Projeto</span>
+        <a href="{{ project.project_url }}" target="_blank">
+          <div class="card-template">
+            <div class="card-overlay">
+              <span class="card-text">{% if LANGUAGE_CODE == 'en' %}View Project{% else %}Ver Projeto{% endif %}</span>
+            </div>
+            <img src="{{ project.thumbnail_url }}" alt="{{ project.title }}">
           </div>
-          <img src="{% static "home/images/ipbcb_template.jpg" %}" alt="ipbcb Template">
-        </div>
-      </a>
-
+        </a>
+        <h3>{{ project.title }}</h3>
         <div class="card-description">
-          <p>
-            Uma API RESTful para o App da Igreja Presbiteriana de Castelo Branco.
-          </p>
+          <p>{{ project.short_description }}</p>
         </div>
+        {% if project.read_more_url or project.code_url %}
         <div class="card-button">
-          <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/webchat/README_webchat.md')" type="button">Ler Mais</button>
+          {% if project.read_more_url %}
+          <button onclick="redirect('{{ project.read_more_url|escapejs }}')" type="button">{% if LANGUAGE_CODE == 'en' %}Read More{% else %}Ler Mais{% endif %}</button>
+          {% endif %}
+          {% if project.code_url %}
+          <a href="{{ project.code_url }}" target="_blank" rel="noopener noreferrer" class="card-code-link">{% if LANGUAGE_CODE == 'en' %}code{% else %}código{% endif %}</a>
+          {% endif %}
         </div>
+        {% endif %}
       </div>
-
-      <!-- 2º card: Encurtador de URL -->
-      <div class="card">
-        <h3>Shorter</h3>
-        <a href="https://gabrielafonso.com.br/shorter" target="_blank">
-          <div class="card-template">
-            <div class="card-overlay">
-              <span class="card-text">Ver Projeto</span>
-            </div>
-            <img src="{% static "home/images/url_shortener_template.png" %}" alt="URL Shortener Template">
-          </div>
-        </a>
-
-          <div class="card-description">
-            <p>
-             Encurtador de URLs com analytics de cliques, dispositivos e origens de tráfego.
-            </p>
-          </div>
-          <div class="card-button">
-            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/url_shortener/README_url_shortener.md')" type="button">Ler Mais</button>
-          </div>
-      </div>
-
-      <!-- 3º card: Dumcrown -->
-      <div class="card">
-        <h3>Dumcrown</h3>
-        <a href="https://dumcrown.com.br/" target="_blank">
-          <div class="card-template">
-            <div class="card-overlay">
-              <span class="card-text">Ver Projeto</span>
-            </div>
-            <img src="{% static "home/images/dumcrown_template.png" %}" alt="Dumcrown Template">
-          </div>
-        </a>
-
-          <div class="card-description">
-            <p>
-              Dumcrown é um jogo de cartas online player vs player
-              baseado em uma história de RPG de mesa criada pelo meu irmão
-            </p>
-          </div>
-          <div class="card-button">
-            <button onclick="redirect('https://github.com/GabriellAfonso/dumcrown/blob/master/README.md')" type="button">Ler Mais</button>
-          </div>
-      </div>
-
-      <!-- 4º card: PicPay -->
-      <div class="card">
-        <h3>PicPay</h3>
-        <a href="#" target="_blank">{# TODO: substituir pelo URL do site picpay quando deployado #}
-          <div class="card-template">
-            <div class="card-overlay">
-              <span class="card-text">Ver Projeto</span>
-            </div>
-            <img src="{% static "home/images/picpay_template.png" %}" alt="Picpay Template">
-          </div>
-        </a>
-
-          <div class="card-description">
-            <p>
-              Projeto que simula transferências de valores entre usuários, gerenciamento de saldo e
-              acompanhamento do histórico de transações.
-            </p>
-          </div>
-          <div class="card-button">
-            <button onclick="redirect('https://github.com/GabriellAfonso/portfolio/blob/main/portfolio/apps/picpay/README_picpay.md')" type="button">Ler Mais</button>
-          </div>
-      </div>
-
+      {% endfor %}
     </div>
-    {% comment %} <a href="#" class="more-projects"><p>Projetos menores</p></a> {% endcomment %}
-
+    <div class="show-more-container">
+      <button id="show-more-projects" style="display:none;" type="button">
+        {% if LANGUAGE_CODE == 'en' %}See All{% else %}Ver Todos{% endif %}
+      </button>
+    </div>
   </section>
 
   <section class="personal-contact" id="contato">
-    <h1>Entre em contato</h1>
-
+    <h1 class="reveal">{% if LANGUAGE_CODE == 'en' %}Get in touch{% else %}Entre em contato{% endif %}</h1>
     <div class="contact-info">
-      <div class="contact-item1">
-          <a href="mailto:gabriellafonso.dev@gmail.com"><img src="{% static "home/images/gmail_icon.png" %}" alt="Gmail Icon"></a>
+      <div class="contact-item1 reveal">
+        <a href="mailto:gabriellafonso.dev@gmail.com"><img src="{% static 'home/images/gmail_icon.png' %}" alt="Gmail Icon"></a>
       </div>
-      <div class="contact-item2">
-          <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static "home/images/wsa_icon.png" %}" alt="WhatsApp Icon"></a>
+      <div class="contact-item2 reveal">
+        <a href="https://wa.me/5527992453811" target="_blank"><img src="{% static 'home/images/wsa_icon.png' %}" alt="WhatsApp Icon"></a>
       </div>
     </div>
   </section>
-</main>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Gabriel Afonso. {% if LANGUAGE_CODE == 'en' %}Backend Developer.{% else %}Desenvolvedor Backend.{% endif %}</p>
+  </footer>
+
   <script>
     function redirect(link) {
       window.open(link, "_blank");
-  }
+    }
   </script>
 
 </body>
