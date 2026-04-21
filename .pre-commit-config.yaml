@@ -12,3 +12,12 @@ repos:
       - id: bandit
         args: [-c, pyproject.toml]
         additional_dependencies: ["bandit[toml]"]
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy portfolio/
+        language: system
+        types: [python]
+        pass_filenames: false

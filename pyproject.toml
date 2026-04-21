@@ -4,3 +4,16 @@ skips = ["B101", "B105", "B106", "B311"]
 
 [tool.ruff]
 line-length = 100
+
+[tool.mypy]
+python_version = "3.14"
+plugins = ["mypy_django_plugin.main"]
+strict = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["apps.home.tests.*"]
+disallow_untyped_defs = false
+
+[tool.django-stubs]
+django_settings_module = "core.settings.test"
