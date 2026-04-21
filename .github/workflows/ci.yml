@@ -29,6 +29,10 @@ jobs:
       - name: Security scan (bandit)
         run: bandit -r portfolio/ -c pyproject.toml
 
+      - name: Type check (mypy)
+        working-directory: portfolio
+        run: mypy .
+
       - name: Check unmigrated model changes
         working-directory: portfolio
         run: python manage.py makemigrations --check --dry-run
