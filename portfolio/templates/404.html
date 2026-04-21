@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Gabriel Afonso</title>
+  <link rel="shortcut icon" href="{% static 'home/images/favicon.ico' %}" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', -apple-system, sans-serif;
+      background-color: #0a0a0a;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50%       { opacity: 0.9; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .code {
+      font-size: clamp(7rem, 20vw, 12rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.04em;
+      user-select: none;
+    }
+
+    .title {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: #ececec;
+      margin-top: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #71717a;
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+      border-radius: 2px;
+      margin: 2rem auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border: 1px solid #8b5cf6;
+      border-radius: 10px;
+      color: #a78bfa;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 0.5rem;
+    }
+
+    .back-link:hover {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: #a78bfa;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="code">404</p>
+    <h1 class="title">Página não encontrada</h1>
+    <p class="subtitle">O link que você tentou acessar não existe ou foi movido.</p>
+    <div class="divider"></div>
+    <a href="/" class="back-link">← Voltar ao início</a>
+  </div>
+</body>
+</html>
