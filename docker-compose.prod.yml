@@ -3,31 +3,41 @@ services:
     container_name: portfolio-server
     build:
       context: .
-    image: django-portfolio:dev
+    image: django-portfolio:prod
     ports:
-      - "8000:8000"
+      - 8000:8000
     volumes:
       - ./portfolio:/portfolio
+      - ./portfolio/static:/portfolio/static/
+      - ./portfolio/media:/portfolio/media/
     env_file:
-      - ./dotenv_files/.env
+      - ./dotenv_files/.env.prod
+    networks:
+      - proxy-network
     depends_on:
       portfolio_db:
         condition: service_healthy
 
   portfolio_db:
     container_name: portfolio-db
-    image: postgres:17-alpine
+    image: postgres:16-alpine
     ports:
       - 5432:5432
     volumes:
       - database:/var/lib/postgresql/data/
     env_file:
-      - ./dotenv_files/.env
+      - ./dotenv_files/.env.prod
+    networks:
+      - proxy-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
+
+networks:
+  proxy-network:
+    external: true
 
 volumes:
   database:
