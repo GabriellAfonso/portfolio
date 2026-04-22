@@ -103,7 +103,7 @@
     <div class="about">
       <div class="sobre-mim reveal">
         <h1>{% if LANGUAGE_CODE == 'en' %}About me{% else %}Sobre mim{% endif %}</h1>
-        {{ about_content|safe|linebreaks }}
+        {{ about_content|safe }}
       </div>
       <img src="https://github.com/GabriellAfonso.png" alt="Gabriel Afonso" id="pyimg" class="reveal">
     </div>
