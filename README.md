@@ -55,7 +55,7 @@ API REST para gestão de igreja com autenticação JWT/Google, repertório music
 ---
 
 ### IPBCB App
-<a href="https://play.google.com/store/apps/details?id=com.ipb.castelobranco"><img src="https://gabrielafonso.com.br/media/projects/ipbcb-app.jpg" alt="IPBCB App" width="480"></a>
+<a href="https://play.google.com/store/apps/details?id=com.ipb.castelobranco"><img src="https://gabrielafonso.com.br/media/projects/ipbcb-app.png" alt="IPBCB App" width="480"></a>
 
 App oficial da IPB Castelo Branco. Escala mensal, hinário, ferramentas de louvor e área administrativa em um só lugar.
 
@@ -64,7 +64,7 @@ App oficial da IPB Castelo Branco. Escala mensal, hinário, ferramentas de louvo
 ---
 
 ### Desafio PicPay
-<a href="https://gabrielafonso.com.br/picpay/"><img src="https://gabrielafonso.com.br/media/projects/picpay.png" alt="Desafio PicPay" width="480"></a>
+<a href="https://gabrielafonso.com.br/picpay/"><img src="https://gabrielafonso.com.br/media/projects/picpay-challenge.png" alt="Desafio PicPay" width="480"></a>
 
 Back-end de carteira digital com transferências entre contas, validações de saldo/permissão e autorização externa, estruturado em camadas.
 
