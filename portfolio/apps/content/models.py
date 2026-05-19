@@ -3,10 +3,22 @@ from __future__ import annotations
 from typing import Any, ClassVar, Self
 
 from django.db import models
+from django.utils.text import slugify
+
+from apps.content.storages import OverwriteStorage
+
+
+def project_thumbnail_path(instance: Project, filename: str) -> str:
+    ext = filename.rsplit(".", 1)[-1].lower()
+    return f"projects/{instance.slug}.{ext}"
 
 
 class Project(models.Model):
-    thumbnail = models.ImageField(upload_to="projects/")
+    slug = models.SlugField(max_length=140, unique=True)
+    thumbnail = models.ImageField(
+        upload_to=project_thumbnail_path,
+        storage=OverwriteStorage(),
+    )
     title_pt = models.CharField(max_length=120)
     title_en = models.CharField(max_length=120)
     short_description_pt = models.TextField()
@@ -26,6 +38,18 @@ class Project(models.Model):
 
     def __str__(self) -> str:
         return self.title_pt
+
+    def save(self, *args: Any, **kwargs: Any) -> None:
+        if not self.slug:
+            base = slugify(self.title_en or self.title_pt) or "project"
+            slug = base
+            i = 1
+            qs = Project.objects.exclude(pk=self.pk) if self.pk else Project.objects.all()
+            while qs.filter(slug=slug).exists():
+                slug = f"{base}-{i}"
+                i += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
 
 class SingletonModel(models.Model):

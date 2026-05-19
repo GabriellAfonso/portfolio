@@ -22,16 +22,18 @@ else:
 
 @admin.register(Project)
 class ProjectAdmin(_ProjectAdminBase):
-    list_display = ("title_pt", "order", "is_active", "thumbnail_preview")
+    list_display = ("title_pt", "slug", "order", "is_active", "thumbnail_preview")
     list_editable = ("order", "is_active")
-    search_fields = ("title_pt", "title_en")
+    search_fields = ("title_pt", "title_en", "slug")
     ordering = ("order",)
     readonly_fields = ("thumbnail_preview",)
+    prepopulated_fields = {"slug": ("title_en",)}
     fieldsets = [
         (
             None,
             {
                 "fields": (
+                    "slug",
                     "thumbnail",
                     "thumbnail_preview",
                     "project_url",
