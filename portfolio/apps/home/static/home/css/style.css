@@ -484,7 +484,7 @@ section > h2::after {
     justify-self: center;
     animation: fadeInLeft 1s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 0 60px rgba(139, 92, 246, 0.3);
-    filter: grayscale(60%);
+    filter: grayscale(20%);
 }
 
 @keyframes fadeInLeft {
