@@ -99,5 +99,6 @@ Esse modelo permite deploys, rollbacks e dependências isoladas por projeto, sem
 
 ## Contato
 
+- **LinkedIn:** [linkedin.com/in/gabriellafonso](https://www.linkedin.com/in/gabriellafonso/)
 - **GitHub:** [github.com/GabriellAfonso](https://github.com/GabriellAfonso)
 - **Email:** gabriellafonso.dev@gmail.com
