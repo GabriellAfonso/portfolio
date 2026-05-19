@@ -365,7 +365,7 @@ body.light-theme .contact-item2 a {
     border-color: #25D366;
 }
 
-body.light-theme #pyimg {
+body.light-theme #profileimg {
     filter: grayscale(0%);
 }
 
@@ -473,7 +473,7 @@ section > h2::after {
     border-bottom-color: var(--purple-glow);
 }
 
-#pyimg {
+#profileimg {
     width: 280px;
     height: 280px;
     object-fit: cover;
@@ -900,7 +900,7 @@ footer p {
         transform: translateX(-50%);
     }
 
-    #pyimg {
+    #profileimg {
         width: 220px;
         height: 220px;
     }
